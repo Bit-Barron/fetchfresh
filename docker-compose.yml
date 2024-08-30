@@ -1,0 +1,28 @@
+services:
+  demo:
+    container_name: grocerygo
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: prod
+      args:
+        - SECRET=${SECRET}
+        - DATABASE_URL=${DATABASE_URL}
+    environment:
+      - SECRET=${SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grocerygo.rule=Host(`grocerygo.barron.agency`)"
+      - "traefik.http.routers.grocerygo.entrypoints=websecure"
+      - "traefik.http.routers.grocerygo.tls.certresolver=letsencrypt"
+      - "traefik.http.services.grocerygo.loadbalancer.server.port=3000"
+
+networks:
+  proxy:
+    external: false
+    name: proxy
