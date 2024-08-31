@@ -10,25 +10,11 @@ import { CartStore } from "../../../../../store/CartStore";
 import { Product } from "@/types/product";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { useFilterSortStore } from "@/store/FilterStore";
+import { ComboboxSelects } from "@/components/elements/combobox-selects";
 
 interface StorePageProps {
   params: { name: string };
 }
-
-const sortingOptions = [
-  { value: "PRICE_ASC", label: "Preis aufsteigend" },
-  { value: "RELEVANCE_DESC", label: "Relevanz" },
-  { value: "NAME_ASC", label: "Name" },
-  { value: "TOPSELLER_DESC", label: "Top Seller" },
-];
-
-const filterOptions = [
-  { value: "", label: "Alle Produkte" },
-  { value: "isVegan", label: "Vegan" },
-  { value: "isVegetarian", label: "Vegetarisch" },
-  { value: "isOrganic", label: "Bio" },
-  { value: "isRegional", label: "Regional" },
-];
 
 export default function StorePage({ params }: StorePageProps) {
   const {
@@ -72,10 +58,6 @@ export default function StorePage({ params }: StorePageProps) {
       : products;
   };
 
-  const getAttributeCount = (attribute: keyof Product["attributes"]) => {
-    return products.filter((product) => product.attributes[attribute]).length;
-  };
-
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex flex-1">
@@ -93,41 +75,13 @@ export default function StorePage({ params }: StorePageProps) {
               <h2 className="mb-5 text-2xl font-bold">
                 {selectedCategory || "Meistverkaufte Artikel"}
               </h2>
-              <div className="flex items-center space-x-4">
-                <select
-                  value={sorting}
-                  onChange={(e) => setSorting(e.target.value)}
-                  className="rounded border border-gray-300 p-2"
-                >
-                  {sortingOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={filterAttribute || ""}
-                  onChange={(e) =>
-                    setFilterAttribute(
-                      e.target.value as keyof Product["attributes"] | null
-                    )
-                  }
-                  className="rounded border border-gray-300 p-2"
-                >
-                  {filterOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label} (
-                      {option.value
-                        ? getAttributeCount(
-                            option.value as keyof Product["attributes"]
-                          )
-                        : products.length}
-                      )
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <ComboboxSelects
+                sorting={sorting}
+                filterAttribute={filterAttribute}
+                setSorting={setSorting}
+                setFilterAttribute={setFilterAttribute}
+                products={products}
+              />
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
               {getFilteredProducts().map((product: Product) => (

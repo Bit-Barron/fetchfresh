@@ -1,6 +1,6 @@
 "use client";
 
-import { SettingsSidebar } from "@/components/elements/settingsidebar";
+import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { ShoppingListHook } from "@/components/hooks/shoppinglist-hook";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

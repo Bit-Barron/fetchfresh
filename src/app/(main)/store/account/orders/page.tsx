@@ -12,7 +12,7 @@ import { OrderHook } from "@/components/hooks/order-hook";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { SettingsSidebar } from "@/components/elements/settingsidebar";
+import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { Order } from "@prisma/client";
 
 export default function Seite() {
@@ -28,8 +28,8 @@ export default function Seite() {
       if (response.status === 200) {
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
-            order.id === orderId ? { ...order, status: "COMPLETED" } : order,
-          ),
+            order.id === orderId ? { ...order, status: "COMPLETED" } : order
+          )
         );
       }
     } catch (error) {
@@ -91,7 +91,7 @@ export default function Seite() {
                       <div className="text-sm text-gray-500">
                         {format(
                           new Date(order.createdAt),
-                          "MMMM dd, yyyy - HH:mm",
+                          "MMMM dd, yyyy - HH:mm"
                         )}
                       </div>
                     </CardHeader>
@@ -112,7 +112,7 @@ export default function Seite() {
                           <strong>Zuletzt aktualisiert am:</strong>{" "}
                           {format(
                             new Date(order.updatedAt),
-                            "MMMM dd, yyyy - HH:mm",
+                            "MMMM dd, yyyy - HH:mm"
                           )}
                         </div>
                         <div className="mt-5 flex items-center justify-center">

@@ -5,7 +5,7 @@
 import React from "react";
 import { UserHook } from "@/components/hooks/user-hook";
 import { OrderHook } from "@/components/hooks/order-hook";
-import { SettingsSidebar } from "@/components/elements/settingsidebar";
+import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { toast, Toaster } from "sonner";
 import AccountInfoForm from "@/components/elements/account/account-info";
 import AddressSummary from "@/components/elements/account/address-summary";
