@@ -1,12 +1,10 @@
 "use client";
 
-import getQueryClient from "@/lib/react-query";
 import { CartStore } from "../../../store/CartStore";
 import CartDialog from "@/components/elements/cartdialog";
 import { useState } from "react";
 import Searchbar from "@/components/elements/searchbar";
 import { StoreHook } from "@/components/hooks/store-hook";
-import { Product } from "@/types/product";
 import { useProductStore } from "../../../store/ProductStore";
 
 interface MainLayoutProps {
@@ -18,9 +16,9 @@ export default function MainLayout(props: MainLayoutProps) {
     CartStore();
   const [showCart, setShowCart] = useState<boolean>(false);
 
-  const { products, setProducts } = useProductStore();
+  const { setProducts } = useProductStore();
 
-  const { productMutation, categoryQuery } = StoreHook();
+  const { productMutation } = StoreHook();
   const fetchProducts = (category?: string, nextPage: number = 1) => {
     productMutation
       .mutateAsync({

@@ -15,7 +15,6 @@ export const Reviews: React.FC<reviewsProps> = ({}) => {
         <Card className="p-4">
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" alt="Benutzer 1" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div>
@@ -38,7 +37,6 @@ export const Reviews: React.FC<reviewsProps> = ({}) => {
         <Card className="p-4">
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" alt="Benutzerin 2" />
               <AvatarFallback>SA</AvatarFallback>
             </Avatar>
             <div>
@@ -62,7 +60,6 @@ export const Reviews: React.FC<reviewsProps> = ({}) => {
         <Card className="p-4">
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" alt="Benutzer 3" />
               <AvatarFallback>MJ</AvatarFallback>
             </Avatar>
             <div>
