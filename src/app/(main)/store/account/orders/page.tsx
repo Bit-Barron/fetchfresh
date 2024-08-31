@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { SettingsSidebar } from "@/components/elements/settingsidebar";
+import { Order } from "@prisma/client";
 
 export default function Seite() {
   const { getOrderQuery, updateStatusMutation } = OrderHook();
@@ -57,7 +58,7 @@ export default function Seite() {
             {getOrderQuery.isLoading && <div>Laden...</div>}
             {getOrderQuery.data && (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {getOrderQuery.data?.orders.map((order: any) => (
+                {getOrderQuery.data?.orders.map((order: Order) => (
                   <Card
                     key={order.id}
                     className="shadow-lg transition-shadow duration-200 hover:shadow-xl"

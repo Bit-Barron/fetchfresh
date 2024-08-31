@@ -12,6 +12,7 @@ import { MenuIcon } from "lucide-react";
 import { CartStore } from "../../../../../store/CartStore";
 import Sidebar from "@/components/elements/sidebar";
 import { useProductStore } from "../../../../../store/ProductStore";
+import { Category } from "@/types";
 
 interface StorePageProps {
   params: { name: string };
@@ -127,7 +128,7 @@ export default function StorePage({ params }: StorePageProps) {
               <div className="border-t pt-4">
                 <ul className="space-y-2">
                   {categoryQuery.data?.topLevelCategories.map(
-                    (category: any) => (
+                    (category: Category) => (
                       <li key={category.id}>
                         <button
                           className="block"
