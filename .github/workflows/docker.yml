@@ -4,20 +4,17 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Create .env file
+      - name: Create env file
         run: |
           touch .env
           echo SECRET=${{ secrets.SECRET }} > .env
@@ -25,15 +22,5 @@ jobs:
           echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
           cat .env
 
-      - name: Docker Cleanup
-        run: |
-          docker-compose down --remove-orphans || true
-          docker stop $(docker ps -aq) || true
-          docker rm -f $(docker ps -aq) || true
-          docker network prune -f || true
-
-      - name: Build and Run Docker Containers
-        run: docker-compose up -d --force-recreate --build
-
-      - name: Check Running Containers
-        run: docker ps
+      - name: Docker run
+        run: docker compose up -d --force-recreate --build
