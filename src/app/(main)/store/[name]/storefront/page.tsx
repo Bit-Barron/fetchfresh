@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import ProductCard from "@/components/elements/productcard";
+import ProductCard from "@/components/elements/product/productcard";
 import Sidebar from "@/components/elements/sidebar/sidebar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../../../store/ProductStore";

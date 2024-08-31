@@ -16,8 +16,15 @@ export const StoreHook = () => {
     queryFn: async () => handleEden(await rpc.api.store.categories.get()),
   });
 
+  const productDetailsMutation = useMutation({
+    mutationFn: async (
+      ...args: Parameters<(typeof rpc.api.store)["product-details"]["post"]>
+    ) => handleEden(await rpc.api.store["product-details"]["post"](...args)),
+  });
+
   return {
     productMutation,
+    productDetailsMutation,
     categoryQuery,
   };
 };

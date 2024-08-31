@@ -14,7 +14,7 @@ export const GetProductsResponseSchema = Type.Object({
       name: Type.String(),
       category: Type.String(),
       price: Type.Number(),
-    }),
+    })
   ),
 });
 
@@ -24,6 +24,10 @@ export const GetCategoriesResponseSchema = Type.Object({
       id: Type.String(),
       name: Type.String(),
       slug: Type.String(),
-    }),
+    })
   ),
+});
+
+export const ProductDetailsSchema = Type.Object({
+  productId: Type.String(),
 });
