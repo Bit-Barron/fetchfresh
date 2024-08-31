@@ -20,6 +20,7 @@ import { CartStore } from "../../store/CartStore";
 import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
 import { StoreHook } from "../hooks/store-hook";
+import { Category } from "@/types";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -94,7 +95,7 @@ export default function Searchbar({ onSearch, onShowCart }: SearchbarProps) {
             <ul className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {categoryQuery.data.topLevelCategories
                 .slice(1, 7)
-                .map((category: any) => (
+                .map((category: Category) => (
                   <li key={category.id} className="p-2">
                     <Link href={`/store/category/${category.slug}`}>
                       <div className="flex items-center gap-2">
