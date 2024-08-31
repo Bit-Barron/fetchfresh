@@ -27,9 +27,10 @@ jobs:
 
       - name: Docker Cleanup
         run: |
-          docker-compose down --remove-orphans
-          docker system prune -f
-          docker network prune -f
+          docker-compose down --remove-orphans || true
+          docker stop $(docker ps -aq) || true
+          docker rm -f $(docker ps -aq) || true
+          docker network prune -f || true
 
       - name: Build and Run Docker Containers
         run: docker-compose up -d --force-recreate --build
