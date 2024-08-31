@@ -2,9 +2,9 @@
 
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
-import { Reviews } from "@/components/elements/reviews";
-import { Footer } from "@/components/elements/footer";
-import { Faqs } from "@/components/elements/faqs";
+import { Reviews } from "@/components/elements/home/reviews";
+import { Footer } from "@/components/elements/home/footer";
+import { Faqs } from "@/components/elements/home/faqs";
 
 import ReweLogo from "../../../public/images/logo-rewe.svg";
 import { useRouter } from "next/navigation";
@@ -20,9 +20,8 @@ export default function HomePage() {
   const { cart, removeItemFromCart, updateItemQuantity, calculateTotal } =
     CartStore();
   const [showCart, setShowCart] = useState<boolean>(false);
-
-  const { setProducts, products } = useProductStore();
-  const { productMutation, categoryQuery } = StoreHook();
+  const { setProducts } = useProductStore();
+  const { productMutation } = StoreHook();
 
   const fetchProducts = (category?: string, nextPage: number = 1) => {
     productMutation
@@ -37,10 +36,6 @@ export default function HomePage() {
       .catch((error) => console.error(error));
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Searchbar
@@ -48,7 +43,6 @@ export default function HomePage() {
         onShowCart={() => setShowCart(true)}
       />
       <main className="flex flex-col items-center space-y-8 py-8">
-        {/* Hero Section */}
         <section className="w-full max-w-7xl rounded-md bg-green-100 p-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900">
             Bestellen Sie Lebensmittel zur Lieferung oder Abholung noch heute
@@ -83,7 +77,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Blog Section */}
         <section className="w-full max-w-7xl rounded-md bg-green-100 p-8">
           <h2 className="mb-4 text-center text-3xl font-bold">From Our Blog</h2>
           <div className="gap-4 md:flex">
@@ -131,8 +124,6 @@ export default function HomePage() {
             </Card>
           </div>
         </section>
-
-        {/* FAQs and Reviews Sections */}
         <Faqs />
         <Reviews />
       </main>

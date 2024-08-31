@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/elements/footer";
+import { Footer } from "@/components/elements/home/footer";
 import { UserHook } from "@/components/hooks/user-hook";
 
 export default function Help() {

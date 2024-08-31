@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/table";
 import { formatDate, formatPrice } from "@/utils";
 import Image from "next/image";
-import { CartStore } from "../../../../../../store/CartStore";
 import { useRouter } from "next/navigation";
 
 function Bestellinformationen() {

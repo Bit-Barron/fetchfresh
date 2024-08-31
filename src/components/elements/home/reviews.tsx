@@ -3,7 +3,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { StarIcon } from "lucide-react";
 import React from "react";
-import { Card } from "../ui/card";
+import { Card } from "../../ui/card";
 
 interface reviewsProps {}
 

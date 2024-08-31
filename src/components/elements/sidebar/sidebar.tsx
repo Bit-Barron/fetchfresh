@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Category } from "@/types";
-import ReweLogo from "../../../public/images/logo-rewe.svg";
+import ReweLogo from "../../../../public/images/logo-rewe.svg";
 import Image from "next/image";
 
 interface SidebarProps {
