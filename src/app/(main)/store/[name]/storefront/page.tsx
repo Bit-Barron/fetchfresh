@@ -25,6 +25,7 @@ const sortingOptions = [
   { value: "TOPSELLER_DESC", label: "Top Seller" },
 ];
 
+
 export default function StorePage({ params }: StorePageProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [sorting, setSorting] = useState<string>("TOPSELLER_DESC");
