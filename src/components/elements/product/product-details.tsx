@@ -7,10 +7,11 @@ import CustomerReviews from "./product-reviews";
 import ProductSpecifications from "./product-specifications";
 
 interface ProductDetailsProps {
-  product: Product;
+  product: any;
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   addToCart: (product: Product, quantity: number) => void;
+  productInfo: { title: string; content: string };
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -33,7 +34,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
   return (
     <div className="grid gap-6 md:grid-cols-2 md:gap-10">
-      <div className="grid gap-6 md:grid-cols-2 md:gap-10">
+      <div>
         <Image
           src={product.imageURL || "/placeholder.svg"}
           alt={product.title}
@@ -42,7 +43,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           className="aspect-square w-full rounded-lg object-cover"
         />
       </div>
-      <div className="grid gap-4 md:gap-6">
+      <div className="">
         <div>
           <h2 className="text-2xl font-bold md:text-3xl">{product.title}</h2>
         </div>
@@ -57,16 +58,17 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             max={product.orderLimit}
             className="w-16 rounded border border-gray-300 p-2"
           />
-          <div className="flex flex-grow justify-end">
+          <div className="flex flex-grow justify-end mt-10">
             <Button
               size="lg"
-              className="bg-green-600 text-white"
+              className="bg-green-700 text-white"
               onClick={handleAddToCart}
             >
               {quantity} zum Warenkorb hinzufügen
             </Button>
           </div>
         </div>
+        {/* <ProductSmallInfo /> */}
       </div>
     </div>
   );

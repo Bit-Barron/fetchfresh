@@ -19,11 +19,10 @@ export default function MainLayout(props: MainLayoutProps) {
   const { setProducts } = useProductStore();
 
   const { productMutation } = StoreHook();
-  const fetchProducts = (category?: string, nextPage: number = 1) => {
+  const fetchProducts = (query: string) => {
     productMutation
       .mutateAsync({
-        category,
-        page: nextPage,
+        query,
       } as any)
       .then((response) => {
         const productsData = response.data.products;

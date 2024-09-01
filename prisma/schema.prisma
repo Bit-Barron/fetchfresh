@@ -13,7 +13,6 @@ model User {
   password          String
   role              Role     @default(CUSTOMER)
   orders            Order[]
-  shoppingListItems ShoppingListItem[]
   firstName         String?
   lastName          String?
   address           String?
@@ -42,16 +41,6 @@ model Order {
 }
 
 
-model ShoppingListItem {
-  id        String   @id @default(cuid())
-  productId String
-  name      String
-  price     Float
-  image     String
-  quantity  Int
-  userId    String
-  user      User    @relation(fields: [userId], references: [id])
-}
 
 model OrderProduct {
   id        String   @id @default(cuid())

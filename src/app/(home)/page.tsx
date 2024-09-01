@@ -23,10 +23,10 @@ export default function HomePage() {
   const { setProducts } = useProductStore();
   const { productMutation } = StoreHook();
 
-  const fetchProducts = (category?: string, nextPage: number = 1) => {
+  const fetchProducts = (nextPage: number = 1, query?: string) => {
     productMutation
       .mutateAsync({
-        category,
+        query,
         page: nextPage,
       } as any)
       .then((response) => {
@@ -39,11 +39,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Searchbar
-        onSearch={(query) => fetchProducts(query)}
+        onSearch={(query) => fetchProducts(query as any)}
         onShowCart={() => setShowCart(true)}
       />
       <main className="flex flex-col items-center space-y-8 py-8">
-        <section className="w-full max-w-7xl rounded-md bg-green-100 p-8 text-center">
+        <section className="w-full max-w-7xl rounded-md bg-green-700 p-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900">
             Bestellen Sie Lebensmittel zur Lieferung oder Abholung noch heute
           </h1>
@@ -77,7 +77,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="w-full max-w-7xl rounded-md bg-green-100 p-8">
+        <section className="w-full max-w-7xl rounded-md bg-green-700 p-8">
           <h2 className="mb-4 text-center text-3xl font-bold">From Our Blog</h2>
           <div className="gap-4 md:flex">
             <Card className="w-full p-4 md:w-1/2 lg:w-1/3">

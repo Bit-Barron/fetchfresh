@@ -87,7 +87,7 @@ const CartDialog: React.FC<CartDialogProps> = ({
             Weiter einkaufen
           </Button>
           <Button
-            className="rounded-xl bg-green-800 text-white"
+            className="rounded-xl bg-green-700 text-white"
             onClick={() => {
               onClose();
               router.push("/store/checkout");

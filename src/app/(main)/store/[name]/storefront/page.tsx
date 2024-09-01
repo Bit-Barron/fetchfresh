@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProductCard from "@/components/elements/product/productcard";
 import Sidebar from "@/components/elements/sidebar/sidebar";
@@ -30,13 +30,21 @@ export default function StorePage({ params }: StorePageProps) {
   const { productMutation, categoryQuery } = StoreHook();
   const router = useRouter();
 
+  const [productsPerPage, setProductsPerPage] = useState("20");
+
   useEffect(() => {
     if (params.name !== "rewe") {
       router.push("/");
     } else {
       fetchProducts();
     }
-  }, [params.name, selectedCategory, sorting, filterAttribute]);
+  }, [
+    params.name,
+    selectedCategory,
+    sorting,
+    filterAttribute,
+    productsPerPage,
+  ]);
 
   const fetchProducts = async (nextPage: number = 1) => {
     try {
@@ -45,6 +53,7 @@ export default function StorePage({ params }: StorePageProps) {
         page: nextPage,
         sorting,
         filterAttribute,
+        objects_per_page: productsPerPage,
       } as any);
       setProducts(response.data.products.products);
     } catch (error) {
@@ -78,8 +87,10 @@ export default function StorePage({ params }: StorePageProps) {
               <ComboboxSelects
                 sorting={sorting}
                 filterAttribute={filterAttribute}
+                productsPerPage={productsPerPage}
                 setSorting={setSorting}
                 setFilterAttribute={setFilterAttribute}
+                setProductsPerPage={setProductsPerPage}
                 products={products}
               />
             </div>

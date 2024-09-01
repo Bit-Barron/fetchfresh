@@ -11,7 +11,6 @@ interface ActionButtonsProps {
   isInCart: boolean;
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (id: number) => void;
-  shoppingListMutation: any; // Replace 'any' with the actual type
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -19,33 +18,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isInCart,
   addToCart,
   removeFromCart,
-  shoppingListMutation,
 }) => {
-  const handleAddToShoppingList = () => {
-    try {
-      shoppingListMutation.mutateAsync({
-        name: product.title,
-        price: parseFloat(formatPrice(product.listing.currentRetailPrice)),
-        image: product.imageURL || "",
-        quantity: 1,
-        productId: "",
-      });
-      toast.success("Erfolgreich zur Einkaufsliste hinzugefügt");
-    } catch (err) {
-      toast.error("Fehler beim Hinzufügen zur Einkaufsliste");
-      console.error(err);
-    }
-  };
-
   return (
     <div className="mt-3 flex items-center justify-between">
-      <RiFileList2Fill
-        onClick={(e) => {
-          e.stopPropagation();
-          handleAddToShoppingList();
-        }}
-        className="cursor-pointer text-2xl text-green-600 hover:rounded-full hover:text-green-900"
-      />
       <Button
         className={`flex items-center ${
           isInCart ? "bg-red-500 text-white" : "bg-green-700 text-white"

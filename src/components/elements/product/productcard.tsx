@@ -2,7 +2,6 @@ import { useProductStore } from "@/store/ProductStore";
 import { Product } from "@/types/product";
 import { useState } from "react";
 import { Toaster } from "sonner";
-import { ShoppingListHook } from "../../hooks/shoppinglist-hook";
 import { StoreHook } from "../../hooks/store-hook";
 import { Card, CardHeader, CardTitle, CardContent } from "../../ui/card";
 import ActionButtons from "./product-buttons";
@@ -27,14 +26,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const { shoppingListMutation } = ShoppingListHook();
   const { productDetailsMutation } = StoreHook();
   const { products } = useProductStore();
+  const [productDetails, setProductDetails] = useState<Product | null>(null);
 
   const handleProductClick = () => {
     productDetailsMutation
       .mutateAsync({ productId: product.productId } as any)
-      .then((response) => console.log(response));
+      .then((response) => setProductDetails(response));
     setIsDialogOpen(true);
   };
 
@@ -60,7 +59,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             isInCart={isInCart}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
-            shoppingListMutation={shoppingListMutation}
           />
         </CardContent>
       </Card>
@@ -71,6 +69,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             quantity={quantity}
             setQuantity={setQuantity}
             addToCart={addToCart}
+            productInfo={{
+              title: "",
+              content: "",
+            }}
           />
           <RecommendedProducts
             products={products}

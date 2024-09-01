@@ -126,7 +126,7 @@ export default function Seite() {
                           ) : (
                             <Button
                               onClick={() => handleStatusChange(order.id)}
-                              className="w-full bg-green-700 text-white hover:bg-green-900"
+                              className="w-full bg-green-700 text-white hover:bg-green-700"
                             >
                               Bestellung angekommen?
                             </Button>

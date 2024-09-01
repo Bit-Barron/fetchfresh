@@ -51,8 +51,8 @@ export default function Searchbar({ onSearch, onShowCart }: SearchbarProps) {
       const lowerCaseQuery = searchQuery.toLowerCase();
       setFilteredProducts(
         products.filter((product) =>
-          product.title.toLowerCase().includes(lowerCaseQuery),
-        ),
+          product.title.toLowerCase().includes(lowerCaseQuery)
+        )
       );
     }
   }, [searchQuery, products]);
@@ -65,7 +65,7 @@ export default function Searchbar({ onSearch, onShowCart }: SearchbarProps) {
         </Button>
       </Link>
       <Link href="/register">
-        <Button variant="ghost" size="sm" className="bg-green-800 text-white">
+        <Button variant="ghost" size="sm" className="bg-green-700 text-white">
           Registrieren
         </Button>
       </Link>

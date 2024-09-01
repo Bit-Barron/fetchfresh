@@ -1,6 +1,5 @@
 import Elysia from "elysia";
 import axios from "axios";
-import { ProductDetailsSchema } from "./typebox";
 
 export const storeRoute = new Elysia({ prefix: "/store" })
   .get("/categories", async (ctx: any) => {
@@ -13,10 +12,12 @@ export const storeRoute = new Elysia({ prefix: "/store" })
   })
   .post("/products", async (ctx: any) => {
     try {
-      const categorySlug = ctx.body?.category || "regional";
+      const categorySlug = ctx.body?.category || "";
       const page = ctx.body?.page || 1;
       const sorting = ctx.body?.sorting || "TOPSELLER_DESC";
       const filter = ctx.body?.filter || "ALL";
+      const objects_per_page = ctx.body?.objects_per_page || 25;
+      const query = ctx.body?.query || "";
 
       const resp = await axios.get("http://127.0.0.1:8000/api/products", {
         params: {
@@ -24,6 +25,8 @@ export const storeRoute = new Elysia({ prefix: "/store" })
           page,
           sorting,
           filter,
+          objects_per_page,
+          query,
         },
       });
 

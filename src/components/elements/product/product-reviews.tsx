@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { StarIcon } from "lucide-react";
 
 const CustomerReviews: React.FC = () => (
-  <div className="grid gap-2">
+  <div className="grid mt-6">
     <h3 className="text-lg font-semibold md:text-xl">Kundenbewertungen</h3>
     <div className="grid gap-4">
       <div className="grid gap-2">
@@ -12,7 +12,6 @@ const CustomerReviews: React.FC = () => (
             <span className="text-sm">4.5</span>
           </div>
         </div>
-        <p className="text-sm">Tolles Produkt!</p>
       </div>
     </div>
   </div>
