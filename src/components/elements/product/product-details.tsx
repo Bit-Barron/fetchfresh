@@ -40,19 +40,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   return (
     <div className="grid gap-6 md:grid-cols-2 md:gap-10">
       <div>
-        {product.imageURL ? (
-          <Image
-            src={product.imageURL}
-            alt={product.name}
-            width={200}
-            height={200}
-            className="mb-4 rounded-lg"
-          />
-        ) : (
-          <div className="bg-gray-200 w-40 h-40 mb-4 flex items-center justify-center rounded-lg">
-            <span className="text-gray-500">No Image</span>
-          </div>
-        )}
+        <Image
+          src={product.imageURL || "/placeholder.svg"}
+          alt={product.title}
+          width={600}
+          height={600}
+          className="aspect-square w-full rounded-lg object-cover"
+        />
       </div>
       <div className="flex flex-col">
         <h2 className="text-2xl font-bold md:text-3xl mb-4">{product.title}</h2>

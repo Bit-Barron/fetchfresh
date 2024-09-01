@@ -8,6 +8,7 @@ import Image from "next/image";
 import { RiFileList2Fill } from "react-icons/ri";
 import { StoreHook } from "../hooks/store-hook";
 import { ShoppingListHook } from "../hooks/shopping-list-hook";
+import { Product } from "@/types/product";
 
 interface MenuDialogProps {
   onClose: () => void;
@@ -16,7 +17,7 @@ interface MenuDialogProps {
 const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   const { grocerySearchMutation } = StoreHook();
   const { createShoppingListMutation } = ShoppingListHook();
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -51,23 +52,19 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   };
 
   const handleCreateShoppingList = async (product: any) => {
-    if (!currentShoppingListId) {
-      try {
-        const result = await createShoppingListMutation.mutateAsync({
-          name: product.title,
-          quantity: 1,
-          productId: product.productId,
-          imageURL: product.imageURL,
-        } as any);
-        setCurrentShoppingListId(result.id);
-        toast.success("Zur Einkaufsliste hinzugefügt");
-      } catch (error) {
-        toast.error("Fehler beim Erstellen der Einkaufsliste");
-        console.error("Failed to create shopping list:", error);
-      }
+    try {
+      await createShoppingListMutation.mutateAsync({
+        name: product.title,
+        quantity: 1,
+        productId: product.productId,
+        imageURL: product.imageURL,
+      } as any);
+      toast.success(`${product.title} zur Einkaufsliste hinzugefügt`);
+    } catch (error) {
+      toast.error("Fehler beim Hinzufügen zur Einkaufsliste");
+      console.error("Failed to add product to shopping list:", error);
     }
   };
-
   const loadMore = () => {
     if (hasMore && !isLoadingMore) {
       const nextPage = currentPage + 1;
@@ -96,39 +93,41 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
         </div>
         <div className="mt-6 grid grid-cols-1 gap-4">
           {products.length > 0 ? (
-            products.map((product: any) => (
-              <div
-                key={product.productId}
-                className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <Image
-                  src={product.imageURL}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="rounded-lg"
-                />
-                <div className="ml-4 flex-grow">
-                  <h2
-                    className="text-lg font-semibold truncate"
-                    style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      maxWidth: "300px",
-                    }}
-                  >
-                    {product.title}
-                  </h2>
-                </div>
-                <Button
-                  onClick={() => handleCreateShoppingList(product)}
-                  className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+            products.map((product: Product) => {
+              return (
+                <div
+                  key={product.productId}
+                  className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <RiFileList2Fill className="h-6 w-6" />
-                </Button>
-              </div>
-            ))
+                  <Image
+                    src={product.imageURL}
+                    alt={product.title}
+                    width={100}
+                    height={100}
+                    className="rounded-lg"
+                  />
+                  <div className="ml-4 flex-grow">
+                    <h2
+                      className="text-lg font-semibold truncate"
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "300px",
+                      }}
+                    >
+                      {product.title}
+                    </h2>
+                  </div>
+                  <Button
+                    onClick={() => handleCreateShoppingList(product)}
+                    className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+                  >
+                    <RiFileList2Fill className="h-6 w-6" />
+                  </Button>
+                </div>
+              );
+            })
           ) : (
             <p>Keine Produkte gefunden</p>
           )}

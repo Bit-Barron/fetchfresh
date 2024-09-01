@@ -4,11 +4,14 @@ import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import React from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { CartStore } from "@/store/CartStore";
 
 interface PageProps {}
 
 const Page: React.FC<PageProps> = ({}) => {
   const { shoppingListQuery } = ShoppingListHook();
+  const { addToCart } = CartStore();
 
   return (
     <div className="flex min-h-screen w-full bg-gray-100">
