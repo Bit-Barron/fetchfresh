@@ -30,6 +30,7 @@ export default function StorePage({ params }: StorePageProps) {
   const { productMutation, categoryQuery } = StoreHook();
   const router = useRouter();
 
+  const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   const [productsPerPage, setProductsPerPage] = useState("20");
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function StorePage({ params }: StorePageProps) {
     selectedCategory,
     sorting,
     filterAttribute,
+    attributeFilter,
     productsPerPage,
   ]);
 
@@ -53,6 +55,7 @@ export default function StorePage({ params }: StorePageProps) {
         page: nextPage,
         sorting,
         filterAttribute,
+        attributes: attributeFilter, // Attribute-Filter in die Mutation integrieren
         objects_per_page: productsPerPage,
       } as any);
       setProducts(response.data.products.products);
@@ -62,9 +65,15 @@ export default function StorePage({ params }: StorePageProps) {
   };
 
   const getFilteredProducts = () => {
-    return filterAttribute
-      ? products.filter((product) => product.attributes[filterAttribute])
-      : products;
+    return products.filter((product: any) => {
+      if (filterAttribute && !product.attributes[filterAttribute]) {
+        return false;
+      }
+      if (attributeFilter && !product.attributes[attributeFilter]) {
+        return false;
+      }
+      return true;
+    });
   };
 
   return (
@@ -92,6 +101,8 @@ export default function StorePage({ params }: StorePageProps) {
                 setFilterAttribute={setFilterAttribute}
                 setProductsPerPage={setProductsPerPage}
                 products={products}
+                attributeFilter={attributeFilter} // Fügen Sie hier das Attribut-Filter hinzu
+                setAttributeFilter={setAttributeFilter} // Fügen Sie hier die Set-Funktion hinzu
               />
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">

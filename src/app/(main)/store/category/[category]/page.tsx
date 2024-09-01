@@ -32,7 +32,7 @@ const Page: React.FC<pageProps> = ({ params }) => {
     <div>
       <main className="container mx-auto p-4">
         <h1 className="mb-4 text-2xl font-bold">
-          Results for {params.category}
+          Ergebnisse für {params.category}
         </h1>
         <section className="space-y-8">
           <div>

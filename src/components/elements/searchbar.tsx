@@ -150,19 +150,12 @@ export default function Searchbar({
         </li>
         <div className="mt-4">
           <h1 className="text-xl font-bold">Beliebte Produkte</h1>
-          <div className="mt-2 grid grid-cols-1 gap-4 p-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-2">
             {filteredProducts.slice(0, 6).map((product) => (
               <div
                 key={product.id}
-                className="relative flex flex-col items-center rounded-lg border p-4 shadow-md transition-shadow duration-300 hover:shadow-lg"
+                className="relative flex flex-col  rounded-lg border p-4 shadow-md transition-shadow duration-300 hover:shadow-lg"
               >
-                <Image
-                  height={100}
-                  width={100}
-                  src={product.imageURL}
-                  alt={product.title}
-                  className="mb-2 h-24 w-24 rounded-lg object-cover sm:h-32 sm:w-32 lg:h-40 lg:w-40"
-                />
                 <div className="flex-1">
                   <h1 className="truncate text-sm font-medium text-gray-800">
                     {product.title}

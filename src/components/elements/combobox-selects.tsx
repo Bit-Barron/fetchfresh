@@ -1,8 +1,8 @@
-// components/ComboboxSelects.tsx
 import React from "react";
 import { Product } from "@/types/product";
 import { ComboboxDemo } from "./combobox";
 
+// Sortieroptionen
 const sortingOptions = [
   { value: "PRICE_ASC", label: "Preis aufsteigend" },
   { value: "PRICE_DESC", label: "Preis absteigend" },
@@ -11,6 +11,7 @@ const sortingOptions = [
   { value: "TOPSELLER_DESC", label: "Beliebtheit" },
 ];
 
+// Allgemeine Filteroptionen
 const filterOptions = [
   { value: "", label: "Alle Produkte" },
   { value: "isVegan", label: "Vegan" },
@@ -21,6 +22,13 @@ const filterOptions = [
   { value: "isReusable", label: "Mehrweg" },
 ];
 
+// Neue Attribute für spezielle Filter
+const attributeOptions = [
+  { value: "discounted", label: "Rabattiert" },
+  { value: "new", label: "Neu" },
+];
+
+// Optionen für die Anzahl der Produkte pro Seite
 const productsPerPageOptions = [
   { value: "10", label: "10" },
   { value: "20", label: "20" },
@@ -31,9 +39,11 @@ const productsPerPageOptions = [
 interface ComboboxSelectsProps {
   sorting: string;
   filterAttribute: string | null;
+  attributeFilter: string | null;
   productsPerPage: string;
   setSorting: (value: string) => void;
   setFilterAttribute: (value: keyof Product["attributes"] | null) => void;
+  setAttributeFilter: (value: keyof Product["attributes"] | null) => void;
   setProductsPerPage: (value: string) => void;
   products: Product[];
 }
@@ -41,21 +51,23 @@ interface ComboboxSelectsProps {
 export function ComboboxSelects({
   sorting,
   filterAttribute,
+  attributeFilter,
   productsPerPage,
   setSorting,
   setFilterAttribute,
+  setAttributeFilter,
   setProductsPerPage,
   products,
 }: ComboboxSelectsProps) {
+  // Zähle die Anzahl der Produkte für spezielle Attribute
   const getAttributeCount = (attribute: keyof Product["attributes"]) => {
     return products.filter((product) => product.attributes[attribute]).length;
   };
 
-  const filterOptionsWithCounts = filterOptions.map((option) => ({
+  // Filteroptionen für spezielle Attribute mit Zählungen
+  const attributeOptionsWithCounts = attributeOptions.map((option) => ({
     ...option,
-    count: option.value
-      ? getAttributeCount(option.value as keyof Product["attributes"])
-      : products.length,
+    count: getAttributeCount(option.value as keyof Product["attributes"]),
   }));
 
   return (
@@ -67,12 +79,20 @@ export function ComboboxSelects({
         placeholder="Sortieren nach..."
       />
       <ComboboxDemo
-        options={filterOptionsWithCounts}
+        options={filterOptions}
         value={filterAttribute || ""}
         onValueChange={(value: string | null) =>
           setFilterAttribute(value as keyof Product["attributes"] | null)
         }
-        placeholder="Filtern nach..."
+        placeholder="Allgemeine Filter..."
+      />
+      <ComboboxDemo
+        options={attributeOptionsWithCounts}
+        value={attributeFilter || ""}
+        onValueChange={(value: string | null) =>
+          setAttributeFilter(value as keyof Product["attributes"] | null)
+        }
+        placeholder="Spezielle Filter..."
       />
       <ComboboxDemo
         options={productsPerPageOptions}

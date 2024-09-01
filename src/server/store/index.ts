@@ -18,6 +18,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const filter = ctx.body?.filter || "ALL";
       const objects_per_page = ctx.body?.objects_per_page || 25;
       const query = ctx.body?.query || "";
+      const attributes = ctx.body?.attributes || "";
 
       const resp = await axios.get("http://127.0.0.1:8000/api/products", {
         params: {
@@ -27,6 +28,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
           filter,
           objects_per_page,
           query,
+          attributes,
         },
       });
 
