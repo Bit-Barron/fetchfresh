@@ -2,24 +2,39 @@
 
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { CartStore } from "@/store/CartStore";
+import { Trash2Icon } from "lucide-react";
 
 interface PageProps {}
 
 const Page: React.FC<PageProps> = ({}) => {
-  const { shoppingListQuery } = ShoppingListHook();
-  const { addToCart } = CartStore();
+  const { shoppingListQuery, deleteShoppingListMutation } = ShoppingListHook();
+  const [shoppingList, setShoppingList] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (shoppingListQuery?.data) {
+      setShoppingList(shoppingListQuery.data);
+    }
+  }, [shoppingListQuery?.data]);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteShoppingListMutation.mutateAsync({ id } as any);
+
+      setShoppingList((prevList) => prevList.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to delete item:", error);
+    }
+  };
 
   return (
-    <div className="flex min-h-screen w-full bg-gray-100">
+    <div className="flex min-h-screen w-full">
       <SettingsSidebar />
       <div className="mx-auto container p-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Einkaufsliste</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {shoppingListQuery?.data?.map((item: any) => (
+          {shoppingList.map((item: any) => (
             <div
               key={item.id}
               className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center"
@@ -42,8 +57,16 @@ const Page: React.FC<PageProps> = ({}) => {
               </h2>
               <p className="text-gray-600">{item.quantity} stk</p>
               <p className="text-gray-500 text-sm mt-2">
-                Added on: {new Date(item.createdAt).toLocaleDateString()}
+                Hinzugefügt am: {new Date(item.createdAt).toLocaleDateString()}
               </p>
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => handleDelete(item.id)}
+                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
+                >
+                  <Trash2Icon />
+                </button>
+              </div>
             </div>
           ))}
         </div>

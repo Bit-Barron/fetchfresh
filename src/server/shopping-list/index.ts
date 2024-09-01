@@ -42,4 +42,22 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       },
     });
     return shoppingList;
+  })
+  .delete("/index", async (ctx: any) => {
+    const user: any = await decrypt(
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+    );
+
+    if (!user || !user?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const body = ctx.body;
+
+    const shoppingList = await prisma.shoppingListItem.delete({
+      where: {
+        id: body.id,
+      },
+    });
+    return shoppingList;
   });
