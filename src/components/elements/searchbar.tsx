@@ -151,13 +151,13 @@ export default function Searchbar({
         <div className="mt-4">
           <h1 className="text-xl font-bold">Beliebte Produkte</h1>
           <div className="mt-2">
-            {filteredProducts.slice(0, 6).map((product) => (
+            {filteredProducts.slice(0, 11).map((product) => (
               <div
                 key={product.id}
-                className="relative flex flex-col  rounded-lg border p-4 shadow-md transition-shadow duration-300 hover:shadow-lg"
+                className="relative flex rounded-lg p-4 transition-shadow duration-300 hover:bg-gray-200"
               >
                 <div className="flex-1">
-                  <h1 className="truncate text-sm font-medium text-gray-800">
+                  <h1 className="truncate text-sm font-medium text-gray-800 hover:text-green-700">
                     {product.title}
                   </h1>
                 </div>

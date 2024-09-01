@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { toast, Toaster } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -58,7 +59,9 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
           productId: product.productId,
         } as any);
         setCurrentShoppingListId(result.id);
+        toast.success("Zur Einkaufsliste hinzugefügt");
       } catch (error) {
+        toast.error("Fehler beim Erstellen der Einkaufsliste");
         console.error("Failed to create shopping list:", error);
       }
     }
@@ -81,6 +84,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
+      <Toaster richColors position="top-right" />
       <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
         <h1 className="text-xl font-bold">Einkaufsliste</h1>
         <div className="mt-3">
