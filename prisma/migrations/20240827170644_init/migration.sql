@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "ShoppingListItem" ALTER COLUMN "price" SET DATA TYPE DOUBLE PRECISION;

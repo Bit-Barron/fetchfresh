@@ -50,8 +50,14 @@ export const storeRoute = new Elysia({ prefix: "/store" })
   .post("/grocerysearch", async (ctx: any) => {
     try {
       const query = ctx.body?.query || "";
+      const page = ctx.body?.page || 1;
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/grocerysearch/${query}`
+        `http://127.0.0.1:8000/api/grocerysearch/${query}`,
+        {
+          params: {
+            page,
+          },
+        }
       );
 
       return response.data;
