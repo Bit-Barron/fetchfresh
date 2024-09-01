@@ -10,6 +10,7 @@ import ProductImage from "./product-image";
 import ProductInfo from "./product-info";
 import RecommendedProducts from "./product-recommendations";
 import { Dialog, DialogContent } from "../../ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface ProductCardProps {
   product: Product;
@@ -27,12 +28,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { productDetailsMutation } = StoreHook();
   const { products } = useProductStore();
-  const [productDetails, setProductDetails] = useState<Product | null>(null);
+  // const [productDetails, setProductDetails] = useState<Product | null>(null);
 
   const handleProductClick = () => {
-    productDetailsMutation
-      .mutateAsync({ productId: product.productId } as any)
-      .then((response) => setProductDetails(response));
+    productDetailsMutation.mutateAsync({ productId: product.productId } as any);
     setIsDialogOpen(true);
   };
 
@@ -62,6 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </CardContent>
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTitle></DialogTitle>
         <DialogContent className="max-h-[90vh] w-full max-w-[1400px] overflow-y-auto bg-white p-6 md:p-10">
           <ProductDetails product={product} addToCart={addToCart} />
           <RecommendedProducts

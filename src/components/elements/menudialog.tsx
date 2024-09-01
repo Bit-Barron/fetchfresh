@@ -9,6 +9,7 @@ import { RiFileList2Fill } from "react-icons/ri";
 import { StoreHook } from "../hooks/store-hook";
 import { ShoppingListHook } from "../hooks/shopping-list-hook";
 import { Product } from "@/types/product";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface MenuDialogProps {
   onClose: () => void;
@@ -83,6 +84,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <Toaster richColors position="top-right" />
+      <DialogTitle></DialogTitle>
       <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
         <h1 className="text-xl font-bold">Einkaufsliste</h1>
         <div className="mt-3">
