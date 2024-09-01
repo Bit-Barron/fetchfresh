@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { CartItem } from "@/types";
 import { formatPrice } from "@/utils";
 import { Separator } from "@radix-ui/react-select";
@@ -26,6 +26,7 @@ const CartDialog: React.FC<CartDialogProps> = ({
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
+      <DialogTitle className="text-2xl font-bold">Warenkorb</DialogTitle>
       <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
         <div className="grid gap-6">
           {cart.map((item) => (
