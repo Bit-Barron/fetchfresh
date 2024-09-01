@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ShoppingListDialog from "./shopping-list-dialog";
-import { Dialog, DialogContent } from "../ui/dialog";
-import { ShoppingListHook } from "../hooks/shopping-list-hook";
+import { Dialog, DialogContent } from "../../ui/dialog";
+import { ShoppingListHook } from "../../hooks/shopping-list-hook";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { RiFileList2Fill } from "react-icons/ri";
-import { StoreHook } from "../hooks/store-hook";
+import { StoreHook } from "../../hooks/store-hook";
 
 interface MenuDialogProps {
   onClose: () => void;
@@ -27,7 +27,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
 
   const handleShoppingListCreated = (listId: string) => {
     setCurrentShoppingListId(listId);
-    setShoppingListDialogOpen(false); // Schließt das ShoppingListDialog nach dem Erstellen
+    setShoppingListDialogOpen(false);
   };
 
   const openShoppingListDialog = () => {
@@ -38,7 +38,6 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
     setCurrentShoppingListId(listId);
     setProductSearchDialogOpen(true);
     if (searchQuery === "") {
-      // Lade alle Produkte aus der aktuellen Einkaufsliste, wenn kein Suchbegriff eingegeben ist
       const selectedList = getShoppingListsQuery.data?.find(
         (list: any) => list.id === listId
       );
@@ -50,7 +49,6 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
 
   const handleGrocerySearch = async () => {
     if (searchQuery.trim() === "") {
-      // Lade alle Produkte aus der aktuellen Einkaufsliste, wenn kein Suchbegriff eingegeben ist
       const selectedList = getShoppingListsQuery.data?.find(
         (list: any) => list.id === currentShoppingListId
       );
@@ -64,7 +62,20 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
           page: 1,
         } as any);
         const fetchedProducts = response.data?.grocerySearch?.products ?? [];
-        setProducts(fetchedProducts);
+
+        // Filter out products that are already in the shopping list
+        const selectedList = getShoppingListsQuery.data?.find(
+          (list: any) => list.id === currentShoppingListId
+        );
+
+        const existingProductIds =
+          selectedList?.items?.map((item: any) => item.productId) || [];
+
+        const filteredProducts = fetchedProducts.filter(
+          (product: any) => !existingProductIds.includes(product.productId)
+        );
+
+        setProducts(filteredProducts);
       } catch (error) {
         console.error("Grocery search error:", error);
       }
@@ -90,6 +101,10 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
     }
   };
 
+  useEffect(() => {
+    getShoppingListsQuery.refetch();
+  }, [isShoppingListDialogOpen, isProductSearchDialogOpen]);
+
   return (
     <>
       <Dialog open={true} onOpenChange={onClose}>
@@ -104,7 +119,6 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
             </Button>
           </div>
 
-          {/* Vorhandene Einkaufslisten anzeigen */}
           {getShoppingListsQuery.data &&
           getShoppingListsQuery.data.length > 0 ? (
             <div className="mt-3">

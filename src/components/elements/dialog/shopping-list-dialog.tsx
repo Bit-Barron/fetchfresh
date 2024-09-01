@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ShoppingListHook } from "../hooks/shopping-list-hook";
+import { ShoppingListHook } from "../../hooks/shopping-list-hook";
 
 interface ShoppingListDialogProps {
   onClose: () => void;

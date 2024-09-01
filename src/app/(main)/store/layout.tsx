@@ -1,12 +1,12 @@
 "use client";
 
 import { CartStore } from "../../../store/CartStore";
-import CartDialog from "@/components/elements/cartdialog";
+import CartDialog from "@/components/elements/dialog/cartdialog";
 import { useState } from "react";
 import Searchbar from "@/components/elements/searchbar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../store/ProductStore";
-import MenuDialog from "@/components/elements/menudialog";
+import MenuDialog from "@/components/elements/dialog/menudialog";
 
 interface MainLayoutProps {
   children: React.ReactNode;
