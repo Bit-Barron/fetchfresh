@@ -25,7 +25,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   removeFromCart,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const { productDetailsMutation } = StoreHook();
   const { products } = useProductStore();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
@@ -64,12 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-h-[90vh] w-full max-w-[1400px] overflow-y-auto bg-white p-6 md:p-10">
-          <ProductDetails
-            product={product}
-            quantity={quantity}
-            setQuantity={setQuantity}
-            addToCart={addToCart}
-          />
+          <ProductDetails product={product} addToCart={addToCart} />
           <RecommendedProducts
             products={products}
             currentProductId={product.productId}

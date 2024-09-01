@@ -9,31 +9,15 @@ import { formatPrice } from "@/utils";
 
 interface ProductDetailsProps {
   product: any;
-  quantity: number;
-  setQuantity: React.Dispatch<React.SetStateAction<number>>;
   addToCart: (product: Product, quantity: number) => void;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
   product,
-  quantity,
-  setQuantity,
   addToCart,
 }) => {
-  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value, 10);
-    if (!isNaN(value) && value > 0 && value <= product.orderLimit) {
-      setQuantity(value);
-    } else {
-      // Optional: Provide feedback if quantity exceeds limit
-      if (value > product.orderLimit) {
-        toast.error(`Maximale Menge ist ${product.orderLimit}`);
-      }
-    }
-  };
-
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    addToCart(product, 1);
     toast.success("Erfolgreich zum Warenkorb hinzugefügt");
   };
 
@@ -53,21 +37,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         <ProductSpecifications product={product} />
         <CustomerReviews />
         <div className="flex items-center gap-4 mt-6 mb-6">
-          <input
-            type="number"
-            value={quantity}
-            onChange={handleQuantityChange}
-            min="1"
-            max={product.orderLimit}
-            className="w-20 rounded border border-gray-300 p-2 text-center"
-          />
           <div className="flex-grow flex justify-end">
             <Button
               size="lg"
               className="bg-green-700 text-white"
               onClick={handleAddToCart}
             >
-              {quantity} zum Warenkorb hinzufügen
+              Zum Warenkorb hinzufügen
             </Button>
           </div>
         </div>
