@@ -1,3 +1,2 @@
 markt auswahl funktionalität
 einkaufslist page, anzeigen von produkten
-eigenschaften filter

@@ -3,9 +3,8 @@ import prisma from "@/lib/prisma";
 import { decrypt } from "@/lib/jwt";
 import { serverEnv } from "@/utils/env/server";
 
-export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" }).post(
-  "/index",
-  async (ctx: any) => {
+export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
+  .post("/index", async (ctx: any) => {
     const user: any = await decrypt(
       ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
@@ -23,8 +22,24 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" }).post(
         productId: body.productId,
         quantity: body.quantity,
         user: body.user,
+        imageURL: body.imageURL,
       },
     });
     return shoppingList;
-  }
-);
+  })
+  .get("/index", async (ctx: any) => {
+    const user: any = await decrypt(
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+    );
+
+    if (!user || !user?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const shoppingList = await prisma.shoppingListItem.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    return shoppingList;
+  });

@@ -57,6 +57,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
           name: product.title,
           quantity: 1,
           productId: product.productId,
+          imageURL: product.imageURL,
         } as any);
         setCurrentShoppingListId(result.id);
         toast.success("Zur Einkaufsliste hinzugefügt");

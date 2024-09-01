@@ -69,10 +69,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             quantity={quantity}
             setQuantity={setQuantity}
             addToCart={addToCart}
-            productInfo={{
-              title: "",
-              content: "",
-            }}
           />
           <RecommendedProducts
             products={products}

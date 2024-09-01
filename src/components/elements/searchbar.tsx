@@ -157,7 +157,7 @@ export default function Searchbar({
                 className="relative flex rounded-lg p-4 transition-shadow duration-300 hover:bg-gray-200"
               >
                 <div className="flex-1">
-                  <h1 className="truncate text-sm font-medium text-gray-800 hover:text-green-700">
+                  <h1 className="truncate mt-3 text-sm font-medium text-gray-800 hover:text-green-700">
                     {product.title}
                   </h1>
                 </div>

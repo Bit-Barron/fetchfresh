@@ -12,7 +12,14 @@ export const ShoppingListHook = () => {
     ) => handleEden(await rpc.api["shopping-list"]["index"]["post"](...args)),
   });
 
+  const shoppingListQuery = useQuery({
+    queryKey: ["shopping-list", params],
+    queryFn: async () =>
+      handleEden(await rpc.api["shopping-list"]["index"]["get"]()),
+  });
+
   return {
     createShoppingListMutation,
+    shoppingListQuery,
   };
 };
