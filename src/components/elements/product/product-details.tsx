@@ -5,13 +5,13 @@ import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import CustomerReviews from "./product-reviews";
 import ProductSpecifications from "./product-specifications";
+import { formatPrice } from "@/utils";
 
 interface ProductDetailsProps {
   product: any;
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   addToCart: (product: Product, quantity: number) => void;
-  productInfo: { title: string; content: string };
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -21,9 +21,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   addToCart,
 }) => {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value);
+    const value = parseInt(event.target.value, 10);
     if (!isNaN(value) && value > 0 && value <= product.orderLimit) {
       setQuantity(value);
+    } else {
+      // Optional: Provide feedback if quantity exceeds limit
+      if (value > product.orderLimit) {
+        toast.error(`Maximale Menge ist ${product.orderLimit}`);
+      }
     }
   };
 
@@ -43,22 +48,20 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           className="aspect-square w-full rounded-lg object-cover"
         />
       </div>
-      <div className="">
-        <div>
-          <h2 className="text-2xl font-bold md:text-3xl">{product.title}</h2>
-        </div>
+      <div className="flex flex-col">
+        <h2 className="text-2xl font-bold md:text-3xl mb-4">{product.title}</h2>
         <ProductSpecifications product={product} />
         <CustomerReviews />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4 mt-6 mb-6">
           <input
             type="number"
             value={quantity}
             onChange={handleQuantityChange}
             min="1"
             max={product.orderLimit}
-            className="w-16 rounded border border-gray-300 p-2"
+            className="w-20 rounded border border-gray-300 p-2 text-center"
           />
-          <div className="flex flex-grow justify-end mt-10">
+          <div className="flex-grow flex justify-end">
             <Button
               size="lg"
               className="bg-green-700 text-white"
@@ -68,7 +71,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             </Button>
           </div>
         </div>
-        {/* <ProductSmallInfo /> */}
+        <div className="flex justify-end  text-lg font-semibold">
+          {product.listing.grammage} -{" "}
+          {formatPrice(product.listing.currentRetailPrice.toFixed(2))} €
+        </div>
       </div>
     </div>
   );

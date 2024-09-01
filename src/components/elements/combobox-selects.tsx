@@ -2,7 +2,6 @@ import React from "react";
 import { Product } from "@/types/product";
 import { ComboboxDemo } from "./combobox";
 
-// Sortieroptionen
 const sortingOptions = [
   { value: "PRICE_ASC", label: "Preis aufsteigend" },
   { value: "PRICE_DESC", label: "Preis absteigend" },
@@ -11,24 +10,19 @@ const sortingOptions = [
   { value: "TOPSELLER_DESC", label: "Beliebtheit" },
 ];
 
-// Allgemeine Filteroptionen
 const filterOptions = [
   { value: "", label: "Alle Produkte" },
   { value: "isVegan", label: "Vegan" },
   { value: "isVegetarian", label: "Vegetarisch" },
   { value: "isOrganic", label: "Bio" },
   { value: "isRegional", label: "Regional" },
-  { value: "isSingleUse", label: "Einweg" },
-  { value: "isReusable", label: "Mehrweg" },
 ];
 
-// Neue Attribute für spezielle Filter
 const attributeOptions = [
   { value: "discounted", label: "Rabattiert" },
   { value: "new", label: "Neu" },
 ];
 
-// Optionen für die Anzahl der Produkte pro Seite
 const productsPerPageOptions = [
   { value: "10", label: "10" },
   { value: "20", label: "20" },
