@@ -35,7 +35,7 @@ export const ShoppingListHook = () => {
         const response = await rpc.api["shopping-list"][
           shoppingListId
         ].items.post({
-          items: [item],
+          item,
         } as any);
         return handleEden(response);
       } catch (error) {

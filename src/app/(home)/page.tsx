@@ -38,8 +38,6 @@ export default function HomePage() {
       .catch((error) => console.error(error));
   };
 
-  console.log(showMenu);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Searchbar

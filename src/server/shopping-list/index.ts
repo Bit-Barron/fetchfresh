@@ -23,14 +23,6 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
         data: {
           name: body.name,
           userId: user.id,
-          items: {
-            create: body.items.map((item) => ({
-              productId: item.productId,
-              name: item.name,
-              quantity: item.quantity,
-              imageURL: item.imageURL ?? undefined,
-            })),
-          },
         },
         include: { items: true },
       });
@@ -73,25 +65,18 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
     }
 
     const { id } = ctx.params;
-    const { items } = ctx.body;
+    const { item } = ctx.body; // Change this to expect a single item
 
     const updatedShoppingList = await prisma.shoppingList.update({
       where: { id, userId: user.id },
       data: {
         items: {
-          create: items.map(
-            (item: {
-              productId: any;
-              name: any;
-              quantity: any;
-              imageURL: any;
-            }) => ({
-              productId: item.productId,
-              name: item.name,
-              quantity: item.quantity,
-              imageURL: item.imageURL ?? undefined,
-            })
-          ),
+          create: {
+            productId: item.productId,
+            name: item.name,
+            quantity: item.quantity,
+            imageURL: item.imageURL ?? undefined,
+          },
         },
       },
       include: { items: true },

@@ -41,7 +41,6 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const resp = await axios.get(
         `http://127.0.0.1:8000/api/product/${productId}`
       );
-      console.log(resp.data.data);
       return resp.data.data;
     } catch (error) {
       console.error(error);
