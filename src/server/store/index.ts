@@ -46,4 +46,16 @@ export const storeRoute = new Elysia({ prefix: "/store" })
     } catch (error) {
       console.error(error);
     }
+  })
+  .post("/grocerysearch", async (ctx: any) => {
+    try {
+      const query = ctx.body?.query || "";
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/grocerysearch/${query}`
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
   });

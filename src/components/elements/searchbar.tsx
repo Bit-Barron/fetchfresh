@@ -1,5 +1,6 @@
 "use client";
 
+import { RiFileList2Fill } from "react-icons/ri";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -25,9 +26,14 @@ import { Category } from "@/types";
 interface SearchbarProps {
   onSearch?: (query: string) => void;
   onShowCart?: () => void;
+  onShowMenu?: () => void;
 }
 
-export default function Searchbar({ onSearch, onShowCart }: SearchbarProps) {
+export default function Searchbar({
+  onSearch,
+  onShowCart,
+  onShowMenu,
+}: SearchbarProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -73,18 +79,30 @@ export default function Searchbar({ onSearch, onShowCart }: SearchbarProps) {
   );
 
   const renderUserControls = (product?: Product) => (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="w-10 gap-3 rounded-full"
-      onClick={onShowCart}
-    >
-      <ShoppingCartIcon
-        onClick={() => product && addToCart(product)}
-        className="h-6 w-6"
-      />
-      <span className="sr-only">Warenkorb</span>
-    </Button>
+    <>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="w-10 gap-3 rounded-full"
+        onClick={onShowCart}
+      >
+        <ShoppingCartIcon
+          onClick={() => product && addToCart(product)}
+          className="h-6 w-6"
+        />
+        <span className="sr-only">Warenkorb</span>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="w-10 gap-3 rounded-full"
+        onClick={onShowMenu}
+      >
+        <RiFileList2Fill className="h-6 w-6" />
+
+        <span className="sr-only">Einkaufsliste</span>
+      </Button>
+    </>
   );
 
   const renderMenuContent = () => (

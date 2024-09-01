@@ -6,6 +6,7 @@ import { useState } from "react";
 import Searchbar from "@/components/elements/searchbar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../store/ProductStore";
+import MenuDialog from "@/components/elements/menudialog";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export default function MainLayout(props: MainLayoutProps) {
   const { cart, removeItemFromCart, updateItemQuantity, calculateTotal } =
     CartStore();
   const [showCart, setShowCart] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const { setProducts } = useProductStore();
 
@@ -36,6 +38,7 @@ export default function MainLayout(props: MainLayoutProps) {
       <Searchbar
         onSearch={(query) => fetchProducts(query)}
         onShowCart={() => setShowCart(true)}
+        onShowMenu={() => setShowMenu(true)}
       />
       {showCart && (
         <CartDialog
@@ -46,6 +49,7 @@ export default function MainLayout(props: MainLayoutProps) {
           calculateTotal={calculateTotal}
         />
       )}
+      {showMenu && <MenuDialog onClose={() => setShowMenu(false)} />}
       {props.children}
     </section>
   );

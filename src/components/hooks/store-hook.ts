@@ -22,7 +22,14 @@ export const StoreHook = () => {
     ) => handleEden(await rpc.api.store["product-details"]["post"](...args)),
   });
 
+  const grocerySearchMutation = useMutation({
+    mutationFn: async (
+      ...args: Parameters<typeof rpc.api.store.grocerysearch.post>
+    ) => handleEden(await rpc.api.store.grocerysearch.post(...args)),
+  });
+
   return {
+    grocerySearchMutation,
     productMutation,
     productDetailsMutation,
     categoryQuery,

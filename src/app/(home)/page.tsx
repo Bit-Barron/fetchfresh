@@ -14,11 +14,13 @@ import { useProductStore } from "../../store/ProductStore";
 import CartDialog from "@/components/elements/cartdialog";
 import { CartStore } from "../../store/CartStore";
 import { useState, useEffect } from "react";
+import MenuDialog from "@/components/elements/menudialog";
 
 export default function HomePage() {
   const router = useRouter();
   const { cart, removeItemFromCart, updateItemQuantity, calculateTotal } =
     CartStore();
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
   const { setProducts } = useProductStore();
   const { productMutation } = StoreHook();
@@ -36,11 +38,14 @@ export default function HomePage() {
       .catch((error) => console.error(error));
   };
 
+  console.log(showMenu);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Searchbar
         onSearch={(query) => fetchProducts(query as any)}
         onShowCart={() => setShowCart(true)}
+        onShowMenu={() => setShowMenu(true)}
       />
       <main className="flex flex-col items-center space-y-8 py-8">
         <section className="w-full max-w-7xl rounded-md bg-green-700 p-8 text-center">
@@ -128,6 +133,7 @@ export default function HomePage() {
         <Reviews />
       </main>
       <Footer />
+      {showMenu && <MenuDialog onClose={() => setShowMenu(false)} />}
       {showCart && (
         <CartDialog
           cart={cart}
