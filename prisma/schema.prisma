@@ -16,11 +16,12 @@ model User {
   firstName         String?
   lastName          String?
   address           String?
-  shoppingLists ShoppingList[]
   phoneNumber       String?
   zipCode           String?
   city              String?
   email             String?
+
+  ShoppingListItem ShoppingListItem[]
 }
 
 model Order {
@@ -41,24 +42,17 @@ model Order {
   zipCode     String?
 }
 
-model ShoppingList {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  name      String
-  items     ShoppingListItem[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model ShoppingListItem {
   id             String      @id @default(cuid())
-  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
-  shoppingListId String
+  userId         String
+  user            User     @relation(fields: [userId], references: [id])
   productId      String
   name           String
   quantity       Int
   imageURL       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 

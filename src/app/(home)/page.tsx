@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import Searchbar from "@/components/elements/searchbar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../store/ProductStore";
-import CartDialog from "@/components/elements/dialog/cartdialog";
+import CartDialog from "@/components/elements/cartdialog";
 import { CartStore } from "../../store/CartStore";
 import { useState, useEffect } from "react";
-import MenuDialog from "@/components/elements/dialog/menudialog";
+import MenuDialog from "@/components/elements/menudialog";
 
 export default function HomePage() {
   const router = useRouter();
