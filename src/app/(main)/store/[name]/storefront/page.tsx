@@ -30,7 +30,7 @@ export default function StorePage({ params }: StorePageProps) {
   const { productMutation, categoryQuery } = StoreHook();
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState<number | null>(null); // Track the maximum page
+  const [maxPage, setMaxPage] = useState<number | null>(null);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   const [productsPerPage, setProductsPerPage] = useState("20");
 
@@ -64,9 +64,7 @@ export default function StorePage({ params }: StorePageProps) {
 
       setProducts(response.data.products.products);
 
-      // Log the API response and set maxPage
-      console.log("API Response:", response.data);
-      setMaxPage(response.data.totalPages || null); // Ensure this is correct
+      setMaxPage(response.data.totalPages || null);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -85,26 +83,22 @@ export default function StorePage({ params }: StorePageProps) {
   };
 
   const handleNextPage = () => {
-    if (maxPage === null || page >= maxPage) return; // Prevent going beyond maxPage
+    if (maxPage === null || page >= maxPage) return;
     setPage((prevPage) => {
       const nextPage = prevPage + 1;
-      fetchProducts(nextPage); // Fetch products for the next page
+      fetchProducts(nextPage);
       return nextPage;
     });
   };
 
   const handlePreviousPage = () => {
-    if (page <= 1) return; // Prevent going below page 1
+    if (page <= 1) return;
     setPage((prevPage) => {
       const prevPageNum = prevPage - 1;
-      fetchProducts(prevPageNum); // Fetch products for the previous page
+      fetchProducts(prevPageNum);
       return prevPageNum;
     });
   };
-
-  // Debug logs for page and maxPage
-  console.log("Current Page:", page);
-  console.log("Max Page:", maxPage);
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -18,11 +18,6 @@ const filterOptions = [
   { value: "isRegional", label: "Regional" },
 ];
 
-const attributeOptions = [
-  { value: "discounted", label: "Rabattiert" },
-  { value: "new", label: "Neu" },
-];
-
 const productsPerPageOptions = [
   { value: "10", label: "10" },
   { value: "20", label: "20" },
@@ -45,25 +40,11 @@ interface ComboboxSelectsProps {
 export function ComboboxSelects({
   sorting,
   filterAttribute,
-  attributeFilter,
   productsPerPage,
   setSorting,
   setFilterAttribute,
-  setAttributeFilter,
   setProductsPerPage,
-  products,
 }: ComboboxSelectsProps) {
-  // Zähle die Anzahl der Produkte für spezielle Attribute
-  const getAttributeCount = (attribute: keyof Product["attributes"]) => {
-    return products.filter((product) => product.attributes[attribute]).length;
-  };
-
-  // Filteroptionen für spezielle Attribute mit Zählungen
-  const attributeOptionsWithCounts = attributeOptions.map((option) => ({
-    ...option,
-    count: getAttributeCount(option.value as keyof Product["attributes"]),
-  }));
-
   return (
     <div className="flex items-center space-x-4">
       <ComboboxDemo
@@ -80,14 +61,7 @@ export function ComboboxSelects({
         }
         placeholder="Allgemeine Filter..."
       />
-      <ComboboxDemo
-        options={attributeOptionsWithCounts}
-        value={attributeFilter || ""}
-        onValueChange={(value: string | null) =>
-          setAttributeFilter(value as keyof Product["attributes"] | null)
-        }
-        placeholder="Spezielle Filter..."
-      />
+
       <ComboboxDemo
         options={productsPerPageOptions}
         value={productsPerPage}
