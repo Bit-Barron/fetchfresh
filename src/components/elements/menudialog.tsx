@@ -52,7 +52,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
     }
   };
 
-  const handleCreateShoppingList = async (product: any) => {
+  const handleCreateShoppingList = async (product: Product) => {
     try {
       await createShoppingListMutation.mutateAsync({
         name: product.title,

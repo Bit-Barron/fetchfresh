@@ -8,7 +8,7 @@ import ProductSpecifications from "./product-specifications";
 import { formatPrice } from "@/utils";
 
 interface ProductDetailsProps {
-  product: any;
+  product: Product;
   addToCart: (product: Product, quantity: number) => void;
 }
 
@@ -49,7 +49,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         </div>
         <div className="flex justify-end  text-lg font-semibold">
           {product.listing.grammage} -{" "}
-          {formatPrice(product.listing.currentRetailPrice.toFixed(2))} €
+          {formatPrice(
+            product.listing.currentRetailPrice.toFixed(2) as unknown as number
+          )}{" "}
+          €
         </div>
       </div>
     </div>

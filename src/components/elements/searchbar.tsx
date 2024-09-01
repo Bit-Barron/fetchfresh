@@ -133,7 +133,7 @@ export default function Searchbar({
                       <ul className="mt-2 flex flex-wrap gap-1">
                         {category.childCategories
                           .slice(1, 5)
-                          .map((subCategory: any) => (
+                          .map((subCategory: { name: string; id: string }) => (
                             <li
                               key={subCategory.id}
                               className="flex items-center gap-1 rounded-full border p-1 text-xs sm:text-sm lg:text-base"

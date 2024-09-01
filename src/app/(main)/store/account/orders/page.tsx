@@ -17,7 +17,7 @@ import { Order } from "@prisma/client";
 
 export default function Seite() {
   const { getOrderQuery, updateStatusMutation } = OrderHook();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const router = useRouter();
 
   const handleStatusChange = async (orderId: string) => {

@@ -1,10 +1,10 @@
 export interface ShoppingListItem {
-  id?: string;
-  productId?: string;
+  createdAt: Date;
+  id: string;
+  imageURL: string | null;
   name: string;
-  price: number;
-  image: string;
-  quantity?: number;
-  userId?: string;
-  description?: string;
+  productId: string;
+  quantity: number;
+  updatedAt: Date;
+  userId: string;
 }

@@ -7,7 +7,7 @@ import Sidebar from "@/components/elements/sidebar/sidebar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../../../store/ProductStore";
 import { CartStore } from "../../../../../store/CartStore";
-import { Product } from "@/types/product";
+import { Attributes, Product } from "@/types/product";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { useFilterSortStore } from "@/store/FilterStore";
 import { ComboboxSelects } from "@/components/elements/combobox-selects";
@@ -31,8 +31,10 @@ export default function StorePage({ params }: StorePageProps) {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState<number | null>(null);
-  const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   const [productsPerPage, setProductsPerPage] = useState("20");
+  const [attributeFilter, setAttributeFilter] = useState<
+    keyof Attributes | null
+  >(null);
 
   useEffect(() => {
     if (params.name !== "rewe") {
@@ -52,7 +54,6 @@ export default function StorePage({ params }: StorePageProps) {
 
   const fetchProducts = async (nextPage: number = 1) => {
     try {
-      console.log(`Fetching products for page ${nextPage}`);
       const response = await productMutation.mutateAsync({
         category: selectedCategory,
         page: nextPage,
@@ -71,7 +72,7 @@ export default function StorePage({ params }: StorePageProps) {
   };
 
   const getFilteredProducts = () => {
-    return products.filter((product: any) => {
+    return products.filter((product: Product) => {
       if (filterAttribute && !product.attributes[filterAttribute]) {
         return false;
       }
@@ -120,13 +121,13 @@ export default function StorePage({ params }: StorePageProps) {
 
               <ComboboxSelects
                 sorting={sorting}
-                filterAttribute={filterAttribute}
+                filterAttribute={filterAttribute as unknown as string}
                 productsPerPage={productsPerPage}
                 setSorting={setSorting}
                 setFilterAttribute={setFilterAttribute}
                 setProductsPerPage={setProductsPerPage}
                 products={products}
-                attributeFilter={attributeFilter}
+                attributeFilter={attributeFilter as unknown as string}
                 setAttributeFilter={setAttributeFilter}
               />
             </div>
@@ -136,7 +137,7 @@ export default function StorePage({ params }: StorePageProps) {
                 <ProductCard
                   key={product.articleId}
                   product={product}
-                  isInCart={isInCart(product.articleId as any)}
+                  isInCart={isInCart(product.articleId as unknown as number)}
                   addToCart={addToCart}
                   removeFromCart={removeItemFromCart}
                 />

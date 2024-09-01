@@ -5,12 +5,21 @@ import { decrypt } from "@/lib/jwt";
 import { serverEnv } from "@/utils/env/server";
 import { User } from "@prisma/client";
 
+interface Item {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  productId: string;
+}
+
 export const orderRoute = new Elysia({ prefix: "/orders" })
   .post(
     "",
     async (ctx) => {
       const user = await decrypt<User>(
-        ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
       );
 
       const {
@@ -29,7 +38,7 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
         throw new Error("User is not authenticated");
       }
 
-      const productData = cart.map((item: any) => ({
+      const productData = cart.map((item: Item) => ({
         productId: item.productId,
         quantity: item.quantity,
         name: item.name,
@@ -57,11 +66,11 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
 
       return { success: true, order };
     },
-    { body: OrderBody },
+    { body: OrderBody }
   )
   .get("", async (ctx) => {
     const user = await decrypt<User>(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
 
     if (!user?.id) {
@@ -80,7 +89,7 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
     async (ctx) => {
       const { orderId, status } = ctx.body;
       const user = await decrypt<User>(
-        ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
       );
 
       if (!user?.id) {
@@ -94,13 +103,13 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
 
       return { success: true, updatedOrder };
     },
-    { body: OrderStatusUpdateBody },
+    { body: OrderStatusUpdateBody }
   )
 
   .get("/:orderId", async (ctx) => {
     const { orderId } = ctx.params;
     const user = await decrypt<User>(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
 
     if (!user?.id) {

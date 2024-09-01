@@ -1,14 +1,13 @@
-import { t } from "elysia";
+import { Type } from "@sinclair/typebox/type";
 
-// TypeBox schemas
-export const ShoppingListItemSchema = t.Object({
-  productId: t.String(),
-  name: t.String(),
-  quantity: t.Number(),
-  imageURL: t.Optional(t.String()),
+export const ShoppingListItemSchema = Type.Object({
+  name: Type.String(),
+  productId: Type.String(),
+  quantity: Type.Number(),
+  user: Type.Optional(Type.String()),
+  imageURL: Type.Optional(Type.String()),
 });
 
-export const CreateShoppingListSchema = t.Object({
-  name: t.String(),
-  items: t.Array(ShoppingListItemSchema),
+export const DeleteItemSchema = Type.Object({
+  id: Type.String(),
 });

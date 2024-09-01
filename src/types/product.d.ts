@@ -50,6 +50,7 @@ export interface Product {
 }
 
 export interface Attributes {
+  [key: string]: boolean | any;
   isBulkyGood: boolean;
   isOrganic: boolean;
   isVegan: boolean;

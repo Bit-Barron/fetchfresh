@@ -13,6 +13,14 @@ import { formatPrice } from "@/utils";
 import { UserHook } from "@/components/hooks/user-hook";
 import { toast, Toaster } from "sonner";
 
+interface Item {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
 export default function Checkout() {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -55,8 +63,8 @@ export default function Checkout() {
   }
 
   const subtotal = cart.reduce(
-    (acc: number, item: any) => acc + item.price * item.quantity,
-    0,
+    (acc: number, item: Item) => acc + item.price * item.quantity,
+    0
   );
   const shippingCost = 5.0;
   const discount = 10.0;
@@ -75,7 +83,7 @@ export default function Checkout() {
         phoneNumber,
         email,
         zipCode,
-        cart: cart.map((item: any) => ({
+        cart: cart.map((item: Item) => ({
           productId: item.id,
           quantity: item.quantity,
           name: item.name,
@@ -211,7 +219,7 @@ export default function Checkout() {
               </div>
               <Separator />
               <div className="grid gap-2">
-                {cart.map((item: any) => (
+                {cart.map((item: Item) => (
                   <div
                     key={item.id}
                     className="flex items-center justify-between"

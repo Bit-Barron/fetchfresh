@@ -2,33 +2,38 @@ import { Elysia } from "elysia";
 import prisma from "@/lib/prisma";
 import { decrypt } from "@/lib/jwt";
 import { serverEnv } from "@/utils/env/server";
+import { DeleteItemSchema, ShoppingListItemSchema } from "./typebox";
+import { User } from "@prisma/client";
 
 export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
-  .post("/index", async (ctx: any) => {
-    const user: any = await decrypt(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
-    );
+  .post(
+    "/index",
+    async (ctx) => {
+      const user = await decrypt<User>(
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+      );
 
-    if (!user || !user?.id) {
-      throw new Error("User not authenticated");
-    }
+      if (!user || !user?.id) {
+        throw new Error("User not authenticated");
+      }
 
-    const body = ctx.body;
+      const body = ctx.body;
 
-    const shoppingList = await prisma.shoppingListItem.create({
-      data: {
-        name: body.name,
-        userId: user.id,
-        productId: body.productId,
-        quantity: body.quantity,
-        user: body.user,
-        imageURL: body.imageURL,
-      },
-    });
-    return shoppingList;
-  })
-  .get("/index", async (ctx: any) => {
-    const user: any = await decrypt(
+      const shoppingList = await prisma.shoppingListItem.create({
+        data: {
+          name: body.name,
+          userId: user.id,
+          productId: body.productId,
+          quantity: body.quantity,
+          imageURL: body.imageURL,
+        },
+      });
+      return shoppingList;
+    },
+    { body: ShoppingListItemSchema }
+  )
+  .get("/index", async (ctx) => {
+    const user = await decrypt<User>(
       ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
 
@@ -43,21 +48,25 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
     });
     return shoppingList;
   })
-  .delete("/index", async (ctx: any) => {
-    const user: any = await decrypt(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
-    );
+  .delete(
+    "/index",
+    async (ctx) => {
+      const user = await decrypt<User>(
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+      );
 
-    if (!user || !user?.id) {
-      throw new Error("User not authenticated");
-    }
+      if (!user || !user?.id) {
+        throw new Error("User not authenticated");
+      }
 
-    const body = ctx.body;
+      const body = ctx.body;
 
-    const shoppingList = await prisma.shoppingListItem.delete({
-      where: {
-        id: body.id,
-      },
-    });
-    return shoppingList;
-  });
+      const shoppingList = await prisma.shoppingListItem.delete({
+        where: {
+          id: body.id,
+        },
+      });
+      return shoppingList;
+    },
+    { body: DeleteItemSchema }
+  );

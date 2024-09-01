@@ -1,6 +1,7 @@
 "use client";
 
 import { StoreHook } from "@/components/hooks/store-hook";
+import { Category } from "@/types";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,7 +69,7 @@ const Page: React.FC<pageProps> = ({ params }) => {
 
             {categoryQuery.data?.topLevelCategories && (
               <ul className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {categoryQuery.data.topLevelCategories.map((category: any) => (
+                {categoryQuery.data.topLevelCategories.map((category: Category) => (
                   <li key={category.id} className="p-2">
                     <Link href={`/store/category/${category.slug}`}>
                       <div className="flex items-center gap-2">
