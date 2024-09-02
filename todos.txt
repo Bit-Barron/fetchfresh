@@ -1,2 +1,4 @@
 markt auswahl funktionalität
 pagination
+password reset
+preis alarm

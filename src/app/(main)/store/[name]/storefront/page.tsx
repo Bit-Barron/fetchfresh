@@ -11,6 +11,15 @@ import { Attributes, Product } from "@/types/product";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { useFilterSortStore } from "@/store/FilterStore";
 import { ComboboxSelects } from "@/components/elements/combobox-selects";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
+  PaginationNext,
+} from "@/components/ui/pagination";
 
 interface StorePageProps {
   params: { name: string };
@@ -35,12 +44,14 @@ export default function StorePage({ params }: StorePageProps) {
   const [attributeFilter, setAttributeFilter] = useState<
     keyof Attributes | null
   >(null);
+  const [visiblePages, setVisiblePages] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (params.name !== "rewe") {
       router.push("/");
     } else {
-      fetchProducts(page);
+      fetchProducts();
     }
   }, [
     params.name,
@@ -52,26 +63,74 @@ export default function StorePage({ params }: StorePageProps) {
     page,
   ]);
 
-  const fetchProducts = async (nextPage: number = 1) => {
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
     try {
       const response = await productMutation.mutateAsync({
         category: selectedCategory,
-        page: nextPage,
+        page,
         sorting,
         filterAttribute,
         attributes: attributeFilter,
         objects_per_page: productsPerPage,
       } as any);
 
-      setProducts(response.data.products.products);
+      if (Array.isArray(response.data.products)) {
+        setProducts(response.data.products);
+      } else if (
+        response.data.products &&
+        Array.isArray(response.data.products.products)
+      ) {
+        setProducts(response.data.products.products);
+      } else {
+        console.error("Unexpected product data structure:", response.data);
+        setProducts([]);
+      }
 
-      setMaxPage(response.data.totalPages || null);
+      const totalPages =
+        response.data.totalPages ||
+        Math.ceil(response.data.total / parseInt(productsPerPage));
+      setMaxPage(totalPages);
+
+      console.log("Total Pages:", totalPages);
+      updateVisiblePages(page, totalPages);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setProducts([]);
+      setMaxPage(1);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const updateVisiblePages = (currentPage: number, totalPages: number) => {
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    setVisiblePages(
+      Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
+    );
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   const getFilteredProducts = () => {
+    if (!Array.isArray(products)) {
+      console.error("Products is not an array:", products);
+      return [];
+    }
+
     return products.filter((product: Product) => {
       if (filterAttribute && !product.attributes[filterAttribute]) {
         return false;
@@ -83,22 +142,9 @@ export default function StorePage({ params }: StorePageProps) {
     });
   };
 
-  const handleNextPage = () => {
-    if (maxPage === null || page >= maxPage) return;
-    setPage((prevPage) => {
-      const nextPage = prevPage + 1;
-      fetchProducts(nextPage);
-      return nextPage;
-    });
-  };
-
-  const handlePreviousPage = () => {
-    if (page <= 1) return;
-    setPage((prevPage) => {
-      const prevPageNum = prevPage - 1;
-      fetchProducts(prevPageNum);
-      return prevPageNum;
-    });
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    setPage(1);
   };
 
   return (
@@ -106,11 +152,11 @@ export default function StorePage({ params }: StorePageProps) {
       <div className="flex flex-1">
         <Sidebar
           categories={categoryQuery.data?.topLevelCategories || []}
-          onCategoryClick={setSelectedCategory}
+          onCategoryClick={handleCategoryClick}
         />
         <MobileSidebar
           categories={categoryQuery.data?.topLevelCategories || []}
-          onCategoryClick={setSelectedCategory}
+          onCategoryClick={handleCategoryClick}
         />
         <main className="flex-1 space-y-8 bg-[#F6F7F8] p-4 md:p-6">
           <section>
@@ -132,36 +178,38 @@ export default function StorePage({ params }: StorePageProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
-              {getFilteredProducts().map((product: Product) => (
-                <ProductCard
-                  key={product.articleId}
-                  product={product}
-                  isInCart={isInCart(product.articleId as unknown as number)}
-                  addToCart={addToCart}
-                  removeFromCart={removeItemFromCart}
-                />
-              ))}
-            </div>
+            {isLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <p>Loading products...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
+                {getFilteredProducts().map((product: Product) => (
+                  <ProductCard
+                    key={product.articleId}
+                    product={product}
+                    isInCart={isInCart(product.articleId as unknown as number)}
+                    addToCart={addToCart}
+                    removeFromCart={removeItemFromCart}
+                  />
+                ))}
+              </div>
+            )}
           </section>
         </main>
       </div>
-      <div className="self-center mb-4 flex gap-4">
-        <button
-          onClick={handlePreviousPage}
-          className="px-4 py-2 bg-gray-500 text-white rounded disabled:opacity-50"
-          disabled={page <= 1}
-        >
-          Previous Page
-        </button>
-        <button
-          onClick={handleNextPage}
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          disabled={maxPage === null || page >= maxPage}
-        >
-          Load More
-        </button>
-      </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious onClick={() => handlePageChange(page - 1)} />
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationNext onClick={() => handlePageChange(page + 1)} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
