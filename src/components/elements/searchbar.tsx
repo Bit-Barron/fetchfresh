@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
 import { StoreHook } from "../hooks/store-hook";
 import { Category } from "@/types";
+import { MarketHook } from "../hooks/market-hook";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -43,6 +44,7 @@ export default function Searchbar({
   const { addToCart } = CartStore();
   const { meQuery } = UserHook();
   const router = useRouter();
+  const { marketQuery } = MarketHook();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

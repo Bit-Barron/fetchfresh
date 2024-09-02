@@ -39,7 +39,6 @@ export default function StorePage({ params }: StorePageProps) {
   const { productMutation, categoryQuery } = StoreHook();
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState<number | null>(null);
   const [productsPerPage, setProductsPerPage] = useState("20");
   const [attributeFilter, setAttributeFilter] = useState<
     keyof Attributes | null
@@ -94,14 +93,11 @@ export default function StorePage({ params }: StorePageProps) {
       const totalPages =
         response.data.totalPages ||
         Math.ceil(response.data.total / parseInt(productsPerPage));
-      setMaxPage(totalPages);
 
-      console.log("Total Pages:", totalPages);
       updateVisiblePages(page, totalPages);
     } catch (error) {
       console.error("Error fetching products:", error);
       setProducts([]);
-      setMaxPage(1);
     } finally {
       setIsLoading(false);
     }

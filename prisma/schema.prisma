@@ -20,7 +20,8 @@ model User {
   zipCode           String?
   city              String?
   email             String?
-
+  resetToken        String?
+  resetTokenExpires DateTime?
   ShoppingListItem ShoppingListItem[]
 }
 
