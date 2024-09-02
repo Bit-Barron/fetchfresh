@@ -34,7 +34,7 @@ export default function MarketDrawer({
 
   return (
     <Drawer open={isOpen} onClose={onClose}>
-      <DrawerContent className="w-[500px] h-[800px] fixed bottom-4 left-4 rounded-lg shadow-lg bg-white text-foreground">
+      <DrawerContent className="md:w-[500px] md:h-[800px] fixed bottom-4 left-4 rounded-lg shadow-lg bg-white text-foreground">
         <DrawerHeader>
           <DrawerTitle>Find Markets</DrawerTitle>
           <DrawerDescription>Search for markets near you.</DrawerDescription>

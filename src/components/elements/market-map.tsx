@@ -12,7 +12,6 @@ interface MarketMapProps {
 const MarketMap = ({ latitude, longitude, name }: MarketMapProps) => {
   const position = [parseFloat(latitude), parseFloat(longitude)];
 
-  // SVG icon
   const svgIcon = L.divIcon({
     html: `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
