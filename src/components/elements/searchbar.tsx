@@ -23,6 +23,18 @@ import { UserHook } from "@/components/hooks/user-hook";
 import { StoreHook } from "../hooks/store-hook";
 import { Category } from "@/types";
 import { MarketHook } from "../hooks/market-hook";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+} from "@/components/ui/drawer";
+import { Card } from "../ui/card";
+import { MutableRequestCookiesAdapter } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import MarketDrawer from "./markte-drawer";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -45,6 +57,8 @@ export default function Searchbar({
   const { meQuery } = UserHook();
   const router = useRouter();
   const { marketQuery } = MarketHook();
+  const pickupMarkets = marketQuery?.data?.data.servicePortfolio.pickupMarkets;
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -188,7 +202,20 @@ export default function Searchbar({
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
-        <div className="flex flex-1 justify-center">
+        <div className="">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-4 left-20 hover:bg-muted/50 rounded-full"
+            onClick={() => setDrawerOpen(true)}
+          >
+            Markt auswählen
+          </Button>
+          <MarketDrawer
+            isOpen={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            pickupMarkets={pickupMarkets}
+          />
           <form
             className="relative flex items-center"
             onSubmit={(e) => e.preventDefault()}
