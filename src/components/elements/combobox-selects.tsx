@@ -46,28 +46,33 @@ export function ComboboxSelects({
   setProductsPerPage,
 }: ComboboxSelectsProps) {
   return (
-    <div className="flex items-center space-x-4">
-      <ComboboxDemo
-        options={sortingOptions}
-        value={sorting}
-        onValueChange={(value: string) => setSorting(value)}
-        placeholder="Sortieren nach..."
-      />
-      <ComboboxDemo
-        options={filterOptions}
-        value={filterAttribute || ""}
-        onValueChange={(value: string | null) =>
-          setFilterAttribute(value as keyof Product["attributes"] | null)
-        }
-        placeholder="Allgemeine Filter..."
-      />
-
-      <ComboboxDemo
-        options={productsPerPageOptions}
-        value={productsPerPage}
-        onValueChange={(value: string) => setProductsPerPage(value)}
-        placeholder="Artikel pro Seite"
-      />
+    <div className="flex flex-col space-y-4 sm:flex-row sm:flex-wrap sm:items-center sm:space-y-0 sm:space-x-4">
+      <div className="w-full sm:w-[calc(50%-0.5rem)] md:w-auto">
+        <ComboboxDemo
+          options={sortingOptions}
+          value={sorting}
+          onValueChange={(value: string) => setSorting(value)}
+          placeholder="Sortieren nach..."
+        />
+      </div>
+      <div className="w-full sm:w-[calc(50%-0.5rem)] md:w-auto">
+        <ComboboxDemo
+          options={filterOptions}
+          value={filterAttribute || ""}
+          onValueChange={(value: string | null) =>
+            setFilterAttribute(value as keyof Product["attributes"] | null)
+          }
+          placeholder="Allgemeine Filter..."
+        />
+      </div>
+      <div className="w-full sm:w-full md:w-auto">
+        <ComboboxDemo
+          options={productsPerPageOptions}
+          value={productsPerPage}
+          onValueChange={(value: string) => setProductsPerPage(value)}
+          placeholder="Artikel pro Seite"
+        />
+      </div>
     </div>
   );
 }

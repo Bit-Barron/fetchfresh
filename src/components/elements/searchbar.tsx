@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import React, { useState, useEffect } from "react";
 import { RiFileList2Fill } from "react-icons/ri";
 import Link from "next/link";
@@ -16,12 +17,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Product } from "@/types/product";
 import { useProductStore } from "../../store/ProductStore";
-import Image from "next/image";
 import { CartStore } from "../../store/CartStore";
 import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
-import { StoreHook } from "../hooks/store-hook";
-import { Category } from "@/types";
 import MarketMapDrawer from "./market-drawer";
 
 interface SearchbarProps {
@@ -39,7 +37,6 @@ export default function Searchbar({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const { categoryQuery } = StoreHook();
   const { products } = useProductStore();
   const { addToCart } = CartStore();
   const { meQuery } = UserHook();
@@ -107,9 +104,9 @@ export default function Searchbar({
   );
 
   const renderMenuContent = () => (
-    <NavigationMenuContent className="w-full bg-white shadow-lg sm:max-w-lg md:max-w-[1900px]">
+    <NavigationMenuContent className="w-full md:w-[1800px] md:flex-row bg-white shadow-lg sm:max-w-lg md:max-w-[1900px]">
       <ul className="grid gap-3 p-3">
-        <li className="flex flex-col justify-between md:w-[1800px] md:flex-row">
+        {/* <li className="flex flex-col justify-between md:w-[1800px] md:flex-row">
           {categoryQuery.data?.topLevelCategories && (
             <ul className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {categoryQuery.data.topLevelCategories
@@ -148,31 +145,40 @@ export default function Searchbar({
                 ))}
             </ul>
           )}
-        </li>
-        <div className="mt-4">
-          <h1 className="text-xl font-bold">Beliebte Produkte</h1>
-          <div className="mt-2">
-            {filteredProducts.slice(0, 11).map((product) => (
-              <div
-                key={product.id}
-                className="relative flex rounded-lg p-4 transition-shadow duration-300 hover:bg-gray-200"
-              >
-                <div className="flex-1">
-                  <h1 className="truncate mt-3 text-sm font-medium text-gray-800 hover:text-green-700">
-                    {product.title}
-                  </h1>
-                </div>
-                <div className="">
-                  {meQuery?.data ? renderUserControls(product) : <div></div>}
-                </div>
-              </div>
-            ))}
+        </li> */}
+        <div className="mt-2">
+          {filteredProducts.slice(0, 11).map((product) => (
             <div
-              className="cursor-pointer underline"
-              onClick={() => router.push("/store/rewe/storefront")}
+              key={product.id}
+              className="relative flex rounded-lg p-2 transition-shadow duration-300 hover:bg-gray-200"
             >
-              Alle Produkte sehen
+              <div className="flex-1">
+                <h1 className="truncate mt-2 ml-10 text-sm font-semibold text-black hover:text-green-700">
+                  {product.title}
+                </h1>
+              </div>
+              <div className="">
+                {meQuery?.data ? (
+                  <div>
+                    <ShoppingCartIcon
+                      onClick={() => {
+                        toast.succes;
+                        product && addToCart(product);
+                      }}
+                      className="h-3 w-3 mt-1"
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             </div>
+          ))}
+          <div
+            className="cursor-pointer underline"
+            onClick={() => router.push("/store/rewe/storefront")}
+          >
+            Alle Produkte sehen
           </div>
         </div>
       </ul>
