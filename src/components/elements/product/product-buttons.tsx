@@ -1,24 +1,31 @@
 import React from "react";
-import { toast } from "sonner";
-import { formatPrice } from "@/utils";
 import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, TrashIcon } from "lucide-react";
-import { RiFileList2Fill } from "react-icons/ri";
+import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 
 interface ActionButtonsProps {
   product: Product;
-  isInCart: boolean;
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (id: number) => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   product,
-  isInCart,
   addToCart,
   removeFromCart,
 }) => {
+  const { shoppingListQuery } = ShoppingListHook();
+  const [isInCart, setIsInCart] = React.useState(false);
+  const products = shoppingListQuery?.data?.map((product) => {
+    return product.productId;
+  });
+  const handleProduct = (product: string) => {
+    if (products?.includes(product)) {
+      setIsInCart(true);
+    }
+  };
+
   return (
     <div className="mt-3 flex items-center justify-between">
       <Button
@@ -30,7 +37,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         onClick={(e) => {
           e.stopPropagation();
           isInCart
-            ? removeFromCart(product.articleId as unknown as number)
+            ? removeFromCart(product?.productId as unknown as number)
             : addToCart(product, 1);
         }}
       >
@@ -42,7 +49,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         ) : (
           <div className="flex items-center">
             <PlusIcon className="h-4 w-4" />
-            <span className="ml-2">Hinzufügen</span>
+            <span
+              className="ml-2"
+              onClick={() => handleProduct(product?.productId)}
+            >
+              Hinzufügen
+            </span>
           </div>
         )}
       </Button>

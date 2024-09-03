@@ -4,6 +4,7 @@ import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { formatPrice } from "@/utils";
 import { CartStore } from "./CartStore";
+import { toast, Toaster } from "sonner";
 
 interface ShoppingListStore {
   shoppingList: Product[];
@@ -30,6 +31,7 @@ export const useShoppingListStore = create<ShoppingListStore>((set, get) => ({
   addToCart: async (item) => {
     const { productDetailsMutation } = StoreHook();
     const { addToCart } = CartStore();
+    toast.success("Product zum warenkorb hinzugefügt");
     const data = await productDetailsMutation.mutateAsync({
       productId: item.productId,
     } as any);

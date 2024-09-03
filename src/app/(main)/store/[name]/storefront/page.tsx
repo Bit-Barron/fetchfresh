@@ -8,6 +8,7 @@ import PaginationComponent from "@/components/elements/frontpage/product-paginat
 import { Attributes } from "@/types/product";
 import { useStorePage } from "@/components/elements/frontpage/front-page";
 import StorePageHeader from "@/components/elements/frontpage/front-page-header";
+import { Toaster } from "sonner";
 
 interface StorePageProps {
   params: { name: string };
@@ -42,6 +43,7 @@ export default function StorePage({ params }: StorePageProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Toaster richColors position="top-right"/>
       <div className="flex flex-1">
         <Sidebar
           categories={categoryQuery.data?.topLevelCategories || []}

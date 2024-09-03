@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { Trash2Icon } from "lucide-react";
@@ -8,14 +10,14 @@ interface ShoppingListItemProps {
   item: Product;
 }
 
-export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item }) => {
+const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item }) => {
   const { removeFromList, addToCart } = useShoppingListStore();
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
-      {item.imageURL ? (
+      {item?.imageURL ? (
         <Image
-          src={item.imageURL}
+          src={item?.imageURL}
           alt={item.name}
           width={200}
           height={200}
@@ -26,9 +28,9 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item }) => {
           <span className="text-gray-500">No Image</span>
         </div>
       )}
-      <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-      <p className="text-gray-600">{item.price}</p>
-      <p className="text-gray-600">{item.quantity} stk</p>
+      <h2 className="text-lg font-semibold text-gray-800">{item?.name}</h2>
+      <p className="text-gray-600">{item?.price}</p>
+      <p className="text-gray-600">{item?.quantity} stk</p>
 
       <button
         onClick={() => addToCart(item)}
@@ -45,3 +47,5 @@ export const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item }) => {
     </div>
   );
 };
+
+export default ShoppingListItem;
