@@ -19,6 +19,7 @@ export default function RegisterPage(props: RegisterPageProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const onSubmit = async (e: FormEvent) => {
     if (password !== confirmPassword) {
@@ -33,6 +34,7 @@ export default function RegisterPage(props: RegisterPageProps) {
       .mutateAsync({
         username,
         password,
+        email,
       })
       .then((user) => {
         user ? router.push("/dashboard") : setStatus(user);
@@ -40,7 +42,6 @@ export default function RegisterPage(props: RegisterPageProps) {
       })
       .catch((error) => {
         toast.error("Username existiert bereits");
-        // setStatus(JSON.stringify(error));
       });
   };
 
@@ -50,16 +51,16 @@ export default function RegisterPage(props: RegisterPageProps) {
       <div className="w-full max-w-md space-y-8">
         <div>
           <h2 className="text-foreground mt-6 text-center text-3xl font-bold tracking-tight">
-            Account Erstellen
+            Konto Erstellen
           </h2>
           <p className="text-muted-foreground mt-2 text-center text-sm">
-            Already have an account?
+            Sie haben bereits ein Konto?
             <Link
               href="/login"
               className="text-primary hover:text-primary/80 font-medium"
               prefetch={false}
             >
-              Sign in
+              Einloggen
             </Link>
           </p>
         </div>
@@ -75,10 +76,29 @@ export default function RegisterPage(props: RegisterPageProps) {
                 </Label>
                 <div className="mt-1">
                   <Input
-                    id="username"
+                    id="email"
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    required
+                    className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary block w-full rounded-md px-3 py-2 shadow-sm"
+                    placeholder="JohnDoe123@gmail.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label
+                  htmlFor="email"
+                  className="text-muted-foreground block text-sm font-medium"
+                >
+                  Email
+                </Label>
+                <div className="mt-1">
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary block w-full rounded-md px-3 py-2 shadow-sm"
                     placeholder="JohnDoe123"

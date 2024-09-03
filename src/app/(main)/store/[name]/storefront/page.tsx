@@ -40,7 +40,7 @@ export default function StorePage({ params }: StorePageProps) {
 
   useEffect(() => {
     if (params.name !== "rewe") {
-      router.push("/");
+      // router.push("/");
     } else {
       fetchProducts();
     }

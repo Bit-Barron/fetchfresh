@@ -18,6 +18,7 @@ export default function LoginPage(props: LoginPageProps) {
   const { loginMutation } = AuthHook();
   const [status, setStatus] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async (e: FormEvent) => {
@@ -25,6 +26,7 @@ export default function LoginPage(props: LoginPageProps) {
     loginMutation
       .mutateAsync({
         username,
+        email,
         password,
       })
       .then((user) => {
@@ -42,7 +44,7 @@ export default function LoginPage(props: LoginPageProps) {
       <div className="w-full max-w-md space-y-8">
         <div>
           <h2 className="text-foreground mt-6 text-center text-3xl font-bold tracking-tight">
-            Einloggennssssxjgh
+            Einloggen
           </h2>
         </div>
         <Card className="">
@@ -87,6 +89,9 @@ export default function LoginPage(props: LoginPageProps) {
                   />
                 </div>
               </div>
+              <Link href="/forgot-password" className="flex justify-end">
+                Passwort vergessen?
+              </Link>
               <div className="flex justify-between">
                 <Button type="submit" className="w-full bg-black text-white">
                   Login

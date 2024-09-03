@@ -17,8 +17,8 @@ export const authRoute = new Elysia({ prefix: "/auth" })
         data: {
           username: ctx.body.username.trim(),
           password: ctx.body.password.trim(),
+          email: ctx.body.email.trim(),
           role: "CUSTOMER",
-          
         },
       });
 
@@ -31,7 +31,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
       return "success";
     },
-    { body: authUser },
+    { body: authUser }
   )
   .post(
     "/login",
@@ -54,7 +54,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
       return "success";
     },
-    { body: authUser },
+    { body: authUser }
   )
   .get("/logout", (ctx) => {
     ctx.cookie[serverEnv.AUTH_COOKIE].set({
