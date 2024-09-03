@@ -7,16 +7,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePasswordReset } from "@/components/hooks/forgot-password-hook";
 import { useSearchParams, useRouter } from "next/navigation";
+import AuthStore from "@/store/AuthStore";
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [token, setToken] = useState("");
-
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [token, setToken] = useState<string>("");
   const searchParams = useSearchParams();
   const router = useRouter();
-
+  const { password, setPassword } = AuthStore();
   const { resetPassword } = usePasswordReset();
 
   useEffect(() => {

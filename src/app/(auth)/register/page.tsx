@@ -9,26 +9,29 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast, Toaster } from "sonner";
+import AuthStore from "@/store/AuthStore";
 
 interface RegisterPageProps {}
 
 export default function RegisterPage(props: RegisterPageProps) {
   const router = useRouter();
   const { registerMutation } = AuthHook();
-  const [status, setStatus] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const {
+    username,
+    setUsername,
+    status,
+    setStatus,
+    password,
+    setPassword,
+    setEmail,
+    email,
+  } = AuthStore();
 
   const onSubmit = async (e: FormEvent) => {
-    if (password !== confirmPassword) {
-      toast.error("");
-    }
     e.preventDefault();
     if (password !== confirmPassword) {
-      setStatus("Passwörter stimmen nicht über ein");
-      return;
+      toast.error("Passwörter stimmen nicht überein");
     }
     registerMutation
       .mutateAsync({

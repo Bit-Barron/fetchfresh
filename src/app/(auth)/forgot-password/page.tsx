@@ -6,31 +6,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePasswordReset } from "@/components/hooks/forgot-password-hook";
-import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const { requestPasswordReset } = usePasswordReset();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (!email) {
-      setError("Bitte geben Sie Ihre E-Mail-Adresse ein");
-      return;
-    }
-
+    if (!email) return;
     try {
       await requestPasswordReset.mutateAsync(email);
       setIsSubmitted(true);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Ein Fehler ist aufgetreten"
-      );
+      console.error(err);
     }
   };
 
@@ -85,7 +75,6 @@ export default function ForgotPassword() {
               />
             </div>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
           <div>
             <Button type="submit" className="w-full bg-black text-white">
               Passwort zurücksetzen

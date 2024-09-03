@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { OrderHook } from "@/components/hooks/order-hook";
@@ -9,6 +9,7 @@ import { UserHook } from "@/components/hooks/user-hook";
 import { formatPrice } from "@/utils";
 import OrderSummary from "@/components/elements/account/order-summary";
 import { CheckoutForm } from "@/components/elements/checkout/checkout-form";
+import { useCheckoutStore } from "@/store/CheckoutStore";
 
 interface CartItem {
   id: number;
@@ -19,51 +20,42 @@ interface CartItem {
 }
 
 export default function Checkout() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    address: "",
-    city: "",
-    zipCode: "",
-    email: "",
-    phoneNumber: "",
-  });
-  const [useSavedAddress, setUseSavedAddress] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const {
+    formData,
+    useSavedAddress,
+    isHydrated,
+    cart,
+    setFormData,
+    setUseSavedAddress,
+    setIsHydrated,
+    setCart,
+    resetFormData,
+    populateFormWithUserData,
+  } = useCheckoutStore();
 
   const { orderMutation } = OrderHook();
-  const { cart } = CartStore();
+  const { cart: cartFromCartStore } = CartStore();
   const { meQuery } = UserHook();
   const router = useRouter();
 
   useEffect(() => {
+    setCart(cartFromCartStore);
+  }, [cartFromCartStore, setCart]);
+
+  useEffect(() => {
     if (meQuery.data && useSavedAddress) {
-      setFormData({
-        firstName: meQuery.data.firstName || "",
-        lastName: meQuery.data.lastName || "",
-        address: meQuery.data.address || "",
-        city: meQuery.data.city || "",
-        zipCode: meQuery.data.zipCode || "",
-        phoneNumber: meQuery.data.phoneNumber || "",
-        email: meQuery.data.email || "",
-      });
+      populateFormWithUserData(meQuery.data);
     } else if (!useSavedAddress) {
-      setFormData({
-        firstName: "",
-        lastName: "",
-        address: "",
-        city: "",
-        zipCode: "",
-        phoneNumber: "",
-        email: "",
-      });
+      resetFormData();
     }
     setIsHydrated(true);
-  }, [meQuery.data, useSavedAddress]);
-
-  if (!isHydrated) {
-    return null;
-  }
+  }, [
+    meQuery.data,
+    useSavedAddress,
+    populateFormWithUserData,
+    resetFormData,
+    setIsHydrated,
+  ]);
 
   const calculateTotals = () => {
     const subtotal = cart.reduce(
@@ -82,20 +74,7 @@ export default function Checkout() {
     const calculatedTotalAmount = parseFloat(formatPrice(total));
 
     try {
-      await orderMutation.mutateAsync({
-        ...formData,
-        cart: cart.map((item: CartItem) => ({
-          productId: item.id,
-          quantity: item.quantity,
-          name: item.name,
-          image: item.image,
-          price: item.price,
-        })),
-        orderId: "",
-        status: "PENDING",
-        totalAmount: calculatedTotalAmount,
-      });
-
+      await placeOrder(calculatedTotalAmount);
       router.push("/store/account/orders");
       toast.success("Bestellung erfolgreich aufgegeben");
     } catch (error) {
@@ -103,6 +82,26 @@ export default function Checkout() {
       console.error("Fehler bei der Bestellung:", error);
     }
   };
+
+  const placeOrder = async (totalAmount: number) => {
+    return orderMutation.mutateAsync({
+      ...formData,
+      cart: cart.map((item: CartItem) => ({
+        productId: item.id,
+        quantity: item.quantity,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+      })),
+      orderId: "",
+      status: "PENDING",
+      totalAmount,
+    });
+  };
+
+  if (!isHydrated) {
+    return null;
+  }
 
   const totals = calculateTotals();
 
@@ -116,9 +115,9 @@ export default function Checkout() {
         <main className="grid flex-1 grid-cols-1 gap-8 p-8 md:grid-cols-[3fr_1fr]">
           <CheckoutForm
             formData={formData}
-            setFormData={setFormData}
+            setFormData={setFormData as any}
             useSavedAddress={useSavedAddress}
-            setUseSavedAddress={setUseSavedAddress}
+            setUseSavedAddress={setUseSavedAddress as any}
           />
           <OrderSummary cart={cart} totals={totals} orderCount={0} />
         </main>

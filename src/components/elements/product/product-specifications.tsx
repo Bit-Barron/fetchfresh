@@ -8,7 +8,7 @@ interface ProductAttributes {
   isDairyFree?: boolean;
   isGlutenFree?: boolean;
   isRegional?: boolean;
-  [key: string]: boolean | undefined; // Index signature to handle dynamic keys
+  [key: string]: boolean | undefined;
 }
 
 interface ProductSpecificationsProps {
@@ -20,7 +20,6 @@ interface ProductSpecificationsProps {
 const ProductSpecifications: React.FC<ProductSpecificationsProps> = ({
   product,
 }) => {
-  // Safe access to attributes
   const attributes = product.attributes || {};
 
   return (

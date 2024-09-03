@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import Sidebar from "@/components/elements/sidebar/sidebar";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
-import { ComboboxSelects } from "@/components/elements/combobox-selects";
 import ProductList from "@/components/elements/frontpage/product-list";
 import PaginationComponent from "@/components/elements/frontpage/product-pagination";
 import { Attributes } from "@/types/product";
@@ -87,5 +85,3 @@ export default function StorePage({ params }: StorePageProps) {
     </div>
   );
 }
-
-// The useStorePage hook remains the same as in the previous version

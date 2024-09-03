@@ -4,7 +4,6 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationPrevious,
-  PaginationLink,
   PaginationNext,
 } from "@/components/ui/pagination";
 
@@ -16,7 +15,6 @@ interface PaginationComponentProps {
 
 const PaginationComponent: React.FC<PaginationComponentProps> = ({
   currentPage,
-  totalPages,
   onPageChange,
 }) => {
   return (

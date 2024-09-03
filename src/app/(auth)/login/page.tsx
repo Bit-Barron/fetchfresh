@@ -9,15 +9,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast, Toaster } from "sonner";
+import AuthStore from "@/store/AuthStore";
 
 interface LoginPageProps {}
 
 export default function LoginPage(props: LoginPageProps) {
   const router = useRouter();
   const { loginMutation } = AuthHook();
-  const [status, setStatus] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { username, setUsername, status, setStatus, password, setPassword } =
+    AuthStore();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();

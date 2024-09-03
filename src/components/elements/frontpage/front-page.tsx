@@ -18,7 +18,7 @@ export function useStorePage(params: { name: string }) {
     setSelectedCategory,
   } = useFilterSortStore();
   const { products, setProducts } = useProductStore();
-  const { addToCart, isInCart, removeItemFromCart } = CartStore();
+  const { isInCart, removeItemFromCart } = CartStore();
   const { productMutation, categoryQuery } = StoreHook();
   const { addToListMutation } = ShoppingListHook();
   const [page, setPage] = useState(1);
