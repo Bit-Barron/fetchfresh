@@ -35,6 +35,7 @@ import {
 import { Card } from "../ui/card";
 import { MutableRequestCookiesAdapter } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import MarketDrawer from "./markte-drawer";
+import MarketMapDrawer from "./markte-drawer";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -211,7 +212,7 @@ export default function Searchbar({
           >
             Markt auswählen
           </Button>
-          <MarketDrawer
+          <MarketMapDrawer
             isOpen={drawerOpen}
             onClose={() => setDrawerOpen(false)}
             pickupMarkets={pickupMarkets}

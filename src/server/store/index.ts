@@ -20,8 +20,6 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const query = ctx.body?.query || "";
       const attributes = ctx.body?.attributes || "";
 
-      console.log(page);
-
       const resp = await axios.get("http://127.0.0.1:8000/api/products", {
         params: {
           categorySlug,

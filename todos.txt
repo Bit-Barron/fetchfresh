@@ -1,3 +1,2 @@
-markt auswahl funktionalität
 password reset
-preis alarm
+Stripe
