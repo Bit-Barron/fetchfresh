@@ -120,7 +120,7 @@ export default function Checkout() {
             useSavedAddress={useSavedAddress}
             setUseSavedAddress={setUseSavedAddress}
           />
-          <OrderSummary cart={cart} totals={totals} />
+          <OrderSummary cart={cart} totals={totals} orderCount={0} />
         </main>
       </form>
     </div>
