@@ -1,17 +1,17 @@
-import React from "react";
+import { Attributes } from "react";
 import { ComboboxSelects } from "../combobox-selects";
 
 interface StorePageHeaderProps {
   selectedCategory: string;
   sorting: string;
-  filterAttribute: string;
+  filterAttribute: any;
   productsPerPage: string;
   setSorting: (sorting: string) => void;
-  setFilterAttribute: (attr: string) => void;
+  setFilterAttribute: (attr: any) => void;
   setProductsPerPage: (perPage: string) => void;
   products: any[];
-  attributeFilter: string;
-  setAttributeFilter: (attr: string | null) => void;
+  attributeFilter: any;
+  setAttributeFilter: (attr: any) => void;
 }
 
 function StorePageHeader({
@@ -33,14 +33,14 @@ function StorePageHeader({
       </h2>
       <ComboboxSelects
         sorting={sorting}
-        filterAttribute={filterAttribute}
+        filterAttribute={filterAttribute as string}
         productsPerPage={productsPerPage}
         setSorting={setSorting}
+        setFilterAttribute={setFilterAttribute}
         setProductsPerPage={setProductsPerPage}
         products={products}
-        attributeFilter={attributeFilter}
-        setFilterAttribute={setFilterAttribute as any}
-        setAttributeFilter={setAttributeFilter as any}
+        attributeFilter={attributeFilter as string}
+        setAttributeFilter={setAttributeFilter}
       />
     </div>
   );

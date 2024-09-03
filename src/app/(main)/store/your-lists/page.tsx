@@ -5,10 +5,8 @@ import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Trash2Icon } from "lucide-react";
-import { ShoppingListItem } from "@/types/shoppinglist";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { formatPrice } from "@/utils";
-import { CartItem } from "@/types";
 import { CartStore } from "@/store/CartStore";
 import { Product } from "@/types/product";
 
@@ -80,9 +78,7 @@ const Page: React.FC<PageProps> = ({}) => {
                 </h2>
                 {item.price}
                 <p className="text-gray-600">{item.quantity} stk</p>
-                <p className="text-gray-500 text-sm mt-2">
-                  Hinzugefügt am: {/* {new Date).toLocaleDateString()} */}
-                </p>
+
                 <button onClick={() => handleCartItem(item, item.productId)}>
                   Hinzufügen
                 </button>

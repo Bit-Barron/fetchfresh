@@ -9,6 +9,7 @@ import ProductList from "@/components/elements/frontpage/product-list";
 import PaginationComponent from "@/components/elements/frontpage/product-pagination";
 import { Attributes } from "@/types/product";
 import { useStorePage } from "@/components/elements/frontpage/front-page";
+import StorePageHeader from "@/components/elements/frontpage/front-page-header";
 
 interface StorePageProps {
   params: { name: string };
@@ -21,7 +22,6 @@ export default function StorePage({ params }: StorePageProps) {
     filterAttribute,
     setSorting,
     setFilterAttribute,
-    setSelectedCategory,
     products,
     isInCart,
     removeItemFromCart,
@@ -39,8 +39,6 @@ export default function StorePage({ params }: StorePageProps) {
   } = useStorePage(params);
 
   if (params.name !== "rewe") {
-    // Consider using Next.js routing here instead of imperative navigation
-    // router.push("/");
     return null;
   }
 
@@ -60,7 +58,7 @@ export default function StorePage({ params }: StorePageProps) {
             <StorePageHeader
               selectedCategory={selectedCategory}
               sorting={sorting}
-              filterAttribute={filterAttribute}
+              filterAttribute={filterAttribute as keyof Attributes}
               productsPerPage={productsPerPage}
               setSorting={setSorting}
               setFilterAttribute={setFilterAttribute}
@@ -85,51 +83,6 @@ export default function StorePage({ params }: StorePageProps) {
         currentPage={page}
         totalPages={totalPages}
         onPageChange={setPage}
-      />
-    </div>
-  );
-}
-
-interface StorePageHeaderProps {
-  selectedCategory: string;
-  sorting: string;
-  filterAttribute: keyof Attributes | null;
-  productsPerPage: string;
-  setSorting: (sorting: string) => void;
-  setFilterAttribute: (attr: keyof Attributes | null) => void;
-  setProductsPerPage: (perPage: string) => void;
-  products: any[];
-  attributeFilter: keyof Attributes | null;
-  setAttributeFilter: (attr: keyof Attributes | null) => void;
-}
-
-function StorePageHeader({
-  selectedCategory,
-  sorting,
-  filterAttribute,
-  productsPerPage,
-  setSorting,
-  setFilterAttribute,
-  setProductsPerPage,
-  products,
-  attributeFilter,
-  setAttributeFilter,
-}: StorePageHeaderProps) {
-  return (
-    <div className="md:flex md:justify-between">
-      <h2 className="mb-5 text-2xl font-bold">
-        {selectedCategory || "Meistverkaufte Artikel"}
-      </h2>
-      <ComboboxSelects
-        sorting={sorting}
-        filterAttribute={filterAttribute as string}
-        productsPerPage={productsPerPage}
-        setSorting={setSorting}
-        setFilterAttribute={setFilterAttribute}
-        setProductsPerPage={setProductsPerPage}
-        products={products}
-        attributeFilter={attributeFilter as string}
-        setAttributeFilter={setAttributeFilter}
       />
     </div>
   );

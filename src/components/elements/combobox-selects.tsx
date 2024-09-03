@@ -31,8 +31,8 @@ interface ComboboxSelectsProps {
   attributeFilter: string | null;
   productsPerPage: string;
   setSorting: (value: string) => void;
-  setFilterAttribute: (value: keyof Product["attributes"] | null) => void;
-  setAttributeFilter: (value: keyof Product["attributes"] | null) => void;
+  setFilterAttribute: (value: any) => void;
+  setAttributeFilter: (value: any) => void;
   setProductsPerPage: (value: string) => void;
   products: Product[];
 }
