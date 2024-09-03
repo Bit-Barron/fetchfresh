@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, ShoppingCartIcon, MenuIcon } from "lucide-react";
-import DashboardSidebar from "./dashboardsidebar";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,11 +15,12 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Product } from "@/types/product";
-import { useProductStore } from "../../store/ProductStore";
-import { CartStore } from "../../store/CartStore";
 import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
-import MarketMapDrawer from "./market-drawer";
+import { useProductStore } from "@/store/ProductStore";
+import { CartStore } from "@/store/CartStore";
+import MarketMapDrawer from "../market-drawer";
+import DashboardSidebar from "../dashboardsidebar";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -106,46 +106,6 @@ export default function Searchbar({
   const renderMenuContent = () => (
     <NavigationMenuContent className="w-full md:w-[1800px] md:flex-row bg-white shadow-lg sm:max-w-lg md:max-w-[1900px]">
       <ul className="grid gap-3 p-3">
-        {/* <li className="flex flex-col justify-between md:w-[1800px] md:flex-row">
-          {categoryQuery.data?.topLevelCategories && (
-            <ul className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {categoryQuery.data.topLevelCategories
-                .slice(1, 7)
-                .map((category: Category) => (
-                  <li key={category.id} className="p-2">
-                    <Link href={`/store/category/${category.slug}`}>
-                      <div className="flex items-center gap-2">
-                        <Image
-                          height={100}
-                          width={100}
-                          src={category.imageUrl}
-                          alt={category.name}
-                          className="h-6 w-6 rounded sm:h-8 sm:w-8 lg:h-10 lg:w-10"
-                        />
-                        <span className="text-sm sm:text-base lg:text-lg">
-                          {category.name}
-                        </span>
-                      </div>
-                    </Link>
-                    {category.childCategories && (
-                      <ul className="mt-2 flex flex-wrap gap-1">
-                        {category.childCategories
-                          .slice(1, 5)
-                          .map((subCategory: { name: string; id: string }) => (
-                            <li
-                              key={subCategory.id}
-                              className="flex items-center gap-1 rounded-full border p-1 text-xs sm:text-sm lg:text-base"
-                            >
-                              {subCategory.name}
-                            </li>
-                          ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-            </ul>
-          )}
-        </li> */}
         <div className="mt-2">
           {filteredProducts.slice(0, 11).map((product) => (
             <div
