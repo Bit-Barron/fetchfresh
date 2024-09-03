@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { serverEnv } from "@/utils/env/server";
 
 interface EmailOptions {
   to: string;
@@ -10,10 +9,10 @@ interface EmailOptions {
 
 export async function sendEmail({ to, subject, text, html }: EmailOptions) {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: `${process.env.NEXT_PUBLIC_SMTP_HOST}`,
     auth: {
-      user: "lolha6773@gmail.com",
-      pass: "pdaevixqohhzzntc",
+      user: `${process.env.NEXT_PUBLIC_SMTP_USER}`,
+      pass: `${process.env.NEXT_PUBLIC_SMTP_PASS}`,
     },
   });
 
@@ -24,8 +23,6 @@ export async function sendEmail({ to, subject, text, html }: EmailOptions) {
     text,
     html: html || text,
   });
-
-  console.log("Message sent: %s", info.messageId);
 
   return info;
 }
