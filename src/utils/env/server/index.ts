@@ -5,8 +5,9 @@ import { Type as t } from "@sinclair/typebox/type";
 const serverEnvSchema = t.Object({
   DATABASE_URL: t.String({ minLength: 1, error: "DATABASE_URL not set!" }),
   SECRET: t.String({ minLength: 1, error: "SECRET not set!" }),
-  NODE_ENV: t.Union([t.Literal("development"), t.Literal("production")], 
-    { error: "NODE_ENV not set!" }),
+  NODE_ENV: t.Union([t.Literal("development"), t.Literal("production")], {
+    error: "NODE_ENV not set!",
+  }),
   AUTH_COOKIE: t.Literal("auth", { error: "AUTH_COOKIE not set!" }),
   SERVER_URL_KEY: t.Literal("x-url", { error: "SERVER_URL not set!" }),
   SEVEN_DAYS: t.Integer({ minimum: 1, error: "SEVEN_DAYS not set!" }),

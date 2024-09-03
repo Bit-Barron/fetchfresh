@@ -24,7 +24,9 @@ export default function ResetPassword() {
     if (queryToken) {
       setToken(queryToken);
     } else {
-      setError("No reset token found. Please request a new password reset.");
+      setError(
+        "Kein Zurücksetzungs-Token gefunden. Bitte fordern Sie eine neue Passwort-Zurücksetzung an."
+      );
     }
   }, [searchParams]);
 
@@ -33,12 +35,12 @@ export default function ResetPassword() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords don't match");
+      setError("Passwörter stimmen nicht überein");
       return;
     }
 
     if (!token) {
-      setError("Invalid reset token");
+      setError("Ungültiger Zurücksetzungs-Token");
       return;
     }
 
@@ -46,23 +48,27 @@ export default function ResetPassword() {
       await resetPassword.mutateAsync({ token, newPassword: password });
       router.push("/login?reset=success");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(
+        err instanceof Error ? err.message : "Ein Fehler ist aufgetreten"
+      );
     }
   };
 
   if (resetPassword.isSuccess) {
     return (
       <div className="text-center">
-        <h1 className="text-3xl font-bold">Password Reset Successful</h1>
+        <h1 className="text-3xl font-bold">
+          Passwort-Zurücksetzung erfolgreich
+        </h1>
         <p className="mt-2">
-          Your password has been reset. You can now log in with your new
-          password.
+          Ihr Passwort wurde zurückgesetzt. Sie können sich jetzt mit Ihrem
+          neuen Passwort anmelden.
         </p>
         <Link
           href="/login"
           className="mt-4 inline-block text-primary hover:underline"
         >
-          Go to Login
+          Zur Anmeldung
         </Link>
       </div>
     );
@@ -73,10 +79,10 @@ export default function ResetPassword() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Reset Password
+            Passwort zurücksetzen
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Please enter your new password.
+            Bitte geben Sie Ihr neues Passwort ein.
           </p>
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -85,7 +91,7 @@ export default function ResetPassword() {
               htmlFor="password"
               className="block text-sm font-medium text-foreground"
             >
-              New Password
+              Neues Passwort
             </Label>
             <div className="mt-1">
               <Input
@@ -104,7 +110,7 @@ export default function ResetPassword() {
               htmlFor="confirmPassword"
               className="block text-sm font-medium text-foreground"
             >
-              Confirm New Password
+              Neues Passwort bestätigen
             </Label>
             <div className="mt-1">
               <Input
@@ -121,7 +127,7 @@ export default function ResetPassword() {
           {error && <p className="text-red-500">{error}</p>}
           <div>
             <Button type="submit" className="w-full bg-black text-white">
-              Reset Password
+              Passwort zurücksetzen
             </Button>
           </div>
           <div className="text-center">
@@ -130,7 +136,7 @@ export default function ResetPassword() {
               className="text-sm font-medium text-primary hover:underline"
               prefetch={false}
             >
-              Back to Login
+              Zurück zur Anmeldung
             </Link>
           </div>
         </form>

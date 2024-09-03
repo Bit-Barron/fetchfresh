@@ -1,10 +1,12 @@
 import Elysia from "elysia";
 import axios from "axios";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+
 export const storeRoute = new Elysia({ prefix: "/store" })
   .get("/categories", async (ctx: any) => {
     try {
-      const resp = await axios.get("http://127.0.0.1:8000/api/categories");
+      const resp = await axios.get(`${API_URL}/categories`);
       return resp.data;
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -20,7 +22,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const query = ctx.body?.query || "";
       const attributes = ctx.body?.attributes || "";
 
-      const resp = await axios.get("http://127.0.0.1:8000/api/products", {
+      const resp = await axios.get(`${API_URL}/products`, {
         params: {
           categorySlug,
           page,
@@ -40,9 +42,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
   .post("/product-details", async (ctx: any) => {
     try {
       const productId = ctx.body?.productId;
-      const resp = await axios.get(
-        `http://127.0.0.1:8000/api/product/${productId}`
-      );
+      const resp = await axios.get(`${API_URL}/product/${productId}`);
       return resp.data.data;
     } catch (error) {
       console.error(error);
@@ -52,14 +52,11 @@ export const storeRoute = new Elysia({ prefix: "/store" })
     try {
       const query = ctx.body?.query || "";
       const page = ctx.body?.page || 1;
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/grocerysearch/${query}`,
-        {
-          params: {
-            page,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/grocerysearch/${query}`, {
+        params: {
+          page,
+        },
+      });
 
       return response.data;
     } catch (error) {

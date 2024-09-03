@@ -41,7 +41,7 @@ export default function RegisterPage(props: RegisterPageProps) {
         toast.success("Erfolgreich Account erstellt.");
       })
       .catch((error) => {
-        toast.error("Username existiert bereits");
+        toast.error("Username oder Email existiert bereits");
       });
   };
 

@@ -13,7 +13,7 @@ export const passwordResetRoute = new Elysia({ prefix: "/password-reset" })
     }
 
     const resetToken = await encrypt({ userId: user.id });
-    const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password?token=${resetToken}`;
 
     await prisma.user.update({
       where: { id: user.id },
@@ -23,7 +23,7 @@ export const passwordResetRoute = new Elysia({ prefix: "/password-reset" })
       },
     });
 
-    const test = await sendEmail({
+    await sendEmail({
       to: email,
       subject: "Password Reset Request",
       text: `Please use the following link to reset your password: ${resetUrl}`,

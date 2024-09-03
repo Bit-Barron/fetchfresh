@@ -1,7 +1,6 @@
 "use client";
 
 import { AuthHook } from "@/components/hooks/auth-hook";
-import { authUser } from "@/server/auth/typebox";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -18,7 +17,6 @@ export default function LoginPage(props: LoginPageProps) {
   const { loginMutation } = AuthHook();
   const [status, setStatus] = useState("");
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async (e: FormEvent) => {
@@ -26,12 +24,10 @@ export default function LoginPage(props: LoginPageProps) {
     loginMutation
       .mutateAsync({
         username,
-        email,
         password,
       })
       .then((user) => {
-        user ? router.push("/dashboard") : setStatus(user);
-        toast.success("Erfolgreich eingeloggt.");
+        user ? router.push("/dashboard") : setStatus(user as any);
       })
       .catch((error) => {
         toast.error("Fehler beim einloggen");
@@ -62,7 +58,6 @@ export default function LoginPage(props: LoginPageProps) {
                     id="username"
                     type="text"
                     value={username}
-                    minLength={authUser.properties.username.minLength}
                     onChange={(e) => setUsername(e.target.value)}
                     required
                     className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary block w-full rounded-md px-3 py-2 shadow-sm"

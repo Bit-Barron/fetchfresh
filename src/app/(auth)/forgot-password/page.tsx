@@ -13,8 +13,6 @@ export default function ForgotPassword() {
   const [error, setError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const router = useRouter();
-
   const { requestPasswordReset } = usePasswordReset();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,7 +20,7 @@ export default function ForgotPassword() {
     setError("");
 
     if (!email) {
-      setError("Please enter your email address");
+      setError("Bitte geben Sie Ihre E-Mail-Adresse ein");
       return;
     }
 
@@ -30,23 +28,25 @@ export default function ForgotPassword() {
       await requestPasswordReset.mutateAsync(email);
       setIsSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(
+        err instanceof Error ? err.message : "Ein Fehler ist aufgetreten"
+      );
     }
   };
 
   if (isSubmitted) {
     return (
       <div className="text-center">
-        <h1 className="text-3xl font-bold">Check Your Email</h1>
+        <h1 className="text-3xl font-bold">Überprüfen Sie Ihre E-Mails</h1>
         <p className="mt-2">
-          If an account exists for {email}, we have sent password reset
-          instructions to it.
+          Falls ein Konto für {email} existiert, haben wir Anweisungen zum
+          Zurücksetzen des Passworts dorthin gesendet.
         </p>
         <Link
           href="/login"
           className="mt-4 inline-block text-primary hover:underline"
         >
-          Return to Login
+          Zurück zur Anmeldung
         </Link>
       </div>
     );
@@ -57,11 +57,11 @@ export default function ForgotPassword() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Forgot Password
+            Passwort vergessen
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Enter your email address and we'll send you a link to reset your
-            password.
+            Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link
+            zum Zurücksetzen Ihres Passworts.
           </p>
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -70,7 +70,7 @@ export default function ForgotPassword() {
               htmlFor="email"
               className="block text-sm font-medium text-foreground"
             >
-              Email Address
+              E-Mail-Adresse
             </Label>
             <div className="mt-1">
               <Input
@@ -88,7 +88,7 @@ export default function ForgotPassword() {
           {error && <p className="text-red-500">{error}</p>}
           <div>
             <Button type="submit" className="w-full bg-black text-white">
-              asd
+              Passwort zurücksetzen
             </Button>
           </div>
           <div className="text-center">
@@ -97,7 +97,7 @@ export default function ForgotPassword() {
               className="text-sm font-medium text-primary hover:underline"
               prefetch={false}
             >
-              Back to Login
+              Zurück zur Anmeldung
             </Link>
           </div>
         </form>

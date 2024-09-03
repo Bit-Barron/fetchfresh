@@ -2,7 +2,7 @@ import { encrypt } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 import { serverEnv } from "@/utils/env/server";
 import { Elysia } from "elysia";
-import { authUser } from "./typebox";
+import { loginUser, registerUser } from "./typebox";
 
 export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
@@ -31,30 +31,33 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
       return "success";
     },
-    { body: authUser }
+    { body: registerUser }
   )
   .post(
     "/login",
     async (ctx) => {
-      const user = await prisma.user.findFirst({
-        where: {
-          username: ctx.body.username.trim(),
-          password: ctx.body.password.trim(),
-        },
-      });
+      try {
+        const user = await prisma.user.findFirst({
+          where: {
+            username: ctx.body.username.trim(),
+            password: ctx.body.password.trim(),
+          },
+        });
 
-      if (!user) throw new Error("User not found");
+        if (!user) throw new Error("User not found");
 
-      ctx.cookie[serverEnv.AUTH_COOKIE].set({
-        value: await encrypt(user),
-        path: "/",
-        httpOnly: true,
-        maxAge: serverEnv.SEVEN_DAYS,
-      });
-
-      return "success";
+        ctx.cookie[serverEnv.AUTH_COOKIE].set({
+          value: await encrypt(user),
+          path: "/",
+          httpOnly: true,
+          maxAge: serverEnv.SEVEN_DAYS,
+        });
+        return "success";
+      } catch (error) {
+        console.error(error);
+      }
     },
-    { body: authUser }
+    { body: loginUser }
   )
   .get("/logout", (ctx) => {
     ctx.cookie[serverEnv.AUTH_COOKIE].set({
