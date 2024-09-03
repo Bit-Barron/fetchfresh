@@ -162,7 +162,7 @@ export default function Searchbar({
                   <div>
                     <ShoppingCartIcon
                       onClick={() => {
-                        toast.succes;
+                        toast.success("Erfolgreich zum warenkorb hinzugefügt");
                         product && addToCart(product);
                       }}
                       className="h-3 w-3 mt-1"
@@ -175,7 +175,7 @@ export default function Searchbar({
             </div>
           ))}
           <div
-            className="cursor-pointer underline"
+            className="cursor-pointer underline ml-10"
             onClick={() => router.push("/store/rewe/storefront")}
           >
             Alle Produkte sehen

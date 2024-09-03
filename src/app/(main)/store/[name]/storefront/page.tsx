@@ -16,6 +16,8 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
   PaginationNext,
 } from "@/components/ui/pagination";
 
