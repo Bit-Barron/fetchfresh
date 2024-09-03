@@ -44,9 +44,9 @@ export default function MainLayout(props: MainLayoutProps) {
         <CartDialog
           cart={cart}
           onClose={() => setShowCart(false)}
-          onRemoveItem={removeItemFromCart}
-          onUpdateItemQuantity={updateItemQuantity}
           calculateTotal={calculateTotal}
+          onRemoveItem={removeItemFromCart as any}
+          onUpdateItemQuantity={updateItemQuantity as any}
         />
       )}
       {showMenu && <MenuDialog onClose={() => setShowMenu(false)} />}

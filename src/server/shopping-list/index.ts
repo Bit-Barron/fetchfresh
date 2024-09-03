@@ -107,7 +107,6 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
             price,
           },
         });
-        return newItem;
       }
     },
     { body: ShoppingListItemSchema }
