@@ -23,6 +23,7 @@ model User {
   resetToken        String?
   resetTokenExpires DateTime?
   ShoppingListItem ShoppingListItem[]
+
 }
 
 model Order {
@@ -52,6 +53,17 @@ model ShoppingListItem {
   name           String
   quantity       Int
   imageURL       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  price         Int?
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Int
+  image       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

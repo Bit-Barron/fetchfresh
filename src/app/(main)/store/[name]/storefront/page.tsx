@@ -6,12 +6,13 @@ import Sidebar from "@/components/elements/sidebar/sidebar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../../../store/ProductStore";
 import { CartStore } from "../../../../../store/CartStore";
-import { Attributes } from "@/types/product";
+import { Attributes, Product } from "@/types/product";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { useFilterSortStore } from "@/store/FilterStore";
 import { ComboboxSelects } from "@/components/elements/combobox-selects";
 import ProductList from "@/components/elements/frontpage/product-list";
 import PaginationComponent from "@/components/elements/frontpage/product-pagination";
+import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 
 interface StorePageProps {
   params: { name: string };
@@ -29,7 +30,7 @@ export default function StorePage({ params }: StorePageProps) {
   const { products, setProducts } = useProductStore();
   const { addToCart, isInCart, removeItemFromCart } = CartStore();
   const { productMutation, categoryQuery } = StoreHook();
-  const router = useRouter();
+  const { addToListMutation } = ShoppingListHook();
   const [page, setPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState("20");
   const [attributeFilter, setAttributeFilter] = useState<
@@ -99,6 +100,16 @@ export default function StorePage({ params }: StorePageProps) {
     setPage(1);
   };
 
+  const addToCartHandler = (product: Product) => {
+    addToListMutation.mutateAsync({
+      productId: product.productId,
+      quantity: 1,
+      imageURL: product.imageURL,
+      name: product.title,
+      price: product.listing.currentRetailPrice,
+    });
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex flex-1">
@@ -136,7 +147,7 @@ export default function StorePage({ params }: StorePageProps) {
               filterAttribute={filterAttribute}
               attributeFilter={attributeFilter}
               isInCart={isInCart}
-              addToCart={addToCart}
+              addToCart={addToCartHandler}
               removeFromCart={removeItemFromCart}
             />
           </section>

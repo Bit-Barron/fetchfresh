@@ -69,4 +69,46 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       return shoppingList;
     },
     { body: DeleteItemSchema }
+  )
+  .post(
+    "/add-to-list",
+    async (ctx: any) => {
+      const user = await decrypt<User>(
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+      );
+
+      if (!user || !user?.id) {
+        throw new Error("User not authenticated");
+      }
+
+      const { productId, name, price, quantity, imageURL } = ctx.body;
+
+      const existingItem = await prisma.shoppingListItem.findFirst({
+        where: {
+          userId: user.id,
+          productId: productId,
+        },
+      });
+
+      if (existingItem) {
+        const updatedItem = await prisma.shoppingListItem.update({
+          where: { id: existingItem.id },
+          data: { quantity: existingItem.quantity + quantity },
+        });
+        return updatedItem;
+      } else {
+        const newItem = await prisma.shoppingListItem.create({
+          data: {
+            userId: user.id,
+            productId: productId,
+            name,
+            quantity,
+            imageURL,
+            price,
+          },
+        });
+        return newItem;
+      }
+    },
+    { body: ShoppingListItemSchema }
   );

@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import prisma from "@/lib/prisma";
-import { sendEmail } from "@/lib/email";
+import { sendEmail } from "@/lib/helper/email";
 import { encrypt, decrypt } from "@/lib/jwt";
 
 export const passwordResetRoute = new Elysia({ prefix: "/password-reset" })

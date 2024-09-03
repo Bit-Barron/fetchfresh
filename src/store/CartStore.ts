@@ -29,23 +29,21 @@ export const CartStore = create<CartState>()(
         set(
           produce((state: CartState) => {
             state.cart = cart;
-          })
+          }),
         ),
 
       addToCart: (product: Product) =>
         set(
           produce((state: CartState) => {
             const existingItemIndex = state.cart.findIndex(
-              (item) => item.id === (product.articleId as unknown as number)
+              (item) => item.id === (product.articleId as unknown as number),
             );
 
             const price = product.listing?.currentRetailPrice || 0;
 
             if (existingItemIndex > -1) {
-              // If the product already exists in the cart, increment its quantity
               state.cart[existingItemIndex].quantity += 1;
             } else {
-              // If the product doesn't exist in the cart, add it as a new item
               state.cart.push({
                 id: product.articleId as unknown as number,
                 image: product.imageURL,
@@ -54,14 +52,14 @@ export const CartStore = create<CartState>()(
                 quantity: 1,
               });
             }
-          })
+          }),
         ),
 
       removeItemFromCart: (id: number) =>
         set(
           produce((state: CartState) => {
             state.cart = state.cart.filter((item) => item.id !== id);
-          })
+          }),
         ),
 
       updateItemQuantity: (id: number, amount: number) =>
@@ -71,14 +69,14 @@ export const CartStore = create<CartState>()(
             if (item) {
               item.quantity = Math.max(item.quantity + amount, 1);
             }
-          })
+          }),
         ),
 
       calculateTotal: () => {
         const cart = get().cart;
         const total = cart.reduce(
           (total, item) => total + item.price * item.quantity,
-          0
+          0,
         );
         return total.toFixed(2);
       },
@@ -91,6 +89,6 @@ export const CartStore = create<CartState>()(
     {
       name: "cart-storage",
       getStorage: () => localStorage,
-    }
-  )
+    },
+  ),
 );
