@@ -45,7 +45,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const resp = await axios.get(`${API_URL}/product/${productId}`);
       return resp.data.data;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   })
   .post("/grocerysearch", async (ctx: any) => {

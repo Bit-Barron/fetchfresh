@@ -40,8 +40,6 @@ export const userRoute = new Elysia({ prefix: "/user" })
         zipCode,
       } = ctx.body;
 
-      console.log("User data:", ctx.body);
-
       if (!user.id || !username) throw new Error("Missing required fields");
 
       try {
