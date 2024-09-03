@@ -19,13 +19,22 @@ interface Totals {
 interface OrderSummaryProps {
   cart: CartItem[];
   totals: Totals;
+  orderCount: number;
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ cart, totals }) => {
+const OrderSummary: React.FC<OrderSummaryProps> = ({
+  cart,
+  totals,
+  orderCount,
+}) => {
   return (
     <div className="bg-background rounded-lg p-8 shadow-lg">
       <h2 className="mb-4 text-xl font-bold">Bestellübersicht</h2>
       <div className="grid gap-4">
+        <div className="flex items-center justify-between">
+          <span>Anzahl der Bestellungen</span>
+          <span>{orderCount}</span>
+        </div>
         <div className="flex items-center justify-between">
           <span>Zwischensumme</span>
           <span>{formatPrice(totals.subtotal)}</span>

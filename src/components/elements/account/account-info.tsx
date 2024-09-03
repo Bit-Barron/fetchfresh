@@ -38,9 +38,11 @@ const AccountInfoForm: React.FC<AccountInfoFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onUpdate(formData);
+    onUpdate({
+      ...formData,
+      username: formData.username || user?.username || "",
+    });
   };
-
   return (
     <Card>
       <CardHeader>

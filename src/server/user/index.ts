@@ -8,7 +8,7 @@ import { UpdateUserSchema } from "./typebox";
 export const userRoute = new Elysia({ prefix: "/user" })
   .get("/me", async (ctx) => {
     const user = await decrypt<User>(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
 
     if (!user) throw new Error("User not found");
@@ -23,7 +23,7 @@ export const userRoute = new Elysia({ prefix: "/user" })
     "/update",
     async (ctx) => {
       const user = await decrypt<User>(
-        ctx.cookie[serverEnv.AUTH_COOKIE].value as string,
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
       );
 
       if (!user) throw new Error("User not found");
@@ -39,6 +39,8 @@ export const userRoute = new Elysia({ prefix: "/user" })
         email,
         zipCode,
       } = ctx.body;
+
+      console.log("User data:", ctx.body);
 
       if (!user.id || !username) throw new Error("Missing required fields");
 
@@ -60,8 +62,7 @@ export const userRoute = new Elysia({ prefix: "/user" })
         return updatedUser;
       } catch (error) {
         console.error("Update error:", error);
-        throw new Error("Update failed");
       }
     },
-    { body: UpdateUserSchema },
+    { body: UpdateUserSchema }
   );

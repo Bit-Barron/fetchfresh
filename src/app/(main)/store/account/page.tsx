@@ -1,5 +1,3 @@
-// pages/Account.tsx
-
 "use client";
 
 import React from "react";
@@ -22,11 +20,15 @@ const Account: React.FC = () => {
   const { getOrderQuery } = OrderHook();
   const orderCount = getOrderQuery.data?.orders.length || 0;
 
-  const handleUpdateUser = async (
-    data: AccountInfoFormData | PersonalInfoFormData
-  ) => {
+  const handleUpdateUser = async (data: any) => {
     try {
-      await updateUser.mutateAsync(data as any);
+      console.log("Data before update:", data);
+      const updatedData = {
+        ...data,
+        username: meQuery.data?.username || data.username,
+      };
+      console.log("Data after update:", updatedData);
+      await updateUser.mutateAsync(updatedData);
       toast.success("Daten erfolgreich gespeichert");
     } catch (error) {
       toast.error(
@@ -53,7 +55,7 @@ const Account: React.FC = () => {
             user={meQuery.data as User}
             onUpdate={handleUpdateUser}
           />
-          <OrderSummary orderCount={orderCount} />
+
           <AddressSummary
             address={meQuery.data?.address as string}
             zipCode={meQuery.data?.zipCode as string}
