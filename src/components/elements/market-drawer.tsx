@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -14,23 +14,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { X } from "lucide-react";
+import { MarketHook } from "../hooks/market-hook";
 
 interface MarketMapDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  pickupMarkets: any[];
 }
 
-const MarketMapDrawer = ({
-  isOpen,
-  onClose,
-  pickupMarkets,
-}: MarketMapDrawerProps) => {
+const MarketMapDrawer = ({ isOpen, onClose }: MarketMapDrawerProps) => {
+  const [zipCode, setZipCode] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const { marketMutation } = MarketHook();
 
-  const filteredMarkets = pickupMarkets?.filter((market) =>
-    market.companyName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    if (zipCode.length === 5) {
+      //  German ZIP codes are 5 digits
+      marketMutation.mutate({ zipCode } as any);
+    }
+  }, [zipCode]);
+
+  const filteredMarkets =
+    marketMutation.data?.data?.servicePortfolio?.pickupMarkets?.filter(
+      (market: any) =>
+        market.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
   const svgIcon = L.divIcon({
     html: `
@@ -44,7 +51,6 @@ const MarketMapDrawer = ({
   });
 
   const MarketCard = ({ market }: { market: any }) => {
-    console.log(market);
     return (
       <Card className="flex flex-col items-start space-y-2 p-4 mb-4 w-full">
         <div className="flex justify-between items-start w-full">
@@ -91,7 +97,8 @@ const MarketMapDrawer = ({
           <div>
             <DrawerTitle className="text-lg">Märkte finden</DrawerTitle>
             <DrawerDescription className="text-xs">
-              Suchen Sie nach Märkten in Ihrer Nähe.
+              Geben Sie eine Postleitzahl ein, um Märkte in Ihrer Nähe zu
+              finden.
             </DrawerDescription>
           </div>
           <Button
@@ -106,6 +113,13 @@ const MarketMapDrawer = ({
         </DrawerHeader>
         <div className="px-4 py-2 sticky top-[72px] bg-white z-10">
           <Input
+            type="text"
+            placeholder="Postleitzahl eingeben"
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+            className="mb-2 rounded-full"
+          />
+          <Input
             id="market-search"
             type="text"
             placeholder="Märkte suchen"
@@ -116,7 +130,7 @@ const MarketMapDrawer = ({
         </div>
         <DrawerFooter className="flex-grow overflow-y-auto pt-2 px-2">
           <div className="flex flex-col items-center w-full">
-            {filteredMarkets?.map((market) => (
+            {filteredMarkets.map((market: any) => (
               <MarketCard key={market.wwIdent} market={market} />
             ))}
           </div>

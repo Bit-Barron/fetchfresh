@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { RiFileList2Fill } from "react-icons/ri";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, ShoppingCartIcon, MenuIcon } from "lucide-react";
@@ -22,20 +22,7 @@ import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
 import { StoreHook } from "../hooks/store-hook";
 import { Category } from "@/types";
-import { MarketHook } from "../hooks/market-hook";
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-} from "@/components/ui/drawer";
-import { Card } from "../ui/card";
-import { MutableRequestCookiesAdapter } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import MarketDrawer from "./markte-drawer";
-import MarketMapDrawer from "./markte-drawer";
+import MarketMapDrawer from "./market-drawer";
 
 interface SearchbarProps {
   onSearch?: (query: string) => void;
@@ -57,8 +44,6 @@ export default function Searchbar({
   const { addToCart } = CartStore();
   const { meQuery } = UserHook();
   const router = useRouter();
-  const { marketQuery } = MarketHook();
-  const pickupMarkets = marketQuery?.data?.data.servicePortfolio.pickupMarkets;
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +101,6 @@ export default function Searchbar({
         onClick={onShowMenu}
       >
         <RiFileList2Fill className="h-6 w-6" />
-
         <span className="sr-only">Einkaufsliste</span>
       </Button>
     </>
@@ -215,7 +199,6 @@ export default function Searchbar({
           <MarketMapDrawer
             isOpen={drawerOpen}
             onClose={() => setDrawerOpen(false)}
-            pickupMarkets={pickupMarkets}
           />
           <form
             className="relative flex items-center"

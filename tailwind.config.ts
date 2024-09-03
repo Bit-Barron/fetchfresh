@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        inputbg: "#F6F7F8"
+        inputbg: "#F6F7F8",
+        bg: "#F6F7F8"
       }
     }
   },

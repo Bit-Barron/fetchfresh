@@ -47,7 +47,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
   ];
 
   return (
-    <aside className="bg-background hidden w-64 flex-col border-r p-3 md:flex">
+    <aside className="bg-background hidden w-64 flex-col border-r bg-white p-3 md:flex">
       <button
         className="mt-5 flex items-center gap-2 text-sm font-medium"
         onClick={() => router.push("/store/rewe/storefront")}

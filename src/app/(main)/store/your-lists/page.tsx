@@ -30,7 +30,7 @@ const Page: React.FC<PageProps> = ({}) => {
   };
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full bg-bg">
       <SettingsSidebar />
       <div className="mx-auto container p-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Einkaufsliste</h1>
