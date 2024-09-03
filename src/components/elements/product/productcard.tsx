@@ -1,3 +1,5 @@
+"use client";
+
 import { useProductStore } from "@/store/ProductStore";
 import { Product } from "@/types/product";
 import { useState } from "react";
