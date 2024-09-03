@@ -2,24 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ProductCard from "@/components/elements/product/productcard";
 import Sidebar from "@/components/elements/sidebar/sidebar";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../../../store/ProductStore";
 import { CartStore } from "../../../../../store/CartStore";
-import { Attributes, Product } from "@/types/product";
+import { Attributes } from "@/types/product";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { useFilterSortStore } from "@/store/FilterStore";
 import { ComboboxSelects } from "@/components/elements/combobox-selects";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
-} from "@/components/ui/pagination";
+import ProductList from "@/components/elements/frontpage/product-list";
+import PaginationComponent from "@/components/elements/frontpage/product-pagination";
 
 interface StorePageProps {
   params: { name: string };
@@ -43,7 +35,7 @@ export default function StorePage({ params }: StorePageProps) {
   const [attributeFilter, setAttributeFilter] = useState<
     keyof Attributes | null
   >(null);
-  const [visiblePages, setVisiblePages] = useState<number[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -90,52 +82,16 @@ export default function StorePage({ params }: StorePageProps) {
         setProducts([]);
       }
 
-      const totalPages =
+      setTotalPages(
         response.data.totalPages ||
-        Math.ceil(response.data.total / parseInt(productsPerPage));
-
-      updateVisiblePages(page, totalPages);
+          Math.ceil(response.data.total / parseInt(productsPerPage))
+      );
     } catch (error) {
       console.error("Error fetching products:", error);
       setProducts([]);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const updateVisiblePages = (currentPage: number, totalPages: number) => {
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    setVisiblePages(
-      Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
-    );
-  };
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const getFilteredProducts = () => {
-    if (!Array.isArray(products)) {
-      console.error("Products is not an array:", products);
-      return [];
-    }
-
-    return products.filter((product: Product) => {
-      if (filterAttribute && !product.attributes[filterAttribute]) {
-        return false;
-      }
-      if (attributeFilter && !product.attributes[attributeFilter]) {
-        return false;
-      }
-      return true;
-    });
   };
 
   const handleCategoryClick = (category: string) => {
@@ -174,38 +130,24 @@ export default function StorePage({ params }: StorePageProps) {
               />
             </div>
 
-            {isLoading ? (
-              <div className="flex justify-center items-center h-64">
-                <p>Loading products...</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
-                {getFilteredProducts().map((product: Product) => (
-                  <ProductCard
-                    key={product.articleId}
-                    product={product}
-                    isInCart={isInCart(product.articleId as unknown as number)}
-                    addToCart={addToCart}
-                    removeFromCart={removeItemFromCart}
-                  />
-                ))}
-              </div>
-            )}
+            <ProductList
+              products={products}
+              isLoading={isLoading}
+              filterAttribute={filterAttribute}
+              attributeFilter={attributeFilter}
+              isInCart={isInCart}
+              addToCart={addToCart}
+              removeFromCart={removeItemFromCart}
+            />
           </section>
         </main>
       </div>
 
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious onClick={() => handlePageChange(page - 1)} />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationNext onClick={() => handlePageChange(page + 1)} />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <PaginationComponent
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }
