@@ -4,15 +4,18 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   build:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Create env file
         run: |
@@ -22,6 +25,35 @@ jobs:
           echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
           cat .env
 
-          
-      - name: Docker run
-        run: docker-compose up -d --force-recreate --build
+      - name: Build Docker image
+        run: docker-compose build --no-cache
+
+      - name: Run Next.js build in Docker
+        run: |
+          docker-compose run --rm app sh -c "pnpm install && pnpm run build"
+        env:
+          CI: true
+
+      - name: Check for build errors
+        run: |
+          if [ $? -ne 0 ]; then
+            echo "Next.js build failed. Checking logs..."
+            docker-compose logs app
+            exit 1
+          fi
+
+      - name: Start Docker containers
+        run: docker-compose up -d
+
+      - name: Check container status
+        run: docker-compose ps
+
+      - name: View logs if build fails
+        if: failure()
+        run: |
+          echo "Build failed. Checking Docker logs..."
+          docker-compose logs
+
+      - name: Cleanup
+        if: always()
+        run: docker-compose down
