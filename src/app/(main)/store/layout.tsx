@@ -1,6 +1,5 @@
 "use client";
 
-import { CartStore } from "../../../store/CartStore";
 import CartDialog from "@/components/elements/cartdialog";
 import { useState } from "react";
 import { StoreHook } from "@/components/hooks/store-hook";
@@ -13,8 +12,6 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout(props: MainLayoutProps) {
-  const { cart, removeItemFromCart, updateItemQuantity, calculateTotal } =
-    CartStore();
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
 

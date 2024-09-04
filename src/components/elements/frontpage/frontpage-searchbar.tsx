@@ -18,7 +18,6 @@ import { Product } from "@/types/product";
 import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
 import { useProductStore } from "@/store/ProductStore";
-import { CartStore } from "@/store/CartStore";
 import MarketMapDrawer from "../market-drawer";
 import DashboardSidebar from "../dashboardsidebar";
 
@@ -38,7 +37,6 @@ export default function Searchbar({
   const [menuOpen, setMenuOpen] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const { products } = useProductStore();
-  const { addToCart } = CartStore();
   const { meQuery } = UserHook();
   const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -85,10 +83,7 @@ export default function Searchbar({
         className="w-10 gap-3 rounded-full"
         onClick={onShowCart}
       >
-        <ShoppingCartIcon
-          onClick={() => product && addToCart(product)}
-          className="h-6 w-6"
-        />
+        <ShoppingCartIcon className="h-6 w-6" />
         <span className="sr-only">Warenkorb</span>
       </Button>
       <Button
@@ -123,7 +118,6 @@ export default function Searchbar({
                     <ShoppingCartIcon
                       onClick={() => {
                         toast.success("Erfolgreich zum warenkorb hinzugefügt");
-                        product && addToCart(product);
                       }}
                       className="h-3 w-3 mt-1"
                     />

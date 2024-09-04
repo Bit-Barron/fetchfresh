@@ -6,7 +6,6 @@ import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import { useFilterSortStore } from "@/store/FilterStore";
 import { Attributes, Product } from "@/types/product";
 import { useProductStore } from "@/store/ProductStore";
-import { CartStore } from "@/store/CartStore";
 
 export function useStorePage(params: { name: string }) {
   const {
@@ -18,7 +17,6 @@ export function useStorePage(params: { name: string }) {
     setSelectedCategory,
   } = useFilterSortStore();
   const { products, setProducts } = useProductStore();
-  const { isInCart, removeItemFromCart } = CartStore();
   const { productMutation, categoryQuery } = StoreHook();
   const { createShoppingListMutation } = ShoppingListHook();
   const [page, setPage] = useState(1);
@@ -106,8 +104,6 @@ export function useStorePage(params: { name: string }) {
     setFilterAttribute,
     setSelectedCategory,
     products,
-    isInCart,
-    removeItemFromCart,
     categoryQuery,
     page,
     productsPerPage,

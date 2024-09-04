@@ -52,9 +52,9 @@ const ProductList: React.FC<ProductListProps> = ({
         <ProductCard
           key={product.productId}
           product={product}
-          isInCart={isInCart(product.productId as unknown as number)}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
+          isInCart={false}
         />
       ))}
     </div>
