@@ -57,7 +57,7 @@ const sidebarSections = [
     links: [
       { href: "/help", label: "Hilfe Center", icon: HelpCircleIcon },
       {
-        href: "/help/how-Grocerygo-works",
+        href: "/help/how-grocerygo-works",
         label: "Wie GroceryGo funktioniert",
         icon: CompassIcon,
       },

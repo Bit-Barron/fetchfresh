@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { WishListHook } from "@/components/hooks/wish-list-hook";
@@ -73,6 +72,18 @@ const WishlistPage = () => {
   const { wishListQuery } = WishListHook();
   const wishlistItems = wishListQuery.data || [];
 
+  const uniqueWishlistItems = wishlistItems.reduce((acc, current) => {
+    const x: any = acc.find(
+      (item: Product) => item.productId === current.productId
+    );
+    if (!x) {
+      return acc.concat([current] as any);
+    } else {
+      x.quantity += current.quantity;
+      return acc;
+    }
+  }, []);
+
   const handleRemove = async () => {
     await wishListQuery.refetch();
   };
@@ -89,9 +100,9 @@ const WishlistPage = () => {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[calc(100vh-200px)]">
-              {wishlistItems.length > 0 ? (
+              {uniqueWishlistItems.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {wishlistItems.map((item, index) => (
+                  {uniqueWishlistItems.map((item: Product, index) => (
                     <WishlistItem
                       key={item.productId || index}
                       item={item}
