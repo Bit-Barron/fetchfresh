@@ -3,34 +3,43 @@ import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
+import { toast } from "sonner";
 
 interface ActionButtonsProps {
   product: Product;
   addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (id: number) => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   product,
   addToCart,
-  removeFromCart,
 }) => {
-  const { shoppingListQuery } = ShoppingListHook();
+  const { shoppingListQuery, deleteItemMutation } = ShoppingListHook();
   const [isInCart, setIsInCart] = useState(false);
+  const [cartItemId, setCartItemId] = useState<string | null>(null);
 
   useEffect(() => {
-    const products = shoppingListQuery?.data?.map((item) => item.productId);
-    setIsInCart(products?.includes(product.productId) as any);
-  }, [shoppingListQuery?.data, product.productId]);
+    const cartItem = shoppingListQuery.data?.find(
+      (item) => item.productId === product.productId
+    );
+    setIsInCart(!!cartItem);
+    setCartItemId(cartItem?.id || null);
+  }, [shoppingListQuery.data, product.productId]);
 
-  const handleButtonClick = (e: React.MouseEvent) => {
+  const handleButtonClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isInCart) {
-      removeFromCart(product.productId as unknown as number);
+    if (isInCart && cartItemId) {
+      try {
+        await deleteItemMutation.mutateAsync({ id: cartItemId } as any);
+        setIsInCart(false);
+        setCartItemId(null);
+      } catch (error) {
+        console.error("Error removing item from cart:", error);
+      }
     } else {
       addToCart(product, 1);
+      setIsInCart(true);
     }
-    setIsInCart(!isInCart);
   };
 
   return (
