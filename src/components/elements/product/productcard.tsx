@@ -20,11 +20,7 @@ interface ProductCardProps {
   removeFromCart: (id: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  addToCart,
-  removeFromCart,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, addToCart }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { productDetailsMutation } = StoreHook();
   const { products } = useProductStore();

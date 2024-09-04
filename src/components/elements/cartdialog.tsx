@@ -81,12 +81,13 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
                   className="flex items-center gap-4 bg-gray-50 p-4 rounded-lg shadow-sm"
                 >
                   <Image
-                    src={item.imageURL as string}
+                    src={item.imageURL ? decodeURIComponent(item.imageURL) : ""} // Decode the image URL here
                     alt={item.name}
                     width={80}
                     height={80}
                     className="rounded-md object-cover"
                     style={{ aspectRatio: "1/1", objectFit: "cover" }}
+                    unoptimized // Disable Next.js image optimization
                   />
                   <div className="flex-grow">
                     <h3 className="font-semibold text-lg">{item.name}</h3>

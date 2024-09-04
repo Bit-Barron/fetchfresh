@@ -99,6 +99,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
           <Input
             placeholder="Tomate, Brot, Käse ..."
             onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
           />
         </div>
         <div className="mt-6 grid grid-cols-1 gap-4">
@@ -109,11 +110,16 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
                 className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
               >
                 <Image
-                  src={product.imageURL}
+                  src={
+                    product.imageURL
+                      ? decodeURIComponent(product.imageURL)
+                      : "/placeholder.png"
+                  } // Decode the image URL and use a placeholder if the URL is missing
                   alt={product.title}
                   width={100}
                   height={100}
                   className="rounded-lg"
+                  unoptimized // Disable Next.js image optimization
                 />
                 <div className="ml-4 flex-grow">
                   <h2
@@ -127,6 +133,9 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
                   >
                     {product.title}
                   </h2>
+                  <p className="text-sm text-gray-600">
+                    {formatPrice(product.price)}€
+                  </p>
                 </div>
                 <Button
                   onClick={() => handleCreateWishList(product)}
@@ -137,7 +146,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
               </div>
             ))
           ) : (
-            <p>Keine Produkte gefunden</p>
+            <p className="text-center text-gray-500">Keine Produkte gefunden</p>
           )}
         </div>
         {hasMore && searchQuery && (

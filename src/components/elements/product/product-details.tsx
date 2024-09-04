@@ -21,38 +21,47 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     toast.success("Erfolgreich zum Warenkorb hinzugefügt");
   };
 
+  const { title = "Unbekanntes Produkt", imageURL, listing } = product;
+
+  const decodedTitle = decodeURIComponent(title || "Unbekanntes Produkt");
+  const imageSrc = imageURL ? decodeURIComponent(imageURL) : "/placeholder.svg"; 
+
+  const formattedPrice = formatPrice(listing?.currentRetailPrice || 0); 
+
   return (
     <div className="grid gap-6 md:grid-cols-2 md:gap-10">
       <div>
         <Image
-          src={product.imageURL || "/placeholder.svg"}
-          alt={product.title}
+          src={imageSrc}
+          alt={decodedTitle}
           width={600}
           height={600}
           className="aspect-square w-full rounded-lg object-cover"
+          unoptimized
         />
       </div>
+
       <div className="flex flex-col">
-        <h2 className="text-2xl font-bold md:text-3xl mb-4">{product.title}</h2>
+        <h2 className="text-2xl font-bold md:text-3xl mb-4">{decodedTitle}</h2>
+
         <ProductSpecifications product={product} />
+
         <CustomerReviews />
+
         <div className="flex items-center gap-4 mt-6 mb-6">
           <div className="flex-grow flex justify-end">
             <Button
               size="lg"
-              className="bg-green-700 text-white"
+              className="bg-green-700 text-white hover:bg-green-800"
               onClick={handleAddToCart}
             >
               Zum Warenkorb hinzufügen
             </Button>
           </div>
         </div>
-        <div className="flex justify-end  text-lg font-semibold">
-          {product.listing.grammage} -{" "}
-          {formatPrice(
-            product.listing.currentRetailPrice.toFixed(2) as unknown as number
-          )}{" "}
-          €
+
+        <div className="flex justify-end text-lg font-semibold">
+          {listing?.grammage} - {formattedPrice} €
         </div>
       </div>
     </div>

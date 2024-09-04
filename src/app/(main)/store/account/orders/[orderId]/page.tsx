@@ -121,24 +121,33 @@ function Bestellinformationen() {
               </TableHeader>
               <TableBody>
                 {order?.products?.length ? (
-                  order.products.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="hidden md:table-cell">
-                        <Image
-                          src={item.image}
-                          width="64"
-                          height="64"
-                          alt={`Bild von ${item.name}`}
-                          className="aspect-square rounded-md object-cover"
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">{item.name}</TableCell>
-                      <TableCell>{item.quantity}</TableCell>
-                      <TableCell>
-                        {formatPrice(item.quantity * item.price)}€
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  order.products.map((item) => {
+                    const decodedImageUrl = item.image
+                      ? decodeURIComponent(item.image)
+                      : "";
+
+                    return (
+                      <TableRow key={item.id}>
+                        <TableCell className="hidden md:table-cell">
+                          <Image
+                            src={decodedImageUrl}
+                            width="64"
+                            height="64"
+                            alt={`Bild von ${item.name}`}
+                            className="aspect-square rounded-md object-cover"
+                            unoptimized // Disables Next.js image optimization
+                          />
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {item.name}
+                        </TableCell>
+                        <TableCell>{item.quantity}</TableCell>
+                        <TableCell>
+                          {formatPrice(item.quantity * item.price)}€
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center">
