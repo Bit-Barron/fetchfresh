@@ -17,7 +17,6 @@ const ProductList: React.FC<ProductListProps> = ({
   isLoading,
   filterAttribute,
   attributeFilter,
-  isInCart,
   addToCart,
   removeFromCart,
 }) => {
@@ -54,7 +53,6 @@ const ProductList: React.FC<ProductListProps> = ({
           product={product}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
-          isInCart={false}
         />
       ))}
     </div>

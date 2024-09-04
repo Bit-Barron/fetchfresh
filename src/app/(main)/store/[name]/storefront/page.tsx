@@ -22,8 +22,6 @@ export default function StorePage({ params }: StorePageProps) {
     setSorting,
     setFilterAttribute,
     products,
-    isInCart,
-    removeItemFromCart,
     categoryQuery,
     page,
     productsPerPage,
@@ -35,6 +33,7 @@ export default function StorePage({ params }: StorePageProps) {
     setProductsPerPage,
     handleCategoryClick,
     addToCartHandler,
+    removeFromCartHandler,
   } = useStorePage(params);
 
   if (params.name !== "rewe") {
@@ -72,9 +71,11 @@ export default function StorePage({ params }: StorePageProps) {
               isLoading={isLoading}
               filterAttribute={filterAttribute}
               attributeFilter={attributeFilter}
-              isInCart={isInCart}
               addToCart={addToCartHandler}
-              removeFromCart={removeItemFromCart}
+              isInCart={function (id: number): boolean {
+                throw new Error("Function not implemented.");
+              }}
+              removeFromCart={removeFromCartHandler}
             />
           </section>
         </main>

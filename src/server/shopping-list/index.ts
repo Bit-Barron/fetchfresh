@@ -70,4 +70,23 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       return shoppingList;
     },
     { body: DeleteItemSchema }
-  );
+  )
+  .delete("/:productId", async (ctx) => {
+    const user = await decrypt<User>(
+      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+    );
+
+    if (!user || !user?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const productId = ctx.params.productId;
+
+    const shoppingList = await prisma.shoppingList.deleteMany({
+      where: {
+        userId: user.id,
+        productId: productId,
+      },
+    });
+    return shoppingList;
+  });

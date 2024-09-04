@@ -16,14 +16,12 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface ProductCardProps {
   product: Product;
-  isInCart: boolean;
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (id: number) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  isInCart,
   addToCart,
   removeFromCart,
 }) => {

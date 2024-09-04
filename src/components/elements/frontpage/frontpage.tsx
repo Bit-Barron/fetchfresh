@@ -18,7 +18,7 @@ export function useStorePage(params: { name: string }) {
   } = useFilterSortStore();
   const { products, setProducts } = useProductStore();
   const { productMutation, categoryQuery } = StoreHook();
-  const { createShoppingListMutation } = ShoppingListHook();
+  const { createShoppingListMutation, deleteItemMutation } = ShoppingListHook();
   const [page, setPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState("20");
   const [attributeFilter, setAttributeFilter] = useState<
@@ -96,6 +96,10 @@ export function useStorePage(params: { name: string }) {
     });
   };
 
+  const removeFromCartHandler = (id: number) => {
+    deleteItemMutation.mutateAsync({ id } as any);
+  };
+
   return {
     selectedCategory,
     sorting,
@@ -107,6 +111,7 @@ export function useStorePage(params: { name: string }) {
     categoryQuery,
     page,
     productsPerPage,
+    removeFromCartHandler,
     attributeFilter,
     setAttributeFilter,
     totalPages,

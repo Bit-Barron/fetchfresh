@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { OrderHook } from "@/components/hooks/order-hook";
-import { CartStore } from "../../../../store/CartStore";
 import { UserHook } from "@/components/hooks/user-hook";
 import { formatPrice } from "@/utils";
-import OrderSummary from "@/components/elements/account/order-summary";
 import { CheckoutForm } from "@/components/elements/checkout/checkout-form";
 import { useCheckoutStore } from "@/store/CheckoutStore";
+import OrderSummary from "@/components/elements/account/account-order-summary";
 
 interface CartItem {
   id: number;
@@ -34,13 +33,8 @@ export default function Checkout() {
   } = useCheckoutStore();
 
   const { orderMutation } = OrderHook();
-  const { cart: cartFromCartStore } = CartStore();
   const { meQuery } = UserHook();
   const router = useRouter();
-
-  useEffect(() => {
-    setCart(cartFromCartStore);
-  }, [cartFromCartStore, setCart]);
 
   useEffect(() => {
     if (meQuery.data && useSavedAddress) {
