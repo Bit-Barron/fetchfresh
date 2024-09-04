@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://api.barron.agency/api";
 
 export const storeRoute = new Elysia({ prefix: "/store" })
   .get("/categories", async (ctx: any) => {
