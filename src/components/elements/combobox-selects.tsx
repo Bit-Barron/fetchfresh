@@ -46,32 +46,36 @@ export function ComboboxSelects({
   setProductsPerPage,
 }: ComboboxSelectsProps) {
   return (
-    <div className="flex flex-col space-y-4 sm:flex-row sm:flex-wrap sm:items-center sm:space-y-0 sm:space-x-4">
+    <div className="flex flex-col space-y-2 sm:flex-row sm:flex-wrap sm:items-center sm:space-y-0 sm:space-x-4">
       <div className="w-full sm:w-[calc(50%-0.5rem)] md:w-auto">
-        <ComboboxDemo
-          options={sortingOptions}
-          value={sorting}
-          onValueChange={(value: string) => setSorting(value)}
-          placeholder="Sortieren nach..."
-        />
-      </div>
-      <div className="w-full sm:w-[calc(50%-0.5rem)] md:w-auto">
-        <ComboboxDemo
-          options={filterOptions}
-          value={filterAttribute || ""}
-          onValueChange={(value: string | null) =>
-            setFilterAttribute(value as keyof Product["attributes"] | null)
-          }
-          placeholder="Allgemeine Filter..."
-        />
-      </div>
-      <div className="w-full sm:w-full md:w-auto">
         <ComboboxDemo
           options={productsPerPageOptions}
           value={productsPerPage}
           onValueChange={(value: string) => setProductsPerPage(value)}
           placeholder="Artikel pro Seite"
+          className="h-8 text-xs sm:h-9 sm:text-sm"
         />
+      </div>
+      <div className="flex w-full space-x-2 sm:space-x-4 sm:w-full md:w-auto">
+        <div className="w-1/2 sm:w-[calc(50%-0.5rem)] md:w-auto">
+          <ComboboxDemo
+            options={sortingOptions}
+            value={sorting}
+            onValueChange={(value: string) => setSorting(value)}
+            placeholder="Sortieren nach..."
+          />
+        </div>
+        <div className="w-1/2 sm:w-[calc(50%-0.5rem)] md:w-auto">
+          <ComboboxDemo
+            options={filterOptions}
+            value={filterAttribute || ""}
+            onValueChange={(value: string | null) =>
+              setFilterAttribute(value as keyof Product["attributes"] | null)
+            }
+            className="h-8 text-xs sm:h-9 sm:text-sm"
+            placeholder="Allgemeine Filter..."
+          />
+        </div>
       </div>
     </div>
   );

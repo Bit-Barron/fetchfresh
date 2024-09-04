@@ -27,6 +27,7 @@ interface ComboboxDemoProps {
   value: string;
   onValueChange: (value: string) => void;
   placeholder: string;
+  className?: string;
 }
 
 export function ComboboxDemo({
@@ -34,27 +35,37 @@ export function ComboboxDemo({
   value,
   onValueChange,
   placeholder,
+  className,
 }: ComboboxDemoProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="bg-white">
+      <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn(
+            "w-full justify-between bg-white text-left font-normal",
+            "h-8 text-xs sm:h-10 sm:text-sm",
+            className
+          )}
         >
-          {value
-            ? options.find((option) => option.value === value)?.label
-            : placeholder}
+          <span className="truncate">
+            {value
+              ? options.find((option) => option.value === value)?.label
+              : placeholder}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] bg-white p-0">
+      <PopoverContent className="w-full p-0 bg-white">
         <Command>
-          <CommandInput placeholder={`Search ${placeholder}...`} />
+          <CommandInput
+            placeholder={`Search ${placeholder}...`}
+            className="h-8 text-xs sm:h-9 sm:text-sm"
+          />
           <CommandList>
             <CommandEmpty>No {placeholder.toLowerCase()} found.</CommandEmpty>
             <CommandGroup>
@@ -66,14 +77,17 @@ export function ComboboxDemo({
                     onValueChange(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
+                  className="text-xs sm:text-sm py-1 sm:py-1.5"
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "mr-2 h-3 w-3 sm:h-4 sm:w-4",
                       value === option.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {option.label} {option.count != null && `(${option.count})`}
+                  <span className="truncate">
+                    {option.label} {option.count != null && `(${option.count})`}
+                  </span>
                 </CommandItem>
               ))}
             </CommandGroup>

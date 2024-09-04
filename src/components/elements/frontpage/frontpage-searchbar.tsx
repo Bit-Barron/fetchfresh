@@ -148,14 +148,14 @@ export default function Searchbar({
           onClose={() => setSidebarOpen(false)}
         />
         <div className="">
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             className="absolute top-4 left-20 hover:bg-muted/50 rounded-full"
             onClick={() => setDrawerOpen(true)}
           >
             Markt auswählen
-          </Button>
+          </Button> */}
           <MarketMapDrawer
             isOpen={drawerOpen}
             onClose={() => setDrawerOpen(false)}
