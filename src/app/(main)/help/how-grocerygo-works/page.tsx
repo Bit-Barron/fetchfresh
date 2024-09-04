@@ -1,4 +1,3 @@
-
 "use client";
 
 import Head from "next/head";
@@ -8,15 +7,6 @@ export default function HowGroceryGoWorks() {
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-10">
-        <Head>
-          <title>Wie funktioniert GroceryGo?</title>
-          <meta
-            name="description"
-            content="Erfahren Sie, wie GroceryGo funktioniert"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
         <main className="container mx-auto px-4">
           <h1 className="mb-10 text-center text-4xl font-bold">
             Wie funktioniert GroceryGo?
