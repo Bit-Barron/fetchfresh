@@ -40,15 +40,7 @@ export default function MainLayout(props: MainLayoutProps) {
         onShowCart={() => setShowCart(true)}
         onShowMenu={() => setShowMenu(true)}
       />
-      {showCart && (
-        <CartDialog
-          cart={cart}
-          onClose={() => setShowCart(false)}
-          calculateTotal={calculateTotal}
-          onRemoveItem={removeItemFromCart as any}
-          onUpdateItemQuantity={updateItemQuantity as any}
-        />
-      )}
+      {showCart && <CartDialog onClose={() => setShowCart(false)} />}
       {showMenu && <MenuDialog onClose={() => setShowMenu(false)} />}
       {props.children}
     </section>
