@@ -4,11 +4,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: self-hosted
@@ -24,32 +22,6 @@ jobs:
           echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
           cat .env
 
-      - name: Build Docker image
-        run: docker-compose build
-
-      - name: Run Next.js build in Docker
-        run: docker-compose run --rm app npm run build
-
-      - name: Check for build errors
-        run: |
-          if [ $? -ne 0 ]; then
-            echo "Next.js build failed. Checking logs..."
-            docker-compose logs app
-            exit 1
-          fi
-
-      - name: Start Docker containers
-        run: docker-compose up -d
-
-      - name: Check container status
-        run: docker-compose ps
-
-      - name: View logs if build fails
-        if: failure()
-        run: |
-          echo "Build failed. Checking Docker logs..."
-          docker-compose logs
-
-      - name: Cleanup
-        if: always()
-        run: docker-compose down
+          
+      - name: Docker run
+        run: docker-compose up -d --force-recreate --build
