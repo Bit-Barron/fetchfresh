@@ -73,7 +73,7 @@ const ShoppingList = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full bg-gray-100">
       <SettingsSidebar />
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Shopping List</h1>

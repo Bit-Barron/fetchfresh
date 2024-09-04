@@ -1,4 +1,3 @@
-import { Attributes } from "react";
 import { ComboboxSelects } from "../combobox-selects";
 
 interface StorePageHeaderProps {

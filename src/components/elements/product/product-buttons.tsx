@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, TrashIcon } from "lucide-react";
@@ -16,30 +16,34 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   removeFromCart,
 }) => {
   const { shoppingListQuery } = ShoppingListHook();
-  const [isInCart, setIsInCart] = React.useState(false);
-  const products = shoppingListQuery?.data?.map((product) => {
-    return product.productId;
-  });
-  const handleProduct = (product: string) => {
-    if (products?.includes(product)) {
-      setIsInCart(true);
+  const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    const products = shoppingListQuery?.data?.map((item) => item.productId);
+    setIsInCart(products?.includes(product.productId) as any);
+  }, [shoppingListQuery?.data, product.productId]);
+
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isInCart) {
+      removeFromCart(product.productId as unknown as number);
+    } else {
+      addToCart(product, 1);
     }
+    setIsInCart(!isInCart);
   };
 
   return (
     <div className="mt-3 flex items-center justify-between">
       <Button
         className={`flex items-center ${
-          isInCart ? "bg-red-500 text-white" : "bg-green-700 text-white"
-        }`}
+          isInCart
+            ? "bg-red-500 hover:bg-red-600"
+            : "bg-green-700 hover:bg-green-800"
+        } text-white`}
         variant="outline"
         size="sm"
-        onClick={(e) => {
-          e.stopPropagation();
-          isInCart
-            ? removeFromCart(product?.productId as unknown as number)
-            : addToCart(product, 1);
-        }}
+        onClick={handleButtonClick}
       >
         {isInCart ? (
           <>
@@ -49,12 +53,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         ) : (
           <div className="flex items-center">
             <PlusIcon className="h-4 w-4" />
-            <span
-              className="ml-2"
-              onClick={() => handleProduct(product?.productId)}
-            >
-              Hinzufügen
-            </span>
+            <span className="ml-2">Hinzufügen</span>
           </div>
         )}
       </Button>

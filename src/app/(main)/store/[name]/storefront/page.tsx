@@ -4,11 +4,11 @@ import React from "react";
 import Sidebar from "@/components/elements/sidebar/sidebar";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
 import { Attributes } from "@/types/product";
-import { useStorePage } from "@/components/elements/frontpage/front-page";
-import StorePageHeader from "@/components/elements/frontpage/front-page-header";
 import { Toaster } from "sonner";
 import ProductList from "@/components/elements/frontpage/frontpage-product-list";
 import PaginationComponent from "@/components/elements/frontpage/frontpage-pagination";
+import StorePageHeader from "@/components/elements/frontpage/frontpage-header";
+import { useStorePage } from "@/components/elements/frontpage/frontpage";
 
 interface StorePageProps {
   params: { name: string };

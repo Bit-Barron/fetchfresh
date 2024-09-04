@@ -18,15 +18,13 @@ interface MenuDialogProps {
 }
 
 const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
-  const { grocerySearchMutation } = StoreHook();
+  const { grocerySearchMutation, productDetailsMutation } = StoreHook();
   const { createWishListMutation } = WishListHook();
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { productDetailsMutation } = StoreHook();
-  const [price, setPrice] = useState<number>(0);
 
   const handleGrocerySearch = async (
     query: string,
@@ -54,18 +52,14 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   };
 
   const handleCreateWishList = async (product: Product) => {
-    await productDetailsMutation
-      .mutateAsync({
-        productId: product.productId,
-      } as any)
-      .then((response) => {
-        setPrice(
-          Number(
-            formatPrice(response.product[0].listing.currentRetailPrice as any)
-          )
-        );
-      });
     try {
+      const response = await productDetailsMutation.mutateAsync({
+        productId: product.productId,
+      } as any);
+
+      const price = response.product[0].listing.currentRetailPrice;
+      console.log("Fetched price:", price);
+
       await createWishListMutation.mutateAsync({
         name: product.title,
         quantity: 1,
@@ -73,12 +67,14 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
         imageURL: product.imageURL,
         price: price,
       });
+
       toast.success(`${product.title} zur Einkaufsliste hinzugefügt`);
     } catch (error) {
       toast.error("Fehler beim Hinzufügen zur Einkaufsliste");
       console.error("Failed to add product to shopping list:", error);
     }
   };
+
   const loadMore = () => {
     if (hasMore && !isLoadingMore) {
       const nextPage = currentPage + 1;
@@ -99,7 +95,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
       <Toaster richColors position="top-right" />
       <DialogTitle></DialogTitle>
       <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
-        <h1 className="text-xl font-bold">Wünschliste</h1>
+        <h1 className="text-xl font-bold">Wunschliste</h1>
         <div className="mt-3">
           <Input
             placeholder="Tomate, Brot, Käse ..."
@@ -108,41 +104,39 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
         </div>
         <div className="mt-6 grid grid-cols-1 gap-4">
           {products.length > 0 ? (
-            products.map((product: Product) => {
-              return (
-                <div
-                  key={product.productId}
-                  className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <Image
-                    src={product.imageURL}
-                    alt={product.title}
-                    width={100}
-                    height={100}
-                    className="rounded-lg"
-                  />
-                  <div className="ml-4 flex-grow">
-                    <h2
-                      className="text-lg font-semibold truncate"
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        maxWidth: "300px",
-                      }}
-                    >
-                      {product.title}
-                    </h2>
-                  </div>
-                  <Button
-                    onClick={() => handleCreateWishList(product)}
-                    className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+            products.map((product: Product) => (
+              <div
+                key={product.productId}
+                className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <Image
+                  src={product.imageURL}
+                  alt={product.title}
+                  width={100}
+                  height={100}
+                  className="rounded-lg"
+                />
+                <div className="ml-4 flex-grow">
+                  <h2
+                    className="text-lg font-semibold truncate"
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "300px",
+                    }}
                   >
-                    <RiFileList2Fill className="h-6 w-6" />
-                  </Button>
+                    {product.title}
+                  </h2>
                 </div>
-              );
-            })
+                <Button
+                  onClick={() => handleCreateWishList(product)}
+                  className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+                >
+                  <RiFileList2Fill className="h-6 w-6" />
+                </Button>
+              </div>
+            ))
           ) : (
             <p>Keine Produkte gefunden</p>
           )}

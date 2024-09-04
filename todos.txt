@@ -1,1 +1,2 @@
 Stripe
+Shoppig list page
