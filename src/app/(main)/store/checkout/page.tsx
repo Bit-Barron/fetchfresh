@@ -9,6 +9,7 @@ import { formatPrice } from "@/utils";
 import { CheckoutForm } from "@/components/elements/checkout/checkout-form";
 import { useCheckoutStore } from "@/store/CheckoutStore";
 import OrderSummary from "@/components/elements/account/account-order-summary";
+import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 
 interface CartItem {
   id: number;
@@ -23,18 +24,18 @@ export default function Checkout() {
     formData,
     useSavedAddress,
     isHydrated,
-    cart,
     setFormData,
     setUseSavedAddress,
     setIsHydrated,
-    setCart,
     resetFormData,
     populateFormWithUserData,
   } = useCheckoutStore();
+  const { shoppingListQuery } = ShoppingListHook();
 
   const { orderMutation } = OrderHook();
   const { meQuery } = UserHook();
   const router = useRouter();
+  const cart = shoppingListQuery.data || [];
 
   useEffect(() => {
     if (meQuery.data && useSavedAddress) {
@@ -52,8 +53,8 @@ export default function Checkout() {
   ]);
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce(
-      (acc: number, item: CartItem) => acc + item.price * item.quantity,
+    const subtotal: any = cart.reduce(
+      (acc: any, item: any) => acc + item.price * item.quantity,
       0
     );
     const shippingCost = 5.0;
@@ -80,11 +81,11 @@ export default function Checkout() {
   const placeOrder = async (totalAmount: number) => {
     return orderMutation.mutateAsync({
       ...formData,
-      cart: cart.map((item: CartItem) => ({
+      cart: cart.map((item: any) => ({
         productId: item.id,
         quantity: item.quantity,
         name: item.name,
-        image: item.image,
+        image: item.imageURL,
         price: item.price,
       })),
       orderId: "",
@@ -113,7 +114,11 @@ export default function Checkout() {
             useSavedAddress={useSavedAddress}
             setUseSavedAddress={setUseSavedAddress as any}
           />
-          <OrderSummary cart={cart} totals={totals} orderCount={0} />
+          <OrderSummary
+            cart={cart as any}
+            orderCount={0}
+            totals={totals as any}
+          />
         </main>
       </form>
     </div>

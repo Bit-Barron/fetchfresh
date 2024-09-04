@@ -2,7 +2,11 @@ import { Elysia } from "elysia";
 import prisma from "@/lib/prisma";
 import { decrypt } from "@/lib/jwt";
 import { serverEnv } from "@/utils/env/server";
-import { DeleteItemSchema, ShoppingListItemSchema } from "./typebox";
+import {
+  DeleteItemSchema,
+  ShoppingListItemSchema,
+  UpdateItemQuantitySchema,
+} from "./typebox";
 import { User } from "@prisma/client";
 
 export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
@@ -89,4 +93,31 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       },
     });
     return shoppingList;
-  });
+  })
+  .put(
+    "/update-quantity",
+    async (ctx) => {
+      const user = await decrypt<User>(
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+      );
+
+      if (!user || !user?.id) {
+        throw new Error("User not authenticated");
+      }
+
+      const body = ctx.body;
+
+      const updatedItem = await prisma.shoppingList.update({
+        where: {
+          id: body.id,
+          userId: user.id, // Ensure the item belongs to the user
+        },
+        data: {
+          quantity: body.quantity,
+        },
+      });
+
+      return updatedItem;
+    },
+    { body: UpdateItemQuantitySchema }
+  );

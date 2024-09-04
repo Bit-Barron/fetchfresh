@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { formatPrice } from "@/utils";
@@ -13,13 +13,53 @@ interface CartDialogProps {
 
 const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
   const router = useRouter();
-  const { shoppingListQuery, createShoppingListMutation } = ShoppingListHook();
+  const {
+    shoppingListQuery,
+    deleteItemMutation,
+    updateItemQuantityMutation,
+    deleteShoppingListMutation,
+  } = ShoppingListHook();
 
-  console.log(shoppingListQuery.data?.map((item) => item));
-  //calculate total
-  const total = shoppingListQuery?.data?.reduce((acc, item) => {
+  const [localShoppingList, setLocalShoppingList] = React.useState(
+    shoppingListQuery.data || []
+  );
+
+  React.useEffect(() => {
+    if (shoppingListQuery.data) {
+      setLocalShoppingList(prevList => {
+        return shoppingListQuery.data.map(newItem => {
+          const existingItem = prevList.find(item => item.id === newItem.id);
+          return existingItem || newItem;
+        });
+      });
+    }
+  }, [shoppingListQuery.data]);
+
+  const total = localShoppingList.reduce((acc, item) => {
     return acc + (item.price as number) * item.quantity;
   }, 0);
+
+  const deleteItem = async (id: string) => {
+    setLocalShoppingList((prevList) =>
+      prevList.map(item => item.id === id ? { ...item, quantity: 0 } : item)
+    );
+
+    await deleteItemMutation.mutateAsync({ id } as any);
+    shoppingListQuery.refetch();
+  };
+
+  const updateItemQuantity = async (id: string, quantity: number) => {
+    setLocalShoppingList((prevList) =>
+      prevList.map((item) => (item.id === id ? { ...item, quantity } : item))
+    );
+
+    if (quantity > 0) {
+      await updateItemQuantityMutation.mutateAsync({ id, quantity } as any);
+    } else {
+      await deleteItemMutation.mutateAsync({ id } as any);
+    }
+    shoppingListQuery.refetch();
+  };
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -29,56 +69,61 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
         </DialogTitle>
 
         <div className="grid gap-4">
-          {shoppingListQuery?.data?.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center gap-4 bg-gray-50 p-4 rounded-lg shadow-sm"
-            >
-              <Image
-                src={item.imageURL as string}
-                alt={item.name}
-                width={80}
-                height={80}
-                className="rounded-md object-cover"
-                style={{ aspectRatio: "1/1", objectFit: "cover" }}
-              />
-              <div className="flex-grow">
-                <h3 className="font-semibold text-lg">{item.name}</h3>
-                <p className="text-green-600 font-medium">
-                  {formatPrice(item.price as number)}€
-                </p>
+          {localShoppingList.map((item) => (
+            item.quantity > 0 && (
+              <div
+                key={item.id}
+                className="flex items-center gap-4 bg-gray-50 p-4 rounded-lg shadow-sm"
+              >
+                <Image
+                  src={item.imageURL as string}
+                  alt={item.name}
+                  width={80}
+                  height={80}
+                  className="rounded-md object-cover"
+                  style={{ aspectRatio: "1/1", objectFit: "cover" }}
+                />
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-lg">{item.name}</h3>
+                  <p className="text-green-600 font-medium">
+                    {formatPrice(item.price as number)}€
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    <MinusIcon className="h-4 w-4" />
+                  </Button>
+                  <span className="w-8 text-center font-medium">
+                    {item.quantity}
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="text-red-500 hover:text-red-700"
+                    onClick={() => deleteItem(item.id)}
+                  >
+                    <XIcon className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={item.quantity <= 1}
-                >
-                  <MinusIcon className="h-4 w-4" />
-                </Button>
-                <span className="w-8 text-center font-medium">
-                  {item.quantity}
-                </span>
-                <Button size="sm" variant="outline">
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <XIcon className="h-5 w-5" />
-                </Button>
-              </div>
-            </div>
+            )
           ))}
         </div>
 
-        <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
-          <p className="text-lg font-medium">
-            Total: {formatPrice(total as number)}€
-          </p>
-          <p className="text-2xl font-bold text-green-600">{/* {i}€ */}</p>
+        <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg mt-4">
+          <p className="text-lg font-medium">Total: {formatPrice(total)}€</p>
         </div>
 
         <div className="mt-6 flex justify-end gap-4">

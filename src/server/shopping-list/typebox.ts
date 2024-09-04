@@ -18,3 +18,8 @@ export const addToListSchema = Type.Object({
   quantity: Type.Number(),
   imageURL: Type.String(),
 });
+
+export const UpdateItemQuantitySchema = Type.Object({
+  id: Type.String(),
+  quantity: Type.Number(),
+});
