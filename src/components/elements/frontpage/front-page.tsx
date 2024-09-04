@@ -20,7 +20,7 @@ export function useStorePage(params: { name: string }) {
   const { products, setProducts } = useProductStore();
   const { isInCart, removeItemFromCart } = CartStore();
   const { productMutation, categoryQuery } = StoreHook();
-  const { addToListMutation } = ShoppingListHook();
+  const { createShoppingListMutation } = ShoppingListHook();
   const [page, setPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState("20");
   const [attributeFilter, setAttributeFilter] = useState<
@@ -89,7 +89,7 @@ export function useStorePage(params: { name: string }) {
   };
 
   const addToCartHandler = (product: Product) => {
-    addToListMutation.mutateAsync({
+    createShoppingListMutation.mutateAsync({
       productId: product.productId,
       quantity: 1,
       imageURL: product.imageURL,

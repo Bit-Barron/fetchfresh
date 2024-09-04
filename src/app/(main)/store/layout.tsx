@@ -6,7 +6,7 @@ import { useState } from "react";
 import { StoreHook } from "@/components/hooks/store-hook";
 import { useProductStore } from "../../../store/ProductStore";
 import MenuDialog from "@/components/elements/menudialog";
-import Searchbar from "@/components/elements/frontpage/searchbar";
+import Searchbar from "@/components/elements/frontpage/front-page-searchbar";
 
 interface MainLayoutProps {
   children: React.ReactNode;

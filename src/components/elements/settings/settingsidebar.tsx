@@ -35,6 +35,11 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
       label: "Einkaufs Liste",
     },
     {
+      href: "/store/wish-lists",
+      icon: ListIcon,
+      label: "Wünsch Liste",
+    },
+    {
       href: "/store/account",
       icon: SettingsIcon,
       label: "Account Einstellungen",

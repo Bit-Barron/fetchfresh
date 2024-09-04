@@ -5,6 +5,7 @@ import { passwordResetRoute } from "@/server/password-reset";
 import { shoppingListRoute } from "@/server/shopping-list";
 import { storeRoute } from "@/server/store";
 import { userRoute } from "@/server/user";
+import { wishListRoute } from "@/server/wish-list";
 import { Elysia } from "elysia";
 
 /**
@@ -18,7 +19,8 @@ const app = new Elysia({ prefix: "/api", aot: false })
   .use(orderRoute)
   .use(shoppingListRoute)
   .use(marketRoute)
-  .use(passwordResetRoute);
+  .use(passwordResetRoute)
+  .use(wishListRoute);
 
 /**
  * Export the app type for use with RPC clients (e.g., edenTreaty)

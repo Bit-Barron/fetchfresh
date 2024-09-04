@@ -1,51 +1,90 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { Trash2Icon } from "lucide-react";
-import { Product } from "@/types/product";
-import { useShoppingListStore } from "@/store/ShoppingListStore";
+import { Trash2Icon, PlusIcon, MinusIcon } from "lucide-react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
+import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 
-interface ShoppingListItemProps {
-  item: Product;
-}
+const ShoppingListItem = ({ item }: any) => {
+  return (
+    <Card className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden">
+      <CardContent className="p-4">
+        <div className="flex items-center space-x-4">
+          <div className="flex-shrink-0">
+            {item.imageURL ? (
+              <img
+                src={item.imageURL}
+                alt={item.name}
+                className="w-20 h-20 object-cover rounded-md"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-gray-200 flex items-center justify-center rounded-md">
+                <span className="text-gray-500 text-sm">No Image</span>
+              </div>
+            )}
+          </div>
+          <div className="flex-grow">
+            <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
+            <p className="text-sm text-gray-600">
+              Price: €{(item.price / 100).toFixed(2)}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="bg-gray-50 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Button
+            size="icon"
+            variant="outline"
+            // onClick={() => updateQuantity(item.id, item.quantity - 1)}
+            disabled={item.quantity <= 1}
+          >
+            <MinusIcon className="h-4 w-4" />
+          </Button>
+          <span className="text-gray-700 font-medium">{item.quantity}</span>
+          <Button
+            size="icon"
+            variant="outline"
+            // onClick={() => updateQuantity(item.id, item.quantity + 1)}
+          >
+            <PlusIcon className="h-4 w-4" />
+          </Button>
+        </div>
+        <Button
+          variant="destructive"
+          size="icon"
+          // onClick={() => removeFromList(item.id)}
+        >
+          <Trash2Icon className="h-4 w-4" />
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
 
-const ShoppingListItem: React.FC<ShoppingListItemProps> = ({ item }) => {
-  const { removeFromList, addToCart } = useShoppingListStore();
+const ShoppingList = () => {
+  const { shoppingListQuery } = ShoppingListHook();
+  const shoppingList = shoppingListQuery.data;
+
+  if (!shoppingList) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
-      {item?.imageURL ? (
-        <Image
-          src={item?.imageURL}
-          alt={item.name}
-          width={200}
-          height={200}
-          className="mb-4 rounded-lg"
-        />
-      ) : (
-        <div className="bg-gray-200 w-40 h-40 mb-4 flex items-center justify-center rounded-lg">
-          <span className="text-gray-500">No Image</span>
+    <div className="flex min-h-screen w-full">
+      <SettingsSidebar />
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-6 text-gray-800">Shopping List</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Object.values(shoppingList).map((item) => (
+            <ShoppingListItem key={item.id} item={item} />
+          ))}
         </div>
-      )}
-      <h2 className="text-lg font-semibold text-gray-800">{item?.name}</h2>
-      <p className="text-gray-600">{item?.price}</p>
-      <p className="text-gray-600">{item?.quantity} stk</p>
-
-      <button
-        onClick={() => addToCart(item)}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-      >
-        Hinzufügen
-      </button>
-      <button
-        onClick={() => removeFromList(item.id)}
-        className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
-      >
-        <Trash2Icon />
-      </button>
+      </div>
     </div>
   );
 };
 
-export default ShoppingListItem;
+export default ShoppingList;

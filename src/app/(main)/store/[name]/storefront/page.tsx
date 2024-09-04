@@ -3,12 +3,12 @@
 import React from "react";
 import Sidebar from "@/components/elements/sidebar/sidebar";
 import { MobileSidebar } from "@/components/elements/sidebar/mobile-sidebar";
-import ProductList from "@/components/elements/frontpage/product-list";
-import PaginationComponent from "@/components/elements/frontpage/product-pagination";
 import { Attributes } from "@/types/product";
 import { useStorePage } from "@/components/elements/frontpage/front-page";
 import StorePageHeader from "@/components/elements/frontpage/front-page-header";
 import { Toaster } from "sonner";
+import ProductList from "@/components/elements/frontpage/frontpage-product-list";
+import PaginationComponent from "@/components/elements/frontpage/frontpage-pagination";
 
 interface StorePageProps {
   params: { name: string };
@@ -43,7 +43,7 @@ export default function StorePage({ params }: StorePageProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Toaster richColors position="top-right"/>
+      <Toaster richColors position="top-right" />
       <div className="flex flex-1">
         <Sidebar
           categories={categoryQuery.data?.topLevelCategories || []}

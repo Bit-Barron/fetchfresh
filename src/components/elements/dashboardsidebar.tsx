@@ -11,6 +11,7 @@ import {
   ShoppingBagIcon,
   ClipboardIcon,
   PhoneIcon,
+  
 } from "lucide-react";
 import { UserHook } from "../hooks/user-hook";
 
@@ -36,6 +37,11 @@ const sidebarSections = [
       {
         href: "/store/your-lists",
         label: "Deine Einkaufsliste",
+        icon: ListIcon,
+      },
+      {
+        href: "/store/your-lists",
+        label: "Deine Wunschliste",
         icon: ListIcon,
       },
       {

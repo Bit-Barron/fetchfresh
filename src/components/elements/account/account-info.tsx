@@ -1,5 +1,3 @@
-// components/AccountInfoForm.tsx
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +7,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import InputField from "./input";
+import InputField from "./account-input";
 import { AccountInfoFormData, AccountInfoFormProps } from "@/types/account";
 
 const AccountInfoForm: React.FC<AccountInfoFormProps> = ({

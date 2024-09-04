@@ -1,5 +1,3 @@
-// components/AddressSummary.tsx
-
 import React from "react";
 import {
   Card,

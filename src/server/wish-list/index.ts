@@ -1,11 +1,11 @@
-import { Elysia } from "elysia";
-import prisma from "@/lib/prisma";
 import { decrypt } from "@/lib/jwt";
+import prisma from "@/lib/prisma";
 import { serverEnv } from "@/utils/env/server";
-import { DeleteItemSchema, ShoppingListItemSchema } from "./typebox";
 import { User } from "@prisma/client";
+import Elysia from "elysia";
+import { wishListSchema } from "./typebox";
 
-export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
+export const wishListRoute = new Elysia({ prefix: "/wish-list" })
   .post(
     "/index",
     async (ctx) => {
@@ -19,7 +19,7 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
 
       const body = ctx.body;
 
-      const shoppingList = await prisma.shoppingListItem.create({
+      const wishList = await prisma.wishlist.create({
         data: {
           name: body.name,
           userId: user.id,
@@ -29,9 +29,11 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
           price: body.price,
         },
       });
-      return shoppingList;
+
+      console.log("Wish list created:", wishList);
+      return wishList;
     },
-    { body: ShoppingListItemSchema }
+    { body: wishListSchema }
   )
   .get("/index", async (ctx) => {
     const user = await decrypt<User>(
@@ -42,32 +44,11 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       throw new Error("User not authenticated");
     }
 
-    const shoppingList = await prisma.shoppingListItem.findMany({
+    const wishList = await prisma.wishlist.findMany({
       where: {
         userId: user.id,
       },
     });
-    return shoppingList;
-  })
-  .delete(
-    "/index",
-    async (ctx) => {
-      const user = await decrypt<User>(
-        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
-      );
 
-      if (!user || !user?.id) {
-        throw new Error("User not authenticated");
-      }
-
-      const body = ctx.body;
-
-      const shoppingList = await prisma.shoppingListItem.delete({
-        where: {
-          id: body.id,
-        },
-      });
-      return shoppingList;
-    },
-    { body: DeleteItemSchema }
-  );
+    return wishList;
+  });

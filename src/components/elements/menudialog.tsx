@@ -10,6 +10,8 @@ import { StoreHook } from "../hooks/store-hook";
 import { ShoppingListHook } from "../hooks/shopping-list-hook";
 import { Product } from "@/types/product";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { WishListHook } from "../hooks/wish-list-hook";
+import { formatPrice } from "@/utils";
 
 interface MenuDialogProps {
   onClose: () => void;
@@ -17,15 +19,14 @@ interface MenuDialogProps {
 
 const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   const { grocerySearchMutation } = StoreHook();
-  const { createShoppingListMutation } = ShoppingListHook();
+  const { createWishListMutation } = WishListHook();
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentShoppingListId, setCurrentShoppingListId] = useState<
-    string | null
-  >(null);
+  const { productDetailsMutation } = StoreHook();
+  const [price, setPrice] = useState<number>(0);
 
   const handleGrocerySearch = async (
     query: string,
@@ -52,14 +53,26 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
     }
   };
 
-  const handleCreateShoppingList = async (product: Product) => {
+  const handleCreateWishList = async (product: Product) => {
+    await productDetailsMutation
+      .mutateAsync({
+        productId: product.productId,
+      } as any)
+      .then((response) => {
+        setPrice(
+          Number(
+            formatPrice(response.product[0].listing.currentRetailPrice as any)
+          )
+        );
+      });
     try {
-      await createShoppingListMutation.mutateAsync({
+      await createWishListMutation.mutateAsync({
         name: product.title,
         quantity: 1,
         productId: product.productId,
         imageURL: product.imageURL,
-      } as any);
+        price: price,
+      });
       toast.success(`${product.title} zur Einkaufsliste hinzugefügt`);
     } catch (error) {
       toast.error("Fehler beim Hinzufügen zur Einkaufsliste");
@@ -86,7 +99,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
       <Toaster richColors position="top-right" />
       <DialogTitle></DialogTitle>
       <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
-        <h1 className="text-xl font-bold">Einkaufsliste</h1>
+        <h1 className="text-xl font-bold">Wünschliste</h1>
         <div className="mt-3">
           <Input
             placeholder="Tomate, Brot, Käse ..."
@@ -122,7 +135,7 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
                     </h2>
                   </div>
                   <Button
-                    onClick={() => handleCreateShoppingList(product)}
+                    onClick={() => handleCreateWishList(product)}
                     className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
                   >
                     <RiFileList2Fill className="h-6 w-6" />

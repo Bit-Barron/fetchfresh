@@ -30,7 +30,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { productDetailsMutation } = StoreHook();
   const { products } = useProductStore();
-  // const [productDetails, setProductDetails] = useState<Product | null>(null);
 
   const handleProductClick = () => {
     productDetailsMutation.mutateAsync({ productId: product.productId } as any);
@@ -56,7 +55,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <ProductInfo product={product} />
           <ActionButtons
             product={product}
-            isInCart={isInCart}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
           />

@@ -1,5 +1,3 @@
-// components/PersonalInfoForm.tsx
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +8,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import InputField from "./input";
+import InputField from "./account-input";
 import { PersonalInfoFormData, PersonalInfoFormProps } from "@/types/account";
 
 const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({

@@ -24,6 +24,8 @@ model User {
   resetTokenExpires DateTime?
   ShoppingListItem ShoppingListItem[]
 
+
+  Wishlist Wishlist[]
 }
 
 model Order {
@@ -46,6 +48,19 @@ model Order {
 
 
 model ShoppingListItem {
+  id             String      @id @default(cuid())
+  userId         String
+  user            User     @relation(fields: [userId], references: [id])
+  productId      String
+  name           String
+  quantity       Int
+  imageURL       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  price         Int?
+}
+
+model Wishlist {
   id             String      @id @default(cuid())
   userId         String
   user            User     @relation(fields: [userId], references: [id])

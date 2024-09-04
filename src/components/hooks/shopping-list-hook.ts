@@ -14,17 +14,6 @@ export const ShoppingListHook = () => {
     ) => handleEden(await rpc.api["shopping-list"]["index"]["post"](...args)),
   });
 
-  const addToListMutation = useMutation({
-    mutationFn: async (
-      ...args: Parameters<
-        (typeof rpc.api)["shopping-list"]["add-to-list"]["post"]
-      >
-    ) =>
-      handleEden(
-        await rpc.api["shopping-list"]["add-to-list"]["post"](...args)
-      ),
-  });
-
   const shoppingListQuery = useQuery({
     queryKey: ["shopping-list", params],
     queryFn: async () =>
@@ -38,7 +27,6 @@ export const ShoppingListHook = () => {
   });
 
   return {
-    addToListMutation,
     deleteShoppingListMutation,
     createShoppingListMutation,
     shoppingListQuery,

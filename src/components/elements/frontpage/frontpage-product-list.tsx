@@ -50,9 +50,9 @@ const ProductList: React.FC<ProductListProps> = ({
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
       {getFilteredProducts().map((product: Product) => (
         <ProductCard
-          key={product.articleId}
+          key={product.productId}
           product={product}
-          isInCart={isInCart(product.articleId as unknown as number)}
+          isInCart={isInCart(product.productId as unknown as number)}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
         />

@@ -25,8 +25,11 @@ const CartDialog: React.FC<CartDialogProps> = ({
   calculateTotal,
 }) => {
   const router = useRouter();
-  const { shoppingListQuery, addToListMutation, deleteShoppingListMutation } =
-    ShoppingListHook();
+  const {
+    shoppingListQuery,
+    createShoppingListMutation,
+    deleteShoppingListMutation,
+  } = ShoppingListHook();
   const [stableShoppingList, setStableShoppingList] = useState<any[]>([]);
 
   useEffect(() => {
@@ -48,7 +51,7 @@ const CartDialog: React.FC<CartDialogProps> = ({
     );
 
     try {
-      await addToListMutation.mutateAsync({
+      await createShoppingListMutation.mutateAsync({
         productId: item.productId,
         name: item.name,
         price: item.price,
@@ -83,7 +86,7 @@ const CartDialog: React.FC<CartDialogProps> = ({
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] w-[95vw] max-w-[800px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
         <DialogTitle className="text-3xl font-bold mb-6 flex items-center">
-          <ShoppingCart className="mr-2" /> Shopping Cart
+          <ShoppingCart className="mr-2" /> Warenkorb
         </DialogTitle>
 
         <div className="grid gap-4">
