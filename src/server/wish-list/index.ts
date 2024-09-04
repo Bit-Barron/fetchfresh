@@ -2,7 +2,7 @@ import { decrypt } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 import { serverEnv } from "@/utils/env/server";
 import { User } from "@prisma/client";
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import { wishListSchema } from "./typebox";
 
 export const wishListRoute = new Elysia({ prefix: "/wish-list" })
@@ -51,4 +51,43 @@ export const wishListRoute = new Elysia({ prefix: "/wish-list" })
     });
 
     return wishList;
-  });
+  })
+  .delete(
+    "/index",
+    async (ctx) => {
+      const user = await decrypt<User>(
+        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
+      );
+
+      if (!user || !user?.id) {
+        throw new Error("User not authenticated");
+      }
+
+      const { productId } = ctx.body as { productId: string };
+      console.log("Removing from wishlist", productId);
+      if (!productId) {
+        throw new Error("ProductId is required");
+      }
+
+      const deletedItem = await prisma.wishlist.deleteMany({
+        where: {
+          userId: user.id,
+          productId: productId,
+        },
+      });
+
+      if (deletedItem.count === 0) {
+        throw new Error("Item not found in the wishlist");
+      }
+
+      return {
+        message: "Item removed from wishlist",
+        deletedCount: deletedItem.count,
+      };
+    },
+    {
+      body: t.Object({
+        productId: t.String(),
+      }),
+    }
+  );

@@ -22,7 +22,7 @@ model User {
   email             String? @unique
   resetToken        String?
   resetTokenExpires DateTime?
-  ShoppingListItem ShoppingListItem[]
+  ShoppingList ShoppingList[]
 
 
   Wishlist Wishlist[]
@@ -47,7 +47,7 @@ model Order {
 }
 
 
-model ShoppingListItem {
+model ShoppingList {
   id             String      @id @default(cuid())
   userId         String
   user            User     @relation(fields: [userId], references: [id])

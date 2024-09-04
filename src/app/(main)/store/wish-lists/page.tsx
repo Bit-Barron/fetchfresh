@@ -8,10 +8,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
-import { ShoppingCartIcon } from "lucide-react";
+import { ShoppingCartIcon, TrashIcon } from "lucide-react";
 
-const WishlistItem = ({ item }: any) => {
+const WishlistItem = ({
+  item,
+  onRemove,
+}: {
+  item: any;
+  onRemove: (productId: string) => Promise<void>;
+}) => {
   const { createShoppingListMutation } = ShoppingListHook();
+  const { deleteWishListMutation } = WishListHook();
 
   const addToCartHandler = async (product: Product) => {
     createShoppingListMutation.mutateAsync({
@@ -22,6 +29,14 @@ const WishlistItem = ({ item }: any) => {
       price: product.listing?.currentRetailPrice,
     });
   };
+
+  const removeFromWishlistHandler = async (id: string) => {
+    await deleteWishListMutation.mutateAsync({
+      productId: id,
+    });
+    await onRemove(id);
+  };
+
   return (
     <Card className="h-full">
       <CardContent className="flex flex-col items-center p-4 bg-white h-full">
@@ -39,8 +54,14 @@ const WishlistItem = ({ item }: any) => {
               Price: €{item.price.toFixed(2)}
             </p>
           )}
-          <Button className="text-white" onClick={() => addToCartHandler(item)}>
+          <Button className="mr-2" onClick={() => addToCartHandler(item)}>
             <ShoppingCartIcon />
+          </Button>
+          <Button
+            className=""
+            onClick={() => removeFromWishlistHandler(item.productId)}
+          >
+            <TrashIcon />
           </Button>
         </div>
       </CardContent>
@@ -51,6 +72,10 @@ const WishlistItem = ({ item }: any) => {
 const WishlistPage = () => {
   const { wishListQuery } = WishListHook();
   const wishlistItems = wishListQuery.data || [];
+
+  const handleRemove = async () => {
+    await wishListQuery.refetch();
+  };
 
   return (
     <div className="flex min-h-screen w-full bg-gray-100">
@@ -67,7 +92,11 @@ const WishlistPage = () => {
               {wishlistItems.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {wishlistItems.map((item, index) => (
-                    <WishlistItem key={item.id || index} item={item} />
+                    <WishlistItem
+                      key={item.productId || index}
+                      item={item}
+                      onRemove={handleRemove}
+                    />
                   ))}
                 </div>
               ) : (

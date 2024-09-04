@@ -15,7 +15,14 @@ export const WishListHook = () => {
       handleEden(await rpc.api["wish-list"]["index"]["get"]()),
   });
 
+  const deleteWishListMutation = useMutation({
+    mutationFn: async (
+      ...args: Parameters<(typeof rpc.api)["wish-list"]["index"]["delete"]>
+    ) => handleEden(await rpc.api["wish-list"]["index"]["delete"](...args)),
+  });
+
   return {
+    deleteWishListMutation,
     wishListQuery,
     createWishListMutation,
   };

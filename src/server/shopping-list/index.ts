@@ -19,7 +19,7 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
 
       const body = ctx.body;
 
-      const shoppingList = await prisma.shoppingListItem.create({
+      const shoppingList = await prisma.shoppingList.create({
         data: {
           name: body.name,
           userId: user.id,
@@ -42,7 +42,7 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       throw new Error("User not authenticated");
     }
 
-    const shoppingList = await prisma.shoppingListItem.findMany({
+    const shoppingList = await prisma.shoppingList.findMany({
       where: {
         userId: user.id,
       },
@@ -62,7 +62,7 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
 
       const body = ctx.body;
 
-      const shoppingList = await prisma.shoppingListItem.delete({
+      const shoppingList = await prisma.shoppingList.delete({
         where: {
           id: body.id,
         },
