@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { CartItem } from "@/types";
 import { formatPrice } from "@/utils";
-import { Separator } from "@radix-ui/react-select";
 import { MinusIcon, PlusIcon, XIcon, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

@@ -8,12 +8,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
+import { ShoppingCartIcon } from "lucide-react";
 
 const WishlistItem = ({ item }: any) => {
   const { createShoppingListMutation } = ShoppingListHook();
 
   const addToCartHandler = async (product: Product) => {
-    console.log("Adding to cart", product);
     createShoppingListMutation.mutateAsync({
       productId: product.productId,
       quantity: 1,
@@ -39,11 +39,8 @@ const WishlistItem = ({ item }: any) => {
               Price: €{item.price.toFixed(2)}
             </p>
           )}
-          <Button
-            className="bg-green-600 w-full text-white"
-            onClick={() => addToCartHandler(item)}
-          >
-            Warenkorb hinzufügen
+          <Button className="text-white" onClick={() => addToCartHandler(item)}>
+            <ShoppingCartIcon />
           </Button>
         </div>
       </CardContent>

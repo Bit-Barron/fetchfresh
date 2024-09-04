@@ -5,9 +5,10 @@ import { UserHook } from "@/components/hooks/user-hook";
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { toast, Toaster } from "sonner";
 import AccountInfoForm from "@/components/elements/account/account-info";
-import AddressSummary from "@/components/elements/account/address-summary";
-import PersonalInfoForm from "@/components/elements/account/personal-info";
+
 import { User } from "@/types/account";
+import AddressSummary from "@/components/elements/account/account-address-summary";
+import PersonalInfoForm from "@/components/elements/account/account-personal-info";
 
 const Account: React.FC = () => {
   const { meQuery, updateUser } = UserHook();

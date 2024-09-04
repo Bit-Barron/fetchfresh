@@ -1,9 +1,8 @@
 import {
   ClipboardIcon,
   SettingsIcon,
-  PlusIcon,
   ListIcon,
-  GemIcon,
+  GiftIcon,
   LogOutIcon,
   ShoppingBagIcon,
   ArrowLeftIcon,
@@ -32,12 +31,12 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
     {
       href: "/store/your-lists",
       icon: ListIcon,
-      label: "Einkaufs Liste",
+      label: "Einkaufsliste",
     },
     {
       href: "/store/wish-lists",
-      icon: ListIcon,
-      label: "Wünsch Liste",
+      icon: GiftIcon,
+      label: "Wunschliste",
     },
     {
       href: "/store/account",
@@ -61,7 +60,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
         Zurück
       </button>
       <Separator className="my-4 bg-gray-200" />
-      <nav className="space-y-4">
+      <nav className="space-y-10">
         {sidebarItems.map((item, index) => (
           <div key={index}>
             <Link
