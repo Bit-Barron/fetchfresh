@@ -58,7 +58,6 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
       } as any);
 
       const price = response.product[0].listing.currentRetailPrice;
-      console.log("Fetched price:", price);
 
       await createWishListMutation.mutateAsync({
         name: product.title,

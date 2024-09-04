@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import { ShoppingCartIcon, TrashIcon } from "lucide-react";
+import { formatPrice } from "@/utils";
 
 const WishlistItem = ({
   item,
@@ -25,7 +26,7 @@ const WishlistItem = ({
       quantity: 1,
       imageURL: product.imageURL,
       name: product.name,
-      price: product.listing?.currentRetailPrice,
+      price: product.price,
     });
   };
 
@@ -50,7 +51,7 @@ const WishlistItem = ({
           <p className="text-xs text-gray-500">Quantity: {item.quantity}</p>
           {item.price && (
             <p className="text-sm font-semibold mt-2">
-              Price: €{item.price.toFixed(2)}
+              Price: {formatPrice(item.price.toFixed(2))}€
             </p>
           )}
           <Button className="mr-2" onClick={() => addToCartHandler(item)}>

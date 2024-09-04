@@ -53,29 +53,7 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
     });
     return shoppingList;
   })
-  .delete(
-    "/index",
-    async (ctx) => {
-      const user = await decrypt<User>(
-        ctx.cookie[serverEnv.AUTH_COOKIE].value as string
-      );
-
-      if (!user || !user?.id) {
-        throw new Error("User not authenticated");
-      }
-
-      const body = ctx.body;
-
-      const shoppingList = await prisma.shoppingList.delete({
-        where: {
-          id: body.id,
-        },
-      });
-      return shoppingList;
-    },
-    { body: DeleteItemSchema }
-  )
-  .delete("/:productId", async (ctx) => {
+  .delete("/products", async (ctx: any) => {
     const user = await decrypt<User>(
       ctx.cookie[serverEnv.AUTH_COOKIE].value as string
     );
@@ -84,15 +62,25 @@ export const shoppingListRoute = new Elysia({ prefix: "/shopping-list" })
       throw new Error("User not authenticated");
     }
 
-    const productId = ctx.params.productId;
+    const { id } = ctx.body;
 
-    const shoppingList = await prisma.shoppingList.deleteMany({
-      where: {
-        userId: user.id,
-        productId: productId,
-      },
-    });
-    return shoppingList;
+    if (!id) {
+      throw new Error("Item id is required");
+    }
+
+    try {
+      const deletedItem = await prisma.shoppingList.delete({
+        where: {
+          id: id,
+          userId: user.id,
+        },
+      });
+
+      return deletedItem;
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      throw new Error(`Failed to delete item with id: ${id}`);
+    }
   })
   .put(
     "/update-quantity",

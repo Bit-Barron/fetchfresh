@@ -30,7 +30,6 @@ export const wishListRoute = new Elysia({ prefix: "/wish-list" })
         },
       });
 
-      console.log("Wish list created:", wishList);
       return wishList;
     },
     { body: wishListSchema }
@@ -64,7 +63,6 @@ export const wishListRoute = new Elysia({ prefix: "/wish-list" })
       }
 
       const { productId } = ctx.body as { productId: string };
-      console.log("Removing from wishlist", productId);
       if (!productId) {
         throw new Error("ProductId is required");
       }

@@ -11,14 +11,6 @@ import { useCheckoutStore } from "@/store/CheckoutStore";
 import OrderSummary from "@/components/elements/account/account-order-summary";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
 export default function Checkout() {
   const {
     formData,

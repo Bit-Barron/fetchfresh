@@ -20,21 +20,13 @@ export const ShoppingListHook = () => {
       handleEden(await rpc.api["shopping-list"]["index"]["get"]()),
   });
 
-  const deleteShoppingListMutation = useMutation({
-    mutationFn: async (
-      ...args: Parameters<(typeof rpc.api)["shopping-list"]["index"]["delete"]>
-    ) => handleEden(await rpc.api["shopping-list"]["index"]["delete"](...args)),
-  });
-
   const deleteItemMutation = useMutation({
     mutationFn: async (
       ...args: Parameters<
-        (typeof rpc.api)["shopping-list"][":productId"]["delete"]
+        (typeof rpc.api)["shopping-list"]["products"]["delete"]
       >
     ) =>
-      handleEden(
-        await rpc.api["shopping-list"][":productId"]["delete"](...args)
-      ),
+      handleEden(await rpc.api["shopping-list"]["products"]["delete"](...args)),
   });
   const updateItemQuantityMutation = useMutation({
     mutationFn: async (
@@ -50,7 +42,6 @@ export const ShoppingListHook = () => {
   return {
     updateItemQuantityMutation,
     deleteItemMutation,
-    deleteShoppingListMutation,
     createShoppingListMutation,
     shoppingListQuery,
   };

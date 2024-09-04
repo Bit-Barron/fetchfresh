@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 
-const ShoppingListItem = ({ item }: any) => {
+const ShoppingListItem = ({ item, onUpdateQuantity, onDelete }: any) => {
   return (
     <Card className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden">
       <CardContent className="p-4">
@@ -38,7 +38,7 @@ const ShoppingListItem = ({ item }: any) => {
           <Button
             size="icon"
             variant="outline"
-            // onClick={() => updateQuantity(item.id, item.quantity - 1)}
+            onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
             disabled={item.quantity <= 1}
           >
             <MinusIcon className="h-4 w-4" />
@@ -47,7 +47,7 @@ const ShoppingListItem = ({ item }: any) => {
           <Button
             size="icon"
             variant="outline"
-            // onClick={() => updateQuantity(item.id, item.quantity + 1)}
+            onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
           >
             <PlusIcon className="h-4 w-4" />
           </Button>
@@ -55,7 +55,7 @@ const ShoppingListItem = ({ item }: any) => {
         <Button
           variant="destructive"
           size="icon"
-          // onClick={() => removeFromList(item.id)}
+          onClick={() => onDelete(item.id)}
         >
           <Trash2Icon className="h-4 w-4" />
         </Button>
@@ -65,8 +65,31 @@ const ShoppingListItem = ({ item }: any) => {
 };
 
 const ShoppingList = () => {
-  const { shoppingListQuery } = ShoppingListHook();
+  const { shoppingListQuery, deleteItemMutation, updateItemQuantityMutation } =
+    ShoppingListHook();
+
   const shoppingList = shoppingListQuery.data;
+
+  const handleUpdateQuantity = async (id: string, newQuantity: number) => {
+    try {
+      await updateItemQuantityMutation.mutateAsync({
+        id,
+        quantity: newQuantity,
+      });
+      shoppingListQuery.refetch();
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteItemMutation.mutateAsync({ id } as any);
+      shoppingListQuery.refetch();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   if (!shoppingList) {
     return <div>Loading...</div>;
@@ -76,10 +99,15 @@ const ShoppingList = () => {
     <div className="flex min-h-screen w-full bg-gray-100">
       <SettingsSidebar />
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Shopping List</h1>
+        <h1 className="text-2xl font-bold mb-6 text-gray-800">Einkaufsliste</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.values(shoppingList).map((item) => (
-            <ShoppingListItem key={item.id} item={item} />
+            <ShoppingListItem
+              key={item.id}
+              item={item}
+              onUpdateQuantity={handleUpdateQuantity}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       </div>
