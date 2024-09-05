@@ -85,7 +85,7 @@ export default function RegisterPage(props: RegisterPageProps) {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                     className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary block w-full rounded-md px-3 py-2 shadow-sm"
-                    placeholder="JohnDoe123@gmail.com"
+                    placeholder="JohnDoe123"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function RegisterPage(props: RegisterPageProps) {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary block w-full rounded-md px-3 py-2 shadow-sm"
-                    placeholder="JohnDoe123"
+                    placeholder="JohnDoe123@gmail.com"
                   />
                 </div>
               </div>
