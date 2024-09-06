@@ -1,4 +1,5 @@
 "use client";
+
 import { AuthHook } from "@/components/hooks/auth-hook";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
