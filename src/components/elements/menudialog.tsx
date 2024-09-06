@@ -93,74 +93,67 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
     <Dialog open={true} onOpenChange={onClose}>
       <Toaster richColors position="top-right" />
       <DialogTitle></DialogTitle>
-      <DialogContent className="max-h-[80vh] w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
-        <h1 className="text-xl font-bold">Wunschliste</h1>
+      <DialogContent className="max-h-[80vh] w-[95vw] sm:w-[90vw] max-w-[600px] overflow-y-auto rounded-lg bg-white p-4 sm:p-6 shadow-lg">
+        <h1 className="text-lg sm:text-xl font-bold">Wunschliste</h1>
         <div className="mt-3">
           <Input
             placeholder="Tomate, Brot, Käse ..."
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
+            className="text-sm sm:text-base"
           />
         </div>
-        <div className="mt-6 grid grid-cols-1 gap-4">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 gap-3 sm:gap-4">
           {products.length > 0 ? (
             products.map((product: Product) => (
               <div
                 key={product.productId}
-                className="flex items-center border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                className="flex items-center border rounded-lg p-2 sm:p-4 shadow-sm hover:shadow-md transition-shadow"
               >
                 <Image
                   src={
                     product.imageURL
                       ? decodeURIComponent(product.imageURL)
                       : "/placeholder.png"
-                  } // Decode the image URL and use a placeholder if the URL is missing
+                  }
                   alt={product.title}
-                  width={100}
-                  height={100}
-                  className="rounded-lg"
-                  unoptimized // Disable Next.js image optimization
+                  width={60}
+                  height={60}
+                  className="rounded-lg object-cover"
+                  unoptimized
                 />
-                <div className="ml-4 flex-grow">
-                  <h2
-                    className="text-lg font-semibold truncate"
-                    style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      maxWidth: "300px",
-                    }}
-                  >
+                <div className="ml-3 sm:ml-4 flex-grow min-w-0">
+                  <h2 className="text-sm sm:text-base font-semibold truncate">
                     {product.title}
                   </h2>
-                  <p className="text-sm text-gray-600">
-                    {formatPrice(product.price)}€
-                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600"></p>
                 </div>
                 <Button
                   onClick={() => handleCreateWishList(product)}
-                  className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+                  className="bg-green-700 text-white p-2 sm:p-2 rounded-lg hover:bg-green-800 transition"
                 >
-                  <RiFileList2Fill className="h-6 w-6" />
+                  <RiFileList2Fill className="h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">Keine Produkte gefunden</p>
+            <p className="text-center text-gray-500 text-sm sm:text-base">
+              Keine Produkte gefunden
+            </p>
           )}
         </div>
         {hasMore && searchQuery && (
-          <div className="mt-6 flex justify-center">
+          <div className="mt-4 sm:mt-6 flex justify-center">
             <Button
               onClick={loadMore}
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+              className="bg-green-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-green-600 transition text-sm sm:text-base"
               disabled={isLoadingMore}
             >
               {isLoadingMore ? "Lädt..." : "Mehr laden"}
             </Button>
           </div>
         )}
-        <Separator className="my-6" />
+        <Separator className="my-4 sm:my-6" />
       </DialogContent>
     </Dialog>
   );

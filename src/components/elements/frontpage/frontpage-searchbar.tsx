@@ -155,10 +155,10 @@ export default function Searchbar({
         <Button
           variant="ghost"
           size="icon"
-          className="flex-shrink-0 mr-2"
+          className=""
           onClick={() => setSidebarOpen(true)}
         >
-          <MenuIcon className="h-6 w-6" />
+          <MenuIcon className="h-6 w-6 mr-4" />
         </Button>
         <DashboardSidebar
           isOpen={sidebarOpen}
