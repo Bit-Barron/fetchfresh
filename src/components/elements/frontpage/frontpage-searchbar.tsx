@@ -99,93 +99,97 @@ export default function Searchbar({
   );
 
   const renderMenuContent = () => (
-    <NavigationMenuContent className="w-full md:w-[1800px] md:flex-row bg-white shadow-lg sm:max-w-lg md:max-w-[1900px]">
-      <ul className="grid gap-3 p-3">
-        <div className="mt-2">
-          {filteredProducts.slice(0, 11).map((product) => (
-            <div
+    <NavigationMenuContent className="w-full md:w-[1800px] bg-white shadow-lg sm:max-w-lg md:max-w-[1900px] rounded-b-lg">
+      <div className="p-4">
+        <h2 className="text-lg font-semibold mb-3">Suchergebnisse</h2>
+        <ul className="space-y-2">
+          {filteredProducts.slice(0, 10).map((product) => (
+            <li
               key={product.id}
-              className="relative flex rounded-lg p-2 transition-shadow duration-300 hover:bg-gray-200"
+              className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors duration-200"
             >
-              <div className="flex-1">
-                <h1 className="truncate mt-2 ml-10 text-sm font-semibold text-black hover:text-green-700">
-                  {product.title}
-                </h1>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                  {/* You can replace this with an actual product image if available */}
+                  <span className="text-gray-500 text-xs">
+                    {product.title.charAt(0)}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-900">
+                    {product.title}
+                  </h3>
+                  <p className="text-xs text-gray-500">{product.categories}</p>
+                </div>
               </div>
-              <div className="">
-                {meQuery?.data ? (
-                  <div>
-                    <ShoppingCartIcon
-                      onClick={() => {
-                        toast.success("Erfolgreich zum warenkorb hinzugefügt");
-                      }}
-                      className="h-3 w-3 mt-1"
-                    />
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
+              {meQuery?.data && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    toast.success("Erfolgreich zum Warenkorb hinzugefügt");
+                  }}
+                >
+                  <ShoppingCartIcon className="h-4 w-4" />
+                </Button>
+              )}
+            </li>
           ))}
-          <div
-            className="cursor-pointer underline ml-10"
+        </ul>
+        <div className="mt-4 text-center">
+          <Button
+            variant="link"
+            className="text-green-600 hover:text-green-800"
             onClick={() => router.push("/store/rewe/storefront")}
           >
-            Alle Produkte sehen
-          </div>
+            Alle Produkte anzeigen
+          </Button>
         </div>
-      </ul>
+      </div>
     </NavigationMenuContent>
   );
 
   return (
     <header className="bg-background flex flex-col items-center justify-between bg-[#F7F5F0] px-2 py-4 shadow-sm sm:flex-row">
       <div className="flex w-full items-center justify-between">
-        <MenuIcon onClick={() => setSidebarOpen(true)} className="" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex-shrink-0 mr-2"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <MenuIcon className="h-6 w-6" />
+        </Button>
         <DashboardSidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
-        <div className="">
-          {/* <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-4 left-20 hover:bg-muted/50 rounded-full"
-            onClick={() => setDrawerOpen(true)}
-          >
-            Markt auswählen
-          </Button> */}
-          <MarketMapDrawer
-            isOpen={drawerOpen}
-            onClose={() => setDrawerOpen(false)}
-          />
+        <div className="flex-grow max-w-4xl mx-auto">
           <form
             className="relative flex items-center"
             onSubmit={(e) => e.preventDefault()}
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
           >
-            <NavigationMenu className="">
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="flex items-center">
+            <NavigationMenu className="w-full">
+              <NavigationMenuList className="w-full">
+                <NavigationMenuItem className="w-full">
+                  <NavigationMenuTrigger className="flex items-center w-full">
                     <SearchIcon className="text-muted-foreground absolute left-3 top-1/2 ml-2 h-5 w-5 -translate-y-1/2 text-black" />
                     <Input
                       type="search"
-                      placeholder="Suche, Produkte, Geschäfte und Rezepte"
+                      placeholder="Suche Produkte, Geschäfte und Rezepte"
                       value={searchQuery}
                       onChange={handleSearch}
-                      className="!focus:outline-none w-full shadow-lg rounded-full border bg-[#F6F7F8] py-6 pl-10 pr-4 text-sm text-black placeholder:text-black md:w-[1800px]"
+                      className="md:w-[1500px] shadow-lg rounded-full border bg-[#F6F7F8] py-2 pl-10 pr-4 text-sm text-black placeholder:text-black"
                     />
                   </NavigationMenuTrigger>
-                  {menuOpen && renderMenuContent()}
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </form>
         </div>
-        <div className="ml-4">
+        <div className="flex-shrink-0 ml-2">
           {meQuery?.data ? renderUserControls() : renderAuthButtons()}
         </div>
       </div>

@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, addToCart }) => {
         <CardContent className="flex flex-grow flex-col overflow-hidden">
           <ProductImage imageURL={product.imageURL} title={product.title} />
           <ProductInfo product={product} />
-          <ActionButtons product={product} addToCart={addToCart} />
+          <ActionButtons product={product} />
         </CardContent>
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
