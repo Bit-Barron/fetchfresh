@@ -1,7 +1,6 @@
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
-import React from "react";
 import InputField from "./checkout-input";
 
 type FormData = {
@@ -21,13 +20,14 @@ export const CheckoutForm = ({
   setUseSavedAddress,
 }: {
   formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  setFormData: (data: FormData) => void;
   useSavedAddress: boolean;
   setUseSavedAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    console.log(`Changing ${id} to ${value}`);
+    setFormData({ ...formData, [id]: value });
   };
 
   return (
@@ -105,5 +105,3 @@ export const CheckoutForm = ({
     </div>
   );
 };
-
-
