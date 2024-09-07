@@ -44,7 +44,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
       label: "Account Einstellungen",
     },
     {
-      href: "#",
+      href: "/logout",
       icon: LogOutIcon,
       label: "Logout",
     },
@@ -60,7 +60,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
         Zurück
       </button>
       <Separator className="my-4 bg-gray-200" />
-      <nav className="space-y-10">
+      <nav className="space-y-5">
         {sidebarItems.map((item, index) => (
           <div key={index}>
             <Link

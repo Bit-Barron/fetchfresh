@@ -72,13 +72,13 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
           <ShoppingCart className="mr-2" /> Warenkorb
         </DialogTitle>
 
-        <div className="grid gap-4">
+        <div className="grid ">
           {localShoppingList.map(
             (item) =>
               item.quantity > 0 && (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-lg shadow-sm"
+                  className="flex items-center gap-4 bg-gray-50 p-2 rounded-lg shadow-sm"
                 >
                   <Image
                     src={item.imageURL ? decodeURIComponent(item.imageURL) : ""}

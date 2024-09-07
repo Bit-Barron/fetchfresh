@@ -22,6 +22,5 @@ jobs:
           echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
           cat .env
 
-          
       - name: Docker run
         run: docker-compose up -d --force-recreate --build
