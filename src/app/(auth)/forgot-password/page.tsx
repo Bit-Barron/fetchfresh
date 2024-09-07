@@ -44,7 +44,6 @@ export default function ForgotPassword() {
     }
   };
 
-  if (isSubmitted) {
     return (
       <div className="text-center">
         <h1 className="text-3xl font-bold">Überprüfen Sie Ihre E-Mails</h1>
