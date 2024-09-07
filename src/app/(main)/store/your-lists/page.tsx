@@ -1,13 +1,32 @@
 "use client";
 
-import React from "react";
+import { toast, Toaster } from "sonner";
+import React, { useMemo } from "react";
 import { Trash2Icon, PlusIcon, MinusIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 
-const ShoppingListItem = ({ item, onUpdateQuantity, onDelete }: any) => {
+interface ShoppingItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imageURL?: string;
+}
+
+interface ShoppingListItemProps {
+  item: ShoppingItem;
+  onUpdateQuantity: (id: string, newQuantity: number) => void;
+  onDelete: (id: string) => void;
+}
+
+const ShoppingListItem: React.FC<ShoppingListItemProps> = ({
+  item,
+  onUpdateQuantity,
+  onDelete,
+}) => {
   return (
     <Card className="w-full max-w-sm bg-white shadow-md rounded-lg overflow-hidden">
       <CardContent className="p-4">
@@ -64,49 +83,64 @@ const ShoppingListItem = ({ item, onUpdateQuantity, onDelete }: any) => {
   );
 };
 
-const ShoppingList = () => {
+const ShoppingList: React.FC = () => {
   const { shoppingListQuery, deleteItemMutation, updateItemQuantityMutation } =
     ShoppingListHook();
 
   const shoppingList = shoppingListQuery.data;
 
+  const sortedShoppingList = useMemo(() => {
+    if (!shoppingList) return [];
+    return Object.values(shoppingList).sort((a, b) => a.id.localeCompare(b.id));
+  }, [shoppingList]);
+
   const handleUpdateQuantity = async (id: string, newQuantity: number) => {
     try {
-      await updateItemQuantityMutation.mutateAsync({
-        id,
-        quantity: newQuantity,
-      });
+      await updateItemQuantityMutation
+        .mutateAsync({
+          id,
+          quantity: newQuantity,
+        })
+        .then(() => toast.success("Quantity updated!"));
       shoppingListQuery.refetch();
     } catch (error) {
+      toast.error("Error updating quantity");
       console.error("Error updating quantity:", error);
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteItemMutation.mutateAsync({ id } as any);
+      await deleteItemMutation.mutateAsync({ id } as any).then(() => {
+        toast.success("Item deleted!");
+      });
       shoppingListQuery.refetch();
     } catch (error) {
       console.error("Error deleting item:", error);
     }
   };
 
-  if (!shoppingList) {
+  if (shoppingListQuery.isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (shoppingListQuery.isError) {
+    return <div>Error loading shopping list</div>;
   }
 
   return (
     <div className="flex min-h-screen w-full bg-gray-100">
       <SettingsSidebar />
+      <Toaster richColors position="top-right" />
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Einkaufsliste</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.values(shoppingList).map((item) => (
+          {sortedShoppingList.map((item) => (
             <ShoppingListItem
               key={item.id}
-              item={item}
               onUpdateQuantity={handleUpdateQuantity}
               onDelete={handleDelete}
+              item={item as ShoppingItem}
             />
           ))}
         </div>

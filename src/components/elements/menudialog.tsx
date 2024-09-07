@@ -52,6 +52,11 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
   };
 
   const handleCreateWishList = async (product: Product) => {
+    // Show toast immediately
+    const toastId = toast.loading(
+      `${product.title} wird zur Einkaufsliste hinzugefügt...`
+    );
+
     try {
       const response = await productDetailsMutation.mutateAsync({
         productId: product.productId,
@@ -67,9 +72,13 @@ const MenuDialog: React.FC<MenuDialogProps> = ({ onClose }) => {
         price: price,
       });
 
-      toast.success(`${product.title} zur Einkaufsliste hinzugefügt`);
+      // Update the toast to success
+      toast.success(`${product.title} zur Einkaufsliste hinzugefügt`, {
+        id: toastId,
+      });
     } catch (error) {
-      toast.error("Fehler beim Hinzufügen zur Einkaufsliste");
+      // Update the toast to error
+      toast.error("Fehler beim Hinzufügen zur Einkaufsliste", { id: toastId });
       console.error("Failed to add product to shopping list:", error);
     }
   };

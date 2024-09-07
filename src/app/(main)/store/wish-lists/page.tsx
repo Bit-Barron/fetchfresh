@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
+import { toast, Toaster } from "sonner";
 import { SettingsSidebar } from "@/components/elements/settings/settingsidebar";
 import { WishListHook } from "@/components/hooks/wish-list-hook";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { ShoppingListHook } from "@/components/hooks/shopping-list-hook";
@@ -21,19 +21,33 @@ const WishlistItem = ({
   const { deleteWishListMutation } = WishListHook();
 
   const addToCartHandler = async (product: Product) => {
-    createShoppingListMutation.mutateAsync({
-      productId: product.productId,
-      quantity: 1,
-      imageURL: product.imageURL,
-      name: product.name,
-      price: product.price,
-    });
+    createShoppingListMutation
+      .mutateAsync({
+        productId: product.productId,
+        quantity: 1,
+        imageURL: product.imageURL,
+        name: product.name,
+        price: product.price,
+      })
+      .then(() => {
+        toast.success("Product added to cart");
+      })
+      .catch(() => {
+        toast.error("Failed to add product to cart");
+      });
   };
 
   const removeFromWishlistHandler = async (id: string) => {
-    await deleteWishListMutation.mutateAsync({
-      productId: id,
-    });
+    await deleteWishListMutation
+      .mutateAsync({
+        productId: id,
+      })
+      .then(() => {
+        toast.success("Product removed from wishlist");
+      })
+      .catch(() => {
+        toast.error("Failed to remove product from wishlist");
+      });
     await onRemove(id);
   };
 
@@ -92,6 +106,7 @@ const WishlistPage = () => {
   return (
     <div className="flex min-h-screen w-full bg-gray-100">
       <SettingsSidebar />
+      <Toaster richColors position="top-right" />
       <main className="flex-1 p-8">
         <Card className="w-full max-w-8xl mx-auto">
           <CardHeader>
@@ -100,23 +115,21 @@ const WishlistPage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[calc(100vh-200px)]">
-              {uniqueWishlistItems.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {uniqueWishlistItems.map((item: Product, index) => (
-                    <WishlistItem
-                      key={item.productId || index}
-                      item={item}
-                      onRemove={handleRemove}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-gray-500">
-                  Your wishlist is empty.
-                </p>
-              )}
-            </ScrollArea>
+            {uniqueWishlistItems.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {uniqueWishlistItems.map((item: Product, index) => (
+                  <WishlistItem
+                    key={item.productId || index}
+                    item={item}
+                    onRemove={handleRemove}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">
+                Your wishlist is empty.
+              </p>
+            )}
           </CardContent>
         </Card>
       </main>
