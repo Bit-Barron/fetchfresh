@@ -5,6 +5,7 @@ import { User } from "@prisma/client";
 import Elysia, { t } from "elysia";
 import { wishListSchema } from "./typebox";
 
+
 export const wishListRoute = new Elysia({ prefix: "/wish-list" })
   .post(
     "/index",
