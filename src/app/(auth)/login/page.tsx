@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthHook } from "@/components/hooks/auth-hook";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
