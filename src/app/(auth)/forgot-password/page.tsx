@@ -6,21 +6,41 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePasswordReset } from "@/components/hooks/forgot-password-hook";
+import { toast } from "sonner";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const { requestPasswordReset } = usePasswordReset();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    setError("");
+
+    if (!email) {
+      setError("Bitte geben Sie eine E-Mail-Adresse ein.");
+      console.error("No email provided"); // Debug log
+      return;
+    }
+
     try {
+      console.log("Attempting to request password reset for:", email); // Debug log
       await requestPasswordReset.mutateAsync(email);
+      console.log("Password reset request successful"); // Debug log
       setIsSubmitted(true);
+      toast.success(
+        "Anweisungen zum Zurücksetzen des Passworts wurden gesendet."
+      );
     } catch (err) {
-      console.error(err);
+      console.error("Password reset request failed:", err); // Debug log
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Ein Fehler ist aufgetreten beim Zurücksetzen des Passworts.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -75,9 +95,10 @@ export default function ForgotPassword() {
               />
             </div>
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <div>
             <Button type="submit" className="w-full bg-black text-white">
-              Passwort zurücksetzen
+              Reset
             </Button>
           </div>
           <div className="text-center">
