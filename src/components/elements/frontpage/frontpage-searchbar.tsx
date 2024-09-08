@@ -181,7 +181,7 @@ export default function Searchbar({
                       placeholder="Suche Produkte, Geschäfte und Rezepte"
                       value={searchQuery}
                       onChange={handleSearch}
-                      className="md:w-[1500px] shadow-lg rounded-full border bg-[#F6F7F8] py-3 pl-10 pr-5 text-sm text-black placeholder:text-black"
+                      className="md:w-[1500px] shadow-lg rounded-full border bg-[#F6F7F8] py-4 pl-10 pr-5 text-sm text-black placeholder:text-black"
                     />
                   </NavigationMenuTrigger>
                 </NavigationMenuItem>
