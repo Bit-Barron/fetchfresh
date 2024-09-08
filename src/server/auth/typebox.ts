@@ -17,7 +17,6 @@ export const loginUser = t.Object({
   password: t.String({ minLength: 1, maxLength: 128 }),
 });
 
-
 /**
  * TypeScript type
  *  derived from the authUser schema.
