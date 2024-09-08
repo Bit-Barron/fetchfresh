@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   demo:
     container_name: grocerygo
@@ -9,10 +11,19 @@ services:
       args:
         - SECRET=${SECRET}
         - DATABASE_URL=${DATABASE_URL}
+        - NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+        - NEXT_PUBLIC_SMTP_HOST=${NEXT_PUBLIC_SMTP_HOST}
+        - NEXT_PUBLIC_SMTP_USER=${NEXT_PUBLIC_SMTP_USER}
+        - NEXT_PUBLIC_SMTP_PASS=${NEXT_PUBLIC_SMTP_PASS}
     environment:
       - SECRET=${SECRET}
       - DATABASE_URL=${DATABASE_URL}
       - NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_SMTP_HOST=${NEXT_PUBLIC_SMTP_HOST}
+      - NEXT_PUBLIC_SMTP_USER=${NEXT_PUBLIC_SMTP_USER}
+      - NEXT_PUBLIC_SMTP_PASS=${NEXT_PUBLIC_SMTP_PASS}
     networks:
       - proxy
     labels:
