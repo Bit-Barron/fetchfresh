@@ -26,7 +26,7 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grocerygo.rule=Host(`grocerygo.barron.agency`)"
+      - "traefik.http.routers.grocerygo.rule=Host(`fetchfresh.de`)"
       - "traefik.http.routers.grocerygo.entrypoints=websecure"
       - "traefik.http.routers.grocerygo.tls.certresolver=letsencrypt"
       - "traefik.http.services.grocerygo.loadbalancer.server.port=3000"
