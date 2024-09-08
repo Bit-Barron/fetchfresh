@@ -80,6 +80,7 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
                   key={item.id}
                   className="flex flex-col bg-gray-50 p-3 rounded-lg shadow-sm"
                 >
+                  
                   <div className="flex items-center mb-2">
                     <Image
                       src={
