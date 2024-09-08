@@ -18,15 +18,15 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 }) => {
   const handleAddToCart = () => {
     addToCart(product, 1);
-    toast.success("Erfolgreich zum Warenkorb hinzugefügt");
+    toast.success(`${product.title} Erfolgreich zum Warenkorb hinzugefügt`);
   };
 
   const { title = "Unbekanntes Produkt", imageURL, listing } = product;
 
   const decodedTitle = decodeURIComponent(title || "Unbekanntes Produkt");
-  const imageSrc = imageURL ? decodeURIComponent(imageURL) : "/placeholder.svg"; 
+  const imageSrc = imageURL ? decodeURIComponent(imageURL) : "/placeholder.svg";
 
-  const formattedPrice = formatPrice(listing?.currentRetailPrice || 0); 
+  const formattedPrice = formatPrice(listing?.currentRetailPrice || 0);
 
   return (
     <div className="grid gap-6 md:grid-cols-2 md:gap-10">

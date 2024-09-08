@@ -51,7 +51,9 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    toast.success("Erfolgreich zum Warenkorb hinzugefügt");
+                    toast.success(
+                      `${item.title} Erfolgreich zum Warenkorb hinzugefügt`
+                    );
                     addToCart(item, 1);
                   }}
                   className="flex items-center justify-center w-full px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-700 transition duration-200"

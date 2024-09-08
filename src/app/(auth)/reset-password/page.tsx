@@ -61,7 +61,6 @@ export default function ResetPassword() {
       const errorMessage =
         err instanceof Error ? err.message : "Ein Fehler ist aufgetreten";
       setError(errorMessage);
-      toast.error(errorMessage);
     }
   };
 

@@ -101,10 +101,10 @@ const ShoppingList: React.FC = () => {
           id,
           quantity: newQuantity,
         })
-        .then(() => toast.success("Quantity updated!"));
+        .then(() => toast.success("Menge aktualisiert"));
       shoppingListQuery.refetch();
     } catch (error) {
-      toast.error("Error updating quantity");
+      toast.error("Error beim Menge aktualisiert");
       console.error("Error updating quantity:", error);
     }
   };
@@ -112,7 +112,7 @@ const ShoppingList: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteItemMutation.mutateAsync({ id } as any).then(() => {
-        toast.success("Item deleted!");
+        toast.success("Item gelöscht!");
       });
       shoppingListQuery.refetch();
     } catch (error) {

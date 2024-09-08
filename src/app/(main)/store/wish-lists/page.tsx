@@ -30,10 +30,10 @@ const WishlistItem = ({
         price: product.price,
       })
       .then(() => {
-        toast.success("Product added to cart");
+        toast.success("Product zu Warenkorb hinzugefügt");
       })
       .catch(() => {
-        toast.error("Failed to add product to cart");
+        toast.error("Produkt konnte nicht zum Warenkorb hinzugefügt werden");
       });
   };
 
@@ -43,10 +43,10 @@ const WishlistItem = ({
         productId: id,
       })
       .then(() => {
-        toast.success("Product removed from wishlist");
+        toast.success("Produkt aus Wunschliste entfernt");
       })
       .catch(() => {
-        toast.error("Failed to remove product from wishlist");
+        toast.error("Produkt konnte nicht aus Wunschliste entfernt werden");
       });
     await onRemove(id);
   };

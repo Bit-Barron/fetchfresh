@@ -127,7 +127,9 @@ export default function Searchbar({
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    toast.success("Erfolgreich zum Warenkorb hinzugefügt");
+                    toast.success(
+                      `${product.title} Erfolgreich zum Warenkorb hinzugefügt`
+                    );
                   }}
                 >
                   <ShoppingCartIcon className="h-4 w-4" />
