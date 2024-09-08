@@ -54,7 +54,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
                     toast.success("Erfolgreich zum Warenkorb hinzugefügt");
                     addToCart(item, 1);
                   }}
-                  className="flex items-center justify-center w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200"
+                  className="flex items-center justify-center w-full px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-700 transition duration-200"
                 >
                   <ShoppingCartIcon className="w-5 h-5 mr-2" />
                   In den Warenkorb
