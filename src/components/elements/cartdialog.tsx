@@ -68,65 +68,73 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] w-[95vw] max-w-[800px] overflow-y-auto rounded-lg bg-white p-4 sm:p-6 shadow-lg">
-        <DialogTitle className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center">
-          <ShoppingCart className="mr-2" /> Warenkorb
+        <DialogTitle className="text-xl sm:text-2xl font-bold mb-4 flex items-center">
+          <ShoppingCart className="mr-2 h-5 w-5 sm:h-6 sm:w-6" /> Warenkorb
         </DialogTitle>
 
-        <div className="grid gap-4">
+        <div className="space-y-4">
           {localShoppingList.map(
             (item) =>
               item.quantity > 0 && (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center gap-4 bg-gray-50 p-4 rounded-lg shadow-sm"
+                  className="flex flex-col bg-gray-50 p-3 rounded-lg shadow-sm"
                 >
-                  <Image
-                    src={item.imageURL ? decodeURIComponent(item.imageURL) : ""}
-                    alt={item.name}
-                    width={80}
-                    height={80}
-                    className="rounded-md object-cover mb-2 sm:mb-0"
-                    style={{ aspectRatio: "1/1", objectFit: "cover" }}
-                    unoptimized
-                  />
-                  <div className="flex-grow min-w-0 text-center sm:text-left">
-                    <h3 className="font-semibold text-base sm:text-lg truncate">
-                      {item.name}
-                    </h3>
-                    <p className="text-green-600 font-medium text-sm sm:text-base">
-                      {formatPrice(item.price as number)}€
-                    </p>
+                  <div className="flex items-center mb-2">
+                    <Image
+                      src={
+                        item.imageURL ? decodeURIComponent(item.imageURL) : ""
+                      }
+                      alt={item.name}
+                      width={60}
+                      height={60}
+                      className="rounded-md object-cover mr-3"
+                      style={{ aspectRatio: "1/1", objectFit: "cover" }}
+                      unoptimized
+                    />
+                    <div className="flex-grow min-w-0">
+                      <h3 className="font-semibold text-sm sm:text-base truncate">
+                        {item.name}
+                      </h3>
+                      <p className="text-green-600 font-medium text-xs sm:text-sm">
+                        {formatPrice(item.price as number)}€
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() =>
-                        updateItemQuantity(item.id, item.quantity - 1)
-                      }
-                      disabled={item.quantity <= 1}
-                    >
-                      <MinusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </Button>
-                    <span className="w-6 sm:w-8 text-center font-medium text-sm sm:text-base">
-                      {item.quantity}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() =>
-                        updateItemQuantity(item.id, item.quantity + 1)
-                      }
-                    >
-                      <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </Button>
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          updateItemQuantity(item.id, item.quantity - 1)
+                        }
+                        disabled={item.quantity <= 1}
+                        className="h-8 w-8 p-0"
+                      >
+                        <MinusIcon className="h-3 w-3" />
+                      </Button>
+                      <span className="w-8 text-center font-medium text-sm">
+                        {item.quantity}
+                      </span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          updateItemQuantity(item.id, item.quantity + 1)
+                        }
+                        className="h-8 w-8 p-0"
+                      >
+                        <PlusIcon className="h-3 w-3" />
+                      </Button>
+                    </div>
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-red-500 hover:text-red-700"
+                      className="text-red-500 hover:text-red-700 p-1"
                       onClick={() => deleteItem(item.id)}
                     >
-                      <XIcon className="h-4 w-3 sm:h-5 sm:w-4" />
+                      <XIcon className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -134,22 +142,16 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
           )}
         </div>
 
-        <div className="flex items-center justify-between bg-gray-100 p-3 sm:p-4 rounded-lg mt-4">
-          <p className="text-base sm:text-lg font-medium">
-            Total: {formatPrice(total)}€
-          </p>
+        <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg mt-4">
+          <p className="text-base font-medium">Total: {formatPrice(total)}€</p>
         </div>
 
-        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-4">
-          <Button
-            variant="outline"
-            onClick={onClose}
-            className="w-full sm:w-auto"
-          >
+        <div className="mt-4 space-y-2">
+          <Button variant="outline" onClick={onClose} className="w-full">
             Weiter einkaufen
           </Button>
           <Button
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+            className="w-full bg-green-700 hover:bg-green-700 text-white"
             onClick={() => {
               onClose();
               router.push("/store/checkout");
