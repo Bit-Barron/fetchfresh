@@ -16,7 +16,8 @@ export default async function AuthLayout(props: AuthLayoutProps) {
   const { data: me, error: meError } = await rpc.api.user.me.get(setCookies());
 
   // serverUrl is a custom function because nextjs doesnt provide a way to read current url in server components
-  if (!meError && !serverUrl()?.includes("logout")) redirect("/dashboard");
+  if (!meError && !serverUrl()?.includes("logout"))
+    redirect("/store/rewe/storefront");
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
