@@ -40,7 +40,7 @@ export default function LoginPage(props: LoginPageProps) {
       <div className="w-full max-w-md space-y-8">
         <div>
           <h2 className="text-foreground mt-6 text-center text-3xl font-bold tracking-tight">
-            Einloggens
+            Einloggenssa
           </h2>
         </div>
         <Card className="">
