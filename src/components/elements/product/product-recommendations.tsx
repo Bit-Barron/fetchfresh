@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils";
 import { Product } from "@/types/product";
@@ -27,21 +26,16 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
         .map((item) => {
           const imageSrc = item.imageURL || "/placeholder.svg";
 
-          console.log("srcxsy", imageSrc);
-
           return (
             <div
               key={item.productId}
               className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col"
             >
               <div className="relative w-full h-48">
-                <Image
+                <img
                   src={imageSrc}
                   alt={item.title}
-                  width={300}
-                  height={200}
-                  objectFit="cover"
-                  className="rounded-t-lg"
+                  className="w-full h-full object-cover rounded-t-lg"
                   onError={(e) => {
                     e.currentTarget.src = "/placeholder.svg";
                   }}
