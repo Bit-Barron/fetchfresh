@@ -16,7 +16,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
   addToCart,
 }) => (
   <div className="container mx-auto px-4">
-    <h3 className="text-lg font-semibold md:text-xl mb-6">
+    <h3 className="text-xl font-semibold md:text-xl mb-6">
       Empfohlene Produkte
     </h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
