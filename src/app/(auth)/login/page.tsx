@@ -27,7 +27,7 @@ export default function LoginPage(props: LoginPageProps) {
         password,
       })
       .then((user) => {
-        user ? router.push("/dashboard") : setStatus(user as any);
+        user ? router.push("/store/rewe/storefront") : setStatus(user as any);
       })
       .catch((error) => {
         toast.error("Fehler beim einloggen");

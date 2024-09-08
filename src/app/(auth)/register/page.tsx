@@ -40,7 +40,7 @@ export default function RegisterPage(props: RegisterPageProps) {
         email,
       })
       .then((user) => {
-        user ? router.push("/dashboard") : setStatus(user);
+        user ? router.push("/store/rewe/storefront") : setStatus(user);
         toast.success("Erfolgreich Account erstellt.");
       })
       .catch((error) => {

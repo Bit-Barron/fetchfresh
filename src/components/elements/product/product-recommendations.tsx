@@ -29,6 +29,8 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
             ? decodeURIComponent(item.imageURL)
             : "/placeholder.svg";
 
+          console.log("src",imageSrc);
+
           return (
             <div
               key={item.productId}
