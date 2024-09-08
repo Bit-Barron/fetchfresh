@@ -67,40 +67,47 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] w-[95vw] max-w-[800px] overflow-y-auto rounded-lg bg-white p-4 sm:p-6 shadow-lg">
-        <DialogTitle className="text-xl sm:text-2xl font-bold mb-4 flex items-center">
+      <DialogContent className="max-h-[90vh] w-full max-w-[95vw] sm:max-w-[600px] overflow-y-auto rounded-lg bg-white p-3 sm:p-6 shadow-lg">
+        <DialogTitle className="text-lg sm:text-2xl font-bold mb-4 flex items-center">
           <ShoppingCart className="mr-2 h-5 w-5 sm:h-6 sm:w-6" /> Warenkorb
         </DialogTitle>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {localShoppingList.map(
             (item) =>
               item.quantity > 0 && (
                 <div
                   key={item.id}
-                  className="flex flex-col bg-gray-50 p-3 rounded-lg shadow-sm"
+                  className="flex flex-col bg-gray-50 p-2 sm:p-3 rounded-lg shadow-sm"
                 >
-                  
-                  <div className="flex items-center mb-2">
+                  <div className="flex items-center">
                     <Image
                       src={
                         item.imageURL ? decodeURIComponent(item.imageURL) : ""
                       }
                       alt={item.name}
-                      width={60}
-                      height={60}
-                      className="rounded-md object-cover mr-3"
+                      width={50}
+                      height={50}
+                      className="rounded-md object-cover mr-2 sm:mr-3"
                       style={{ aspectRatio: "1/1", objectFit: "cover" }}
                       unoptimized
                     />
-                    <div className="flex-grow min-w-0">
-                      <h3 className="font-semibold text-sm sm:text-base truncate">
+                    <div className="flex-grow min-w-0 mr-2">
+                      <h3 className="font-semibold text-sm leading-tight truncate max-w-[150px] sm:max-w-[200px]">
                         {item.name}
                       </h3>
-                      <p className="text-green-600 font-medium text-xs sm:text-sm">
+                      <p className="text-green-600 font-medium text-xs">
                         {formatPrice(item.price as number)}€
                       </p>
                     </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-red-500 hover:text-red-700 p-1 ml-auto"
+                      onClick={() => deleteItem(item.id)}
+                    >
+                      <XIcon className="h-4 w-4" />
+                    </Button>
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center">
@@ -111,11 +118,11 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
                           updateItemQuantity(item.id, item.quantity - 1)
                         }
                         disabled={item.quantity <= 1}
-                        className="h-8 w-8 p-0"
+                        className="h-7 w-7 p-0"
                       >
                         <MinusIcon className="h-3 w-3" />
                       </Button>
-                      <span className="w-8 text-center font-medium text-sm">
+                      <span className="w-7 text-center font-medium text-sm">
                         {item.quantity}
                       </span>
                       <Button
@@ -124,35 +131,27 @@ const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
                         onClick={() =>
                           updateItemQuantity(item.id, item.quantity + 1)
                         }
-                        className="h-8 w-8 p-0"
+                        className="h-7 w-7 p-0"
                       >
                         <PlusIcon className="h-3 w-3" />
                       </Button>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-red-500 hover:text-red-700 p-1"
-                      onClick={() => deleteItem(item.id)}
-                    >
-                      <XIcon className="h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
               )
           )}
         </div>
 
-        <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg mt-4">
+        <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg mt-4 w-full">
           <p className="text-base font-medium">Total: {formatPrice(total)}€</p>
         </div>
 
-        <div className="mt-4 space-y-2">
+        <div className="mt-4 space-y-2 w-full">
           <Button variant="outline" onClick={onClose} className="w-full">
             Weiter einkaufen
           </Button>
           <Button
-            className="w-full bg-green-700 hover:bg-green-700 text-white"
+            className="w-full bg-green-700 hover:bg-green-800 text-white"
             onClick={() => {
               onClose();
               router.push("/store/checkout");
