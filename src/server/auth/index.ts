@@ -11,6 +11,10 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const userExist = await prisma.user.findFirst({
         where: { username: ctx.body.username.trim() },
       });
+
+      if (ctx.body.password !== ctx.body.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
       if (userExist) throw new Error("User already exists");
 
       const user = await prisma.user.create({
@@ -18,7 +22,6 @@ export const authRoute = new Elysia({ prefix: "/auth" })
           username: ctx.body.username.trim(),
           password: ctx.body.password.trim(),
           email: ctx.body.email.trim(),
-          role: "CUSTOMER",
         },
       });
 

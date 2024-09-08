@@ -8,6 +8,7 @@ export const registerUser = t.Object({
   password: t.String({ minLength: 1, maxLength: 128 }),
   email: t.String({ minLength: 1, maxLength: 128 }),
   test: t.Optional(t.String({ minLength: 1, maxLength: 128 })),
+  confirmPassword: t.String({ minLength: 1, maxLength: 128 }),
 });
 
 export const loginUser = t.Object({

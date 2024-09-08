@@ -38,6 +38,7 @@ export default function RegisterPage(props: RegisterPageProps) {
         username,
         password,
         email,
+        confirmPassword,
       })
       .then((user) => {
         user ? router.push("/store/rewe/storefront") : setStatus(user);
