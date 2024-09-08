@@ -1,6 +1,6 @@
 services:
-  fetchfresh:
-    container_name: fetchfresh
+  demo:
+    container_name: grocerygo
     restart: always
     build:
       context: ./
@@ -26,10 +26,10 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fetchfresh.rule=Host(`fetchfresh.de`)"
-      - "traefik.http.routers.fetchfresh.entrypoints=websecure"
-      - "traefik.http.routers.fetchfresh.tls.certresolver=letsencrypt"
-      - "traefik.http.services.fetchfresh.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grocerygo.rule=Host(`grocerygo.barron.agency`)"
+      - "traefik.http.routers.grocerygo.entrypoints=websecure"
+      - "traefik.http.routers.grocerygo.tls.certresolver=letsencrypt"
+      - "traefik.http.services.grocerygo.loadbalancer.server.port=3000"
 
 networks:
   proxy:
