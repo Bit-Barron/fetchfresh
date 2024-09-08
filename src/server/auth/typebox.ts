@@ -18,7 +18,8 @@ export const loginUser = t.Object({
 });
 
 /**
- * TypeScript type derived from the authUser schema.
+ * TypeScript type
+ *  derived from the authUser schema.
  */
 export type RegisterUser = Static<typeof registerUser>;
 export type Loginuser = Static<typeof loginUser>;
