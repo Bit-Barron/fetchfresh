@@ -22,8 +22,8 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const query = ctx.body?.query || "";
       const attributes = ctx.body?.attributes || "";
 
-      
-      const resp = await axios.get(`${API_URL}/products`, {
+
+      const resp = await axios.get(`https://api.fetchfresh.de/api/products`, {
         params: {
           categorySlug,
           page,
@@ -43,7 +43,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
   .post("/product-details", async (ctx: any) => {
     try {
       const productId = ctx.body?.productId;
-      const resp = await axios.get(`${API_URL}/product/${productId}`);
+      const resp = await axios.get(`https://api.fetchfresh.de/api/product/${productId}`);
       return resp.data.data;
     } catch (error) {
       // console.error(error);
@@ -53,7 +53,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
     try {
       const query = ctx.body?.query || "";
       const page = ctx.body?.page || 1;
-      const response = await axios.get(`${API_URL}/grocerysearch/${query}`, {
+      const response = await axios.get(`https://api.fetchfresh.de/api/grocerysearch/${query}`, {
         params: {
           page,
         },
