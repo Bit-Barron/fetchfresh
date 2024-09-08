@@ -40,6 +40,7 @@ export default function LoginPage(props: LoginPageProps) {
       });
   };
 
+  
   return (
     <div className="bg-background flex items-center justify-center">
       <Toaster richColors position="top-right" />
