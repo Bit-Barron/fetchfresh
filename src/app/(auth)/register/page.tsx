@@ -32,6 +32,7 @@ export default function RegisterPage(props: RegisterPageProps) {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error("Passwörter stimmen nicht überein");
+      return;
     }
     registerMutation
       .mutateAsync({
@@ -41,8 +42,12 @@ export default function RegisterPage(props: RegisterPageProps) {
         confirmPassword,
       })
       .then((user) => {
-        user ? router.push("/store/rewe/storefront") : setStatus(user);
-        toast.success("Erfolgreich Account erstellt.");
+        if (user) {
+          toast.success("Erfolgreich Account erstellt.");
+          router.push("/store/rewe/storefront");
+        } else {
+          setStatus("Registrierung fehlgeschlagen");
+        }
       })
       .catch((error) => {
         toast.error("Username oder Email existiert bereits");
@@ -58,7 +63,7 @@ export default function RegisterPage(props: RegisterPageProps) {
             Konto Erstellen
           </h2>
           <p className="text-muted-foreground mt-2 text-center text-sm">
-            Sie haben bereits ein Konto?
+            Sie haben bereits ein Konto?{" "}
             <Link
               href="/login"
               className="text-primary hover:text-primary/80 font-medium"
@@ -150,18 +155,6 @@ export default function RegisterPage(props: RegisterPageProps) {
               <Button type="submit" className="w-full bg-black text-white">
                 Register
               </Button>
-              <div className="mt-4 text-center">
-                <p className="text-muted-foreground text-sm">
-                  Du hast schon ein Account?
-                  <Link
-                    href="/login"
-                    className="text-primary hover:text-primary/80 font-medium"
-                    prefetch={false}
-                  >
-                    Log dich hier ein
-                  </Link>
-                </p>
-              </div>
               {status && (
                 <div className="text-center text-red-600">{status}</div>
               )}

@@ -18,7 +18,6 @@ import { Product } from "@/types/product";
 import { useRouter } from "next/navigation";
 import { UserHook } from "@/components/hooks/user-hook";
 import { useProductStore } from "@/store/ProductStore";
-import MarketMapDrawer from "../market-drawer";
 import DashboardSidebar from "../dashboardsidebar";
 
 interface SearchbarProps {
