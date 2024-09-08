@@ -25,9 +25,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
         .filter((item) => item.productId !== currentProductId)
         .slice(0, 20)
         .map((item) => {
-          const imageSrc = item.imageURL
-            ? decodeURIComponent(item.imageURL)
-            : "/placeholder.svg";
+          const imageSrc = item.imageURL || "/placeholder.svg";
 
           console.log("srcxsy", imageSrc);
 
@@ -40,9 +38,13 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
                 <Image
                   src={imageSrc}
                   alt={item.title}
-                  layout="fill"
+                  width={300}
+                  height={200}
                   objectFit="cover"
                   className="rounded-t-lg"
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.svg";
+                  }}
                 />
               </div>
               <div className="flex-1 p-4 flex flex-col justify-between">
