@@ -22,6 +22,7 @@ export const storeRoute = new Elysia({ prefix: "/store" })
       const query = ctx.body?.query || "";
       const attributes = ctx.body?.attributes || "";
 
+      
       const resp = await axios.get(`${API_URL}/products`, {
         params: {
           categorySlug,
