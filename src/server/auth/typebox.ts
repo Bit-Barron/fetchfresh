@@ -11,6 +11,7 @@ export const registerUser = t.Object({
   confirmPassword: t.String({ minLength: 1, maxLength: 128 }),
 });
 
+
 export const loginUser = t.Object({
   username: t.String({ minLength: 1, maxLength: 128 }),
   password: t.String({ minLength: 1, maxLength: 128 }),
