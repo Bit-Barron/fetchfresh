@@ -6,7 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.fetchfresh.de/ap
 export const storeRoute = new Elysia({ prefix: "/store" })
   .get("/categories", async (ctx: any) => {
     try {
-      const resp = await axios.get(`${API_URL}/categories`);
+      const resp = await axios.get(`https://api.fetchfresh.de/api/categories`);
       return resp.data;
     } catch (error) {
       console.error("Error fetching categories:", error);
