@@ -44,7 +44,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
       label: "Account Einstellungen",
     },
     {
-      href: "/logout",
+      href: "/abmelden",
       icon: LogOutIcon,
       label: "Logout",
     },
