@@ -31,7 +31,7 @@ export const CheckoutForm = ({
   };
 
   return (
-    <div className="bg-background rounded-lg p-8 shadow-lg">
+    <div className="bg-background rounded-lg p-8 w-full shadow-lg">
       <h1 className="mb-4 text-2xl font-bold">Bestellung</h1>
       <div className="grid gap-6">
         <div className="grid grid-cols-2 gap-4">

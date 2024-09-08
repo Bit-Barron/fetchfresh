@@ -99,7 +99,7 @@ export default function Checkout() {
         onSubmit={onSubmit}
         className="flex-1 bg-[#F7F7F7] px-4 py-8 sm:px-6 md:py-12"
       >
-        <main className="grid flex-1 grid-cols-1 gap-8 p-8 md:grid-cols-[3fr_1fr]">
+        <main className="grid  md:grid-cols-[3fr_1fr]">
           <CheckoutForm
             formData={formData}
             setFormData={setFormData as any}
