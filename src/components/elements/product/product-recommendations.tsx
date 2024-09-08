@@ -25,6 +25,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
         .slice(0, 20)
         .map((item) => {
           const imageSrc = item.imageURL || "/placeholder.svg";
+          console.log(imageSrc);
 
           return (
             <div
