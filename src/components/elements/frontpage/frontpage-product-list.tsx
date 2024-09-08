@@ -40,7 +40,7 @@ const ProductList: React.FC<ProductListProps> = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p>Loading products...</p>
+        <p>Produkte Laden...</p>
       </div>
     );
   }
