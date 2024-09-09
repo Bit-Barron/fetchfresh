@@ -26,6 +26,7 @@ export default function LoginPage(props: LoginPageProps) {
         username,
         password,
       })
+      
       .then((user) => {
         user ? router.push("/store/rewe/storefront") : setStatus(user as any);
         if (!user) {
