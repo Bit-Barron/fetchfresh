@@ -6,6 +6,7 @@ import { shoppingListRoute } from "@/server/shopping-list";
 import { storeRoute } from "@/server/store";
 import { userRoute } from "@/server/user";
 import { wishListRoute } from "@/server/wish-list";
+import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 
 /**
@@ -13,6 +14,7 @@ import { Elysia } from "elysia";
  * Combines auth and user routes under the '/api' prefix
  */
 const app = new Elysia({ prefix: "/api", aot: false })
+  .use(swagger())
   .use(userRoute)
   .use(authRoute)
   .use(storeRoute)

@@ -84,6 +84,13 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
 
     return { success: true, orders };
   })
+  .get("/all", async (ctx) => {
+    const orders = await prisma.order.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return { success: true, orders };
+  })
   .patch(
     "",
     async (ctx) => {
@@ -118,6 +125,19 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
 
     const order = await prisma.order.findUnique({
       where: { id: orderId, userId: user.id },
+      include: { products: true },
+    });
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    return { success: true, order };
+  })
+  .get("/all/:orderId", async (ctx) => {
+    const { orderId } = ctx.params;
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
       include: { products: true },
     });
 

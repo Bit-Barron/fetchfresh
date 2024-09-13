@@ -5,13 +5,13 @@ import { handleEden } from "@/utils/base";
 export const UserHook = () => {
   const meQuery = useQuery({
     queryKey: ["me"],
+    enabled: false,
     queryFn: async () => handleEden(await rpc.api.user.me.get()),
   });
 
   const updateUser = useMutation({
-    mutationFn: async (
-      ...args: Parameters<typeof rpc.api.user.update.post>
-    ) => handleEden(await rpc.api.user.update.post(...args)),
+    mutationFn: async (...args: Parameters<typeof rpc.api.user.update.post>) =>
+      handleEden(await rpc.api.user.update.post(...args)),
   });
 
   return {
