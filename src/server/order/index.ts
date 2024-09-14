@@ -89,7 +89,7 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
       orderBy: { createdAt: "desc" },
     });
 
-    return { success: true, orders };
+    return orders;
   })
   .patch(
     "",

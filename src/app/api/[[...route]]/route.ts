@@ -8,13 +8,26 @@ import { userRoute } from "@/server/user";
 import { wishListRoute } from "@/server/wish-list";
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
+import { cors } from "@elysiajs/cors";
 
-/**
- * Main API router
- * Combines auth and user routes under the '/api' prefix
- */
 const app = new Elysia({ prefix: "/api", aot: false })
-  .use(swagger())
+  .use(
+    swagger({
+      version: "1.0.0",
+      path: "/swagger.json",
+      documentation: {
+        info: {
+          title: "FetchFreshAPI",
+          version: "1.0.0",
+          description: "API documentation for your service",
+        },
+        tags: [
+          { name: "auth", description: "Authentication endpoints" },
+          { name: "user", description: "User management endpoints" },
+        ],
+      },
+    })
+  )
   .use(userRoute)
   .use(authRoute)
   .use(storeRoute)
@@ -22,17 +35,17 @@ const app = new Elysia({ prefix: "/api", aot: false })
   .use(shoppingListRoute)
   .use(marketRoute)
   .use(passwordResetRoute)
-  .use(wishListRoute);
-
-/**
- * Export the app type for use with RPC clients (e.g., edenTreaty)
- */
+  .use(wishListRoute)
+  .use(
+    cors({
+      origin: "http://localhost:3001",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true, // If you need cookies to be included
+    })
+  );
 export type App = typeof app;
 
-/**
- * Export handlers for different HTTP methods
- * These are used by Next.js API routes [[...route]].ts
- */
 export const GET = app.handle;
 export const POST = app.handle;
 export const PUT = app.handle;
