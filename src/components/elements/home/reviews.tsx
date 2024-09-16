@@ -29,7 +29,7 @@ export const Reviews: React.FC<reviewsProps> = ({}) => {
             </div>
           </div>
           <p className="mt-4 text-gray-700">
-            "Ich benutze GroceryGo schon seit einiger Zeit und bin wirklich\n
+            "Ich benutze FetchFresh schon seit einiger Zeit und bin wirklich\n
             beeindruckt vom Service. Die Auswahl ist groß, die Lieferung\n ist
             schnell und die Preise sind angemessen. Sehr zu\n empfehlen!"
           </p>
@@ -51,7 +51,7 @@ export const Reviews: React.FC<reviewsProps> = ({}) => {
             </div>
           </div>
           <p className="mt-4 text-gray-700">
-            "Ich liebe die Bequemlichkeit von GroceryGo. Ich kann meine\n
+            "Ich liebe die Bequemlichkeit von FetchFresh. Ich kann meine\n
             Lebensmittel direkt vor meine Tür liefern lassen, ohne das\n Haus
             verlassen zu müssen. Die App ist einfach zu bedienen und\n die
             Auswahl ist groß."

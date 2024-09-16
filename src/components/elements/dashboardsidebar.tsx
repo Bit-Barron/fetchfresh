@@ -12,7 +12,6 @@ import {
   ClipboardIcon,
   PhoneIcon,
   GiftIcon,
-  
 } from "lucide-react";
 import { UserHook } from "../hooks/user-hook";
 
@@ -58,7 +57,7 @@ const sidebarSections = [
       { href: "/help", label: "Hilfe Center", icon: HelpCircleIcon },
       {
         href: "/help/how-grocerygo-works",
-        label: "Wie GroceryGo funktioniert",
+        label: "Wie FetchFresh funktioniert",
         icon: CompassIcon,
       },
     ],

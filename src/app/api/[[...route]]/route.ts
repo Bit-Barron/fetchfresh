@@ -25,7 +25,7 @@ const app = new Elysia({ prefix: "/api", aot: false })
       origin: "http://localhost:3001",
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: true, // If you need cookies to be included
+      credentials: true,
     })
   );
 export type App = typeof app;

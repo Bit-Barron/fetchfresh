@@ -179,36 +179,6 @@ export default function Help() {
                 ))}
               </Accordion>
             </div>
-            <div>
-              <h2 className="mb-6 text-xl font-bold">Kontaktieren Sie uns</h2>
-              <Card className="p-6">
-                <form className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Geben Sie Ihren Namen ein" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">E-Mail</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Geben Sie Ihre E-Mail-Adresse ein"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="message">Nachricht</Label>
-                    <Textarea
-                      id="message"
-                      rows={4}
-                      placeholder="Geben Sie Ihre Nachricht ein"
-                    />
-                  </div>
-                  <Button type="submit" className="justify-self-end">
-                    Abschicken
-                  </Button>
-                </form>
-              </Card>
-            </div>
           </div>
         </main>
         <footer className="border-t px-4 py-6 md:px-6">

@@ -90,7 +90,7 @@ export const Footer: React.FC<FooterProps> = ({}) => {
           </div>
         </div>
         <div className="mt-8 text-center text-gray-500">
-          &copy; 2024 GroceryGo. Alle Rechte vorbehalten.
+          &copy; 2024 FetchFresh. Alle Rechte vorbehalten.
         </div>
       </div>
     </footer>
