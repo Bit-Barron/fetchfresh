@@ -112,19 +112,25 @@ export const orderRoute = new Elysia({ prefix: "/orders" })
     },
     { body: OrderStatusUpdateBody }
   )
-
-  .get("/:orderId", async (ctx) => {
+  .get("/all/:orderId", async (ctx: any) => {
     const { orderId } = ctx.params;
-    const user = await decrypt<User>(
-      ctx.cookie[serverEnv.AUTH_COOKIE].value as string
-    );
-
-    if (!user?.id) {
-      throw new Error("User is not authenticated");
-    }
 
     const order = await prisma.order.findUnique({
-      where: { id: orderId, userId: user.id },
+      where: { id: orderId },
+      include: { products: true },
+    });
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    return { success: true, order };
+  })
+  .get("/:orderId", async (ctx) => {
+    const { orderId } = ctx.params;
+
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
       include: { products: true },
     });
 

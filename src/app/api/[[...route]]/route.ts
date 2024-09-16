@@ -11,23 +11,7 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 
 const app = new Elysia({ prefix: "/api", aot: false })
-  .use(
-    swagger({
-      version: "1.0.0",
-      path: "/swagger.json",
-      documentation: {
-        info: {
-          title: "FetchFreshAPI",
-          version: "1.0.0",
-          description: "API documentation for your service",
-        },
-        tags: [
-          { name: "auth", description: "Authentication endpoints" },
-          { name: "user", description: "User management endpoints" },
-        ],
-      },
-    })
-  )
+  .use(swagger())
   .use(userRoute)
   .use(authRoute)
   .use(storeRoute)
