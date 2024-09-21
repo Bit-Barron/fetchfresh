@@ -23,6 +23,8 @@ function Bestellinformationen() {
   const totalOrders = getOrderQuery.data?.orders.length;
   const router = useRouter();
 
+  console.log(order?.id);
+
   return (
     <>
       {getOrderByIdQuery.isLoading && <div>Laden...</div>}
@@ -161,9 +163,9 @@ function Bestellinformationen() {
         </Card>
         <Button
           className="bg-black text-white"
-          onClick={() => router.push("/store/rewe/storefront")}
+          onClick={() => router.push(`/store/account/orders/${order?.id}/chat`)}
         >
-          Nochmal kaufen
+          Mit Shopper verbinden
         </Button>
       </div>
     </>

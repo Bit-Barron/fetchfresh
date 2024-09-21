@@ -121,12 +121,24 @@ export default function Seite() {
                             Abgeschlossen
                           </Button>
                         ) : (
-                          <Button
-                            onClick={() => handleStatusChange(order.id)}
-                            className="w-full bg-green-700 text-white hover:bg-green-700"
-                          >
-                            Bestellung angekommen?
-                          </Button>
+                          <div className="flex flex-col space-y-5 w-full">
+                            <Button
+                              onClick={() => handleStatusChange(order.id)}
+                              className="w-full bg-green-700 text-white hover:bg-green-700"
+                            >
+                              Bestellung angekommen?
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                router.push(
+                                  `/store/account/orders/${order.id}/chat`
+                                )
+                              }
+                              className="bg-black text-white"
+                            >
+                              Mit Shopper verbinden
+                            </Button>
+                          </div>
                         )}
                       </div>
                     </div>

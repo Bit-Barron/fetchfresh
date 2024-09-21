@@ -20,6 +20,18 @@ const app = new Elysia({ prefix: "/api", aot: false })
   .use(marketRoute)
   .use(passwordResetRoute)
   .use(wishListRoute)
+  .ws("/ws", {
+    message: (ws, message) => {
+      ws.send({
+        message: message,
+        time: new Date().toISOString(),
+      });
+      ws.publish("chat", {
+        message: message,
+        time: new Date().toISOString(),
+      });
+    },
+  })
   .use(
     cors({
       origin: "http://localhost:3001",
@@ -28,6 +40,7 @@ const app = new Elysia({ prefix: "/api", aot: false })
       credentials: true,
     })
   );
+  
 export type App = typeof app;
 
 export const GET = app.handle;
