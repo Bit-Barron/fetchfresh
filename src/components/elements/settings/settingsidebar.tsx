@@ -50,6 +50,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
     },
   ];
 
+  
   return (
     <aside className="bg-background hidden w-64 flex-col border-r bg-white p-3 md:flex">
       <button
