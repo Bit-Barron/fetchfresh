@@ -1,16 +1,16 @@
+import { Separator } from "@/components/ui/separator";
 import {
-  ClipboardIcon,
-  SettingsIcon,
-  ListIcon,
-  GiftIcon,
-  LogOutIcon,
-  ShoppingBagIcon,
   ArrowLeftIcon,
+  ClipboardIcon,
+  GiftIcon,
+  ListIcon,
+  LogOutIcon,
+  SettingsIcon,
+  ShoppingBagIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 interface SettingsSidebarProps {}
 
@@ -44,7 +44,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({}) => {
       label: "Account Einstellungen",
     },
     {
-      href: "/abmelden",
+      href: "/logout",
       icon: LogOutIcon,
       label: "Logout",
     },

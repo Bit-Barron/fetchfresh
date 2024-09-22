@@ -40,3 +40,4 @@ package-lock.json
 demo.db
 demo.db-journal
 pnpm-lock.yaml
+.env
