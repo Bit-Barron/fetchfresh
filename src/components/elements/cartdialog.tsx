@@ -11,6 +11,7 @@ interface CartDialogProps {
   onClose: () => void;
 }
 
+
 const CartDialog: React.FC<CartDialogProps> = ({ onClose }) => {
   const router = useRouter();
   const { shoppingListQuery, deleteItemMutation, updateItemQuantityMutation } =
