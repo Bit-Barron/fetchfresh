@@ -1,6 +1,6 @@
-import React from "react";
 import ProductCard from "@/components/elements/product/productcard";
-import { Product, Attributes } from "@/types/product";
+import { Attributes, Product } from "@/types/product";
+import React from "react";
 
 interface ProductListProps {
   products: Product[];
@@ -46,7 +46,7 @@ const ProductList: React.FC<ProductListProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-5">
       {getFilteredProducts().map((product: Product) => (
         <ProductCard
           key={product.productId}
