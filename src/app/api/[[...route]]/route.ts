@@ -11,7 +11,9 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 
 const app = new Elysia({ prefix: "/api", aot: false })
-  .use(swagger())
+  .use(swagger({
+    path: '/swagger'
+  }))
   .use(userRoute)
   .use(authRoute)
   .use(storeRoute)
