@@ -20,4 +20,5 @@
     <h2>Ziel</h2>
     <p>Das Ziel von FetchFresh ist es, den Lebensmitteleinkauf durch die Online-Bestellung und Lieferung von REWE-Produkten so einfach wie möglich zu gestalten.</p>
 </body>
+
 </html>
