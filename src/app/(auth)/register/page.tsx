@@ -42,12 +42,7 @@ export default function RegisterPage(props: RegisterPageProps) {
         confirmPassword,
       })
       .then((user) => {
-        if (user) {
-          toast.success("Erfolgreich Account erstellt.");
-          router.push("/store/rewe/storefront");
-        } else {
-          setStatus("Registrierung fehlgeschlagen");
-        }
+        user ? router.push("/store/rewe/storefront") : setStatus(user as any);
       })
       .catch((error) => {
         toast.error("Username oder Email existiert bereits");
