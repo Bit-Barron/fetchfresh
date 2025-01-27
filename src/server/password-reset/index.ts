@@ -11,7 +11,7 @@ export const passwordResetRoute = new Elysia({ prefix: "/password-reset" })
     if (!user) {
       throw new Error("User not found");
     }
-
+//
     const resetToken = await encrypt({ userId: user.id });
     const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password?token=${resetToken}`;
 
