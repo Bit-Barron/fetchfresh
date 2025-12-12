@@ -17,8 +17,8 @@
         <li>Personalisierte Produktempfehlungen basierend auf bisherigen Einkäufen</li>
     </ul>
     </ul>
-    <h2>Ziel</h2>
-    <p>Das Ziel von FetchFresh ist es, den Lebensmitteleinkauf durch die Online-Bestellung und Lieferung von REWE-Produkten so einfach wie möglich zu gestalten.</p>
+
+    <h1> FUNKTIONIERT NICHT MEHR !!!! </h1>
 </body>
 
 </html>
