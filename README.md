@@ -17,8 +17,8 @@
         <li>Personalisierte Produktempfehlungen basierend auf bisherigen Einkäufen</li>
     </ul>
     </ul>
-
-    <h1> FUNKTIONIERT NICHT MEHR !!!! </h1>
+    <h1>FUNKTIONIERT NICHT MEHR / NOT WORKING ANYMORE !!!!</h1>
+    
 </body>
 
 </html>
